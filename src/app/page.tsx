@@ -2,6 +2,9 @@ export default function Home() {
   return (
     <main className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <h1>Goal Tracker</h1>
+      <p className="text-center max-w-lg">
+        A simple app to help you track your goals and stay motivated.
+      </p>
     </main>
   );
 }
