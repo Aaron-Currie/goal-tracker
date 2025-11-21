@@ -1,10 +1,24 @@
-export default function Home() {
+import GoalDisplay from "@/layouts/goalDisplay";
+
+const mockGoals = [
+  { id: 1, name: "Complete CV", completed: false },
+  { id: 2, name: "Dust House", completed: false },
+  { id: 3, name: "Complete Duo 3.21", completed: true },
+  { id: 4, name: "Go see Mum", completed: true },
+  { id: 5, name: "Ride 30k", completed: false },
+  { id: 6, name: "Hover House", completed: true },
+  { id: 7, name: "Rewrite Gym Routines", completed: true },
+  { id: 8, name: "Hike a Peak", completed: true },
+  { id: 9, name: "Gym 20 times", completed: false },
+  { id: 10, name: "Bench 85kg x 3", completed: false },
+  { id: 11, name: "Complete 15days of Yoga", completed: false },
+];
+
+export default function HomePage() {
+
   return (
-    <main className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>Goal Tracker</h1>
-      <p className="text-center max-w-lg">
-        A simple app to help you track your goals and stay motivated.
-      </p>
+    <main>
+      <GoalDisplay goals={mockGoals}/>
     </main>
   );
 }
