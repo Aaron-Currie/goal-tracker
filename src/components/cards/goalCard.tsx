@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "./button";
+import Button from "../button/button";
 import styles from "./card.module.css";
 
 type Goal = {
@@ -13,7 +13,9 @@ interface GoalCardProps {
 }
 
 export default function GoalCard({ goalData }: GoalCardProps) {
+    const [clicked, setClicked] = useState<boolean>(false)
     const [completed, setCompleted] = useState<boolean>(goalData.completed);
+
 
     const handleComplete = () => {
         setCompleted(true);
@@ -24,11 +26,14 @@ export default function GoalCard({ goalData }: GoalCardProps) {
     }
 
     return (
-        <div className={styles.card} >
+        <button onClick={() => setClicked(!clicked)} className={`${styles.card} ${completed ? styles.completed : ""}`} >
                 <h3>
                     {goalData.name}
                 </h3>
-                {completed ? <Button button={{text: "Undo"}} onClick={handleUndo} /> : <Button button={{text: "Complete"}} onClick={handleComplete} />}
-        </div>
+                {clicked && <div>
+                {completed ? <Button button={{text: "Undo", style: "undo"}} onClick={handleUndo} /> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
+                <Button button={{text:'Edit', style: 'edit'}}/>
+                </div>}
+        </button>
     )
 }

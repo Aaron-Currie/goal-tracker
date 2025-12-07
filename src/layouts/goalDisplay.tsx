@@ -1,6 +1,7 @@
 'use client'
-import AddCard from "@/components/addCard"
-import GoalCard from "@/components/goalCard"
+import AddCard from "@/components/cards/addCard"
+import GoalCard from "@/components/cards/goalCard"
+import styles from "./goalDisplay.module.css"
 import { useState } from "react";
 
 type Goal = {
@@ -19,7 +20,7 @@ export default function GoalDisplay({goals}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
 
     return (
-        <div className="flex flex-wrap w-full gap-4 justify-center p-4">
+        <div className={styles.cardDisplay}>
             {goalState.map((goal) => {
                 return <GoalCard key={goal.id} goalData={goal} />
             })}
