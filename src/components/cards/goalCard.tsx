@@ -3,9 +3,14 @@ import Button from "../button/button";
 import styles from "./card.module.css";
 
 type Goal = {
-  id: number;
-  name: string;
-  completed: boolean;
+  id: string;
+  title: string;
+  is_completed: boolean;
+  goal_period: "yearly" | "quarterly" | "monthly";
+  period_start: string;
+  category_id: string | null;
+  activity_id: string | null;
+  created_at: string;
 };
 
 interface GoalCardProps {
@@ -14,7 +19,7 @@ interface GoalCardProps {
 
 export default function GoalCard({ goalData }: GoalCardProps) {
     const [clicked, setClicked] = useState<boolean>(false)
-    const [completed, setCompleted] = useState<boolean>(goalData.completed);
+    const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
 
     const handleComplete = () => {
@@ -28,11 +33,11 @@ export default function GoalCard({ goalData }: GoalCardProps) {
     return (
         <button onClick={() => setClicked(!clicked)} className={`${styles.card} ${completed ? styles.completed : ""}`} >
                 <h3>
-                    {goalData.name}
+                    {goalData.title}
                 </h3>
                 {clicked && <div>
                 {completed ? <Button button={{text: "Undo", style: "undo"}} onClick={handleUndo} /> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
-                <Button button={{text:'Edit', style: 'edit'}}/>
+                {/* <Button button={{text:'Edit', style: 'edit'}}/> */}
                 </div>}
         </button>
     )

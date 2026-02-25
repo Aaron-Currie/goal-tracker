@@ -5,9 +5,14 @@ import styles from "./goalDisplay.module.css"
 import { useState } from "react";
 
 type Goal = {
-  id: number;
-  name: string;
-  completed: boolean;
+  id: string;
+  title: string;
+  is_completed: boolean;
+  goal_period: "yearly" | "quarterly" | "monthly";
+  period_start: string;
+  category_id: string | null;
+  activity_id: string | null;
+  created_at: string;
 };
 
 type Goals = Goal[];

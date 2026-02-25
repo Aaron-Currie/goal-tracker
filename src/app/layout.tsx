@@ -24,8 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-      >
+      <body data-testid='layout-body' style={{border: "1px solid green"}}>
         {children}
       </body>
     </html>
