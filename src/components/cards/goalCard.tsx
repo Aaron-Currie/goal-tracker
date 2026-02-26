@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
+import IconButton from "../button/icon-button";
+import { faInfo, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons"
 
 type Goal = {
   id: string;
@@ -15,10 +17,10 @@ type Goal = {
 
 interface GoalCardProps {
   goalData: Goal;
+  expand: React.Dispatch<React.SetStateAction<Goal | null>>;
 }
 
-export default function GoalCard({ goalData }: GoalCardProps) {
-    const [clicked, setClicked] = useState<boolean>(false)
+export default function GoalCard({ goalData, expand }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
 
@@ -32,6 +34,7 @@ export default function GoalCard({ goalData }: GoalCardProps) {
 
     return (
         <div className={`${styles.card} ${completed ? styles.completed : ""}`} >
+                <IconButton icon={faUpRightAndDownLeftFromCenter} button={{alt: 'Edit', style: 'default'}} onClick={() => expand(goalData)} />
                 <h3>
                     {goalData.title}
                 </h3>
