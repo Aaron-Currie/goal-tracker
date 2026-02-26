@@ -21,10 +21,10 @@
     width: 30px;
     height: 30px;
     padding: 0;
+    background-color: transparent;
 }
 
 .default {
-    background-color: rgb(255, 255, 255);  
     border: 2px solid #2e2e2e;
     color: #2e2e2e;
 }
@@ -37,6 +37,13 @@
 }
 
 .undo {
+    background-color: #8ad28f; /* Green */
+    box-shadow: 0px 4px 0px #2e6a30;
+    border: 2px solid #2e6a30;
+    color: white;
+}
+
+.delete {
     background-color: #f44336; /* Red */
     box-shadow: 0px 4px 0px #b71c1c;
     border: 2px solid #b71c1c;

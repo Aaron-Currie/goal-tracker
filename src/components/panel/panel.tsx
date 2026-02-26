@@ -62,7 +62,7 @@ export default function DetailsPanel({ goal, unselect, setGoalState }: { goal: G
                 {loading ? <div>Loading...</div> : null}
                 <div className={styles.buttons}>
                     <Button button={goal.is_completed ? {text: "Undo Complete", style: "undo"} : {text: "Complete", style: "complete"}} onClick={onComplete} />
-                    <Button button={{text: "Delete", style: "undo"}} onClick={onDelete} />
+                    <Button button={{text: "Delete", style: "delete"}} onClick={onDelete} />
                     <Button onClick={() => {}} button={{text:'Edit', style: 'edit'}}/>
                 </div>
             </div>
