@@ -31,14 +31,13 @@ export default function GoalCard({ goalData }: GoalCardProps) {
     }
 
     return (
-        <button onClick={() => setClicked(!clicked)} className={`${styles.card} ${completed ? styles.completed : ""}`} >
+        <div className={`${styles.card} ${completed ? styles.completed : ""}`} >
                 <h3>
                     {goalData.title}
                 </h3>
-                {clicked && <div>
-                {completed ? <Button button={{text: "Undo", style: "undo"}} onClick={handleUndo} /> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
-                <Button onClick={() => {}} button={{text:'Edit', style: 'edit'}}/>
-                </div>}
-        </button>
+                <div>
+                {completed ? <div>Completed</div> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
+                </div>
+        </div>
     )
 }

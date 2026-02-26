@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 
 type Goal = {
@@ -12,25 +11,21 @@ type Goal = {
   created_at: string;
 };
 
-export const getAllGoalsForUser = (userId: string) => unstable_cache(
-  async (): Promise<Goal[]> => {
-    console.log("🔥 DB HIT for user:", userId);
-    const supabase = supabaseServer();
+export async function getAllGoalsForUser(userId: string): Promise<Goal[]> {
+  console.log("Fetching goals for user ID:", userId);
+  const supabase = await supabaseServer();
 
-    const { data: auth } = await supabase.auth.getUser();
-    if (!auth.user) return [];
+  // Optional safety check: ensure the session user matches the requested userId
+  const { data: auth, error: authErr } = await supabase.auth.getUser();
+  if (authErr || !auth.user) return [];
+  if (auth.user.id !== userId) return []; // prevents accidental cross-user fetch
 
-    const { data, error } = await supabase
-      .from("goals")
-      .select(
-        "id,title,is_completed,goal_period,period_start,category_id,activity_id,created_at"
-      )
-      .order("period_start", { ascending: true })
-      .order("created_at", { ascending: false });
+  const { data, error } = await supabase
+    .from("goals")
+    .select("id,title,is_completed,goal_period,period_start,category_id,activity_id,created_at")
+    .order("period_start", { ascending: true })
+    .order("created_at", { ascending: false });
 
-    if (error) throw new Error(error.message);
-    return data ?? [];
-  },
-  ["goals", userId],
-  { tags: [`goals:${userId}`], revalidate: 3600 }
-);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}

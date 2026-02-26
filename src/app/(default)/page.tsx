@@ -7,10 +7,10 @@ export default async function HomePage() {
   const supabase = await supabaseServer();
 
   const { data } = await supabase.auth.getUser();
-  const userId = data.user.id;
 
   if (!data.user) redirect("/login");
-  const goals = await getAllGoalsForUser(userId)();
+  const userId = data.user.id;
+  const goals = await getAllGoalsForUser(userId);
   return (
     <main>
       <GoalDisplay goals={goals ?? []}/>
