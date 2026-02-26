@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 
 type GoalPeriod = "yearly" | "quarterly" | "monthly";
@@ -129,6 +130,6 @@ export async function POST(req: Request) {
     // If RLS rejects category/activity ownership, it will show up here.
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-
+  revalidateTag(`goals:${user.id}`);
   return NextResponse.json({ goal: data }, { status: 201 });
 }

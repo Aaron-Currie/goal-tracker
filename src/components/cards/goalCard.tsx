@@ -37,7 +37,7 @@ export default function GoalCard({ goalData }: GoalCardProps) {
                 </h3>
                 {clicked && <div>
                 {completed ? <Button button={{text: "Undo", style: "undo"}} onClick={handleUndo} /> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
-                {/* <Button button={{text:'Edit', style: 'edit'}}/> */}
+                <Button onClick={() => {}} button={{text:'Edit', style: 'edit'}}/>
                 </div>}
         </button>
     )
