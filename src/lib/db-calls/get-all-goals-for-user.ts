@@ -12,7 +12,6 @@ type Goal = {
 };
 
 export async function getAllGoalsForUser(userId: string): Promise<Goal[]> {
-  console.log("Fetching goals for user ID:", userId);
   const supabase = await supabaseServer();
 
   // Optional safety check: ensure the session user matches the requested userId

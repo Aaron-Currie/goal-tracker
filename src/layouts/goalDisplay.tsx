@@ -26,7 +26,7 @@ export default function GoalDisplay({goals}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
-    useEffect(() => {}, [goalState]);
+    // useEffect(() => {}, [goalState]);
 
     return (
         <div className={styles.cardDisplay}>

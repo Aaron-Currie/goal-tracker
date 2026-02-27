@@ -53,7 +53,7 @@ export default function DetailsPanel({ goal, unselect, setGoalState }: { goal: G
                 <IconButton icon={faX} button={{alt: 'Close', style: 'default'}} onClick={() => unselect(null)} />
                 <div className={styles.content}>
                     <h2>{goal.title}</h2>
-                    <p>{goal.is_completed ? "COMPLETED" : "INCOMPLETE"}</p>
+                    <p className={goal.is_completed ? styles.textComplete : styles.textIncomplete}>{goal.is_completed ? "COMPLETED" : "INCOMPLETE"}</p>
                     <p>Period: {goal.goal_period}</p>
                     <p>Category: {goal.category_id ? goal.category_id : "None"}</p>
                     <p>Activity: {goal.activity_id ? goal.activity_id : "None"}</p>

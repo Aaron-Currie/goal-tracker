@@ -17,10 +17,22 @@
 }
 
 .completed {
+    border: 2px solid #2e6a30;
+}
+
+.textComplete {
     color: white;
     background-color: #4CAF50;
     border: 2px solid #2e6a30;
+    border-radius: 20px;
 }
+
+.textIncomplete {
+    color: #2e2e2e;
+    border: 2px solid #2e2e2e;
+    border-radius: 20px;
+}
+
 
 .content {
     text-align: center;
