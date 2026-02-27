@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
 
 type Body = { action?: "complete" | "undo"; is_completed?: boolean };
 

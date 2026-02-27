@@ -36,7 +36,8 @@ export async function GET() {
         activity_id,
         is_completed,
         completed_at,
-        created_at
+        created_at,
+        description
       `
     )
     .order("period_start", { ascending: true })
@@ -120,7 +121,8 @@ export async function POST(req: Request) {
         activity_id,
         is_completed,
         completed_at,
-        created_at
+        created_at,
+        description
       `
     )
     .single();

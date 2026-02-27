@@ -4,13 +4,7 @@ import { getAllGoalsForUser } from "@/lib/db-calls/get-all-goals-for-user";
 import GoalDisplay from "@/layouts/goalDisplay";
 
 export default async function HomePage() {
-  const supabase = await supabaseServer();
-
-  const { data } = await supabase.auth.getUser();
-
-  if (!data.user) redirect("/login");
-  const userId = data.user.id;
-  const goals = await getAllGoalsForUser(userId);
+  const goals = await getAllGoalsForUser();
   return (
     <main>
       <GoalDisplay goals={goals ?? []}/>
