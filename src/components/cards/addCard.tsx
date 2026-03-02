@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import styles from "./card.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 type Goal = {
   id: string;
@@ -62,17 +64,9 @@ export default function AddCard({
   }
 
   return (
-    <div className={styles.card}>
-      <input
-        type="text"
-        aria-label="Input new goal name"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        disabled={loading}
-      />
-
-      <button onClick={handleAddGoal} disabled={loading}>
-        {loading ? "..." : "+"}
+    <div >
+      <button className={styles.add} onClick={handleAddGoal} disabled={loading}>
+        <FontAwesomeIcon icon={faPlus} />
       </button>
 
       {error && <p style={{ color: "red" }}>{error}</p>}

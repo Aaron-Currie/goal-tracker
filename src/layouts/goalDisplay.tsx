@@ -2,7 +2,7 @@
 import AddCard from "@/components/cards/addCard"
 import GoalCard from "@/components/cards/goalCard"
 import styles from "./goalDisplay.module.css"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DetailsPanel from "@/components/panel/panel";
 
 type Goal = {
@@ -27,8 +27,6 @@ interface CardDisplayProps {
 export default function GoalDisplay({goals}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [selectedCard, setSelectedCard] = useState<string | null>(null);
-
-    // useEffect(() => {}, [goalState]);
 
     return (
         <div className={styles.cardDisplay}>

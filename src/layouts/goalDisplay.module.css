@@ -1,8 +1,8 @@
 .cardDisplay {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 240px);
-    grid-template-rows: 240px;
-    grid-auto-rows: 240px;
+    grid-template-columns: repeat(auto-fit, 500px);
+    grid-template-rows: 150px;
+    grid-auto-rows: 150px;
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
@@ -14,7 +14,5 @@
 @media (max-width: 540px) {
     .cardDisplay {
         grid-template-columns: 100%;
-        grid-template-rows: 150px;
-        grid-auto-rows: 150px;
     }
 }

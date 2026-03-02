@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 
 type Body = { title?: string; description?: string | null };
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const body: Body = await req.json().catch(() => ({}));

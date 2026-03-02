@@ -24,9 +24,14 @@
     background-color: transparent;
 }
 
-.default {
+.black {
     border: 2px solid #2e2e2e;
     color: #2e2e2e;
+}
+
+.white {
+    border: 2px solid #f5f5f5;
+    color: #f5f5f5;
 }
 
 .complete {

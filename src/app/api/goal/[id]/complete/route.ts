@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 
 type Body = { action?: "complete" | "undo"; is_completed?: boolean };
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body: Body = await req.json().catch(() => ({} as Body));
 

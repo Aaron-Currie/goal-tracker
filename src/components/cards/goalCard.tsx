@@ -51,12 +51,15 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
     }
 
     return (
-        <div className={`${styles.card} ${completed ? styles.completed : ""}`} >
-                <IconButton icon={faUpRightAndDownLeftFromCenter} button={{alt: 'Edit', style: 'default'}} onClick={() => expand(goalData.id)} />
-                <h3>
-                    {goalData.title}
-                </h3>
-                <div>
+        <div className={`${styles.card} ${completed ? styles.green : ""}`} >
+                {/* <IconButton icon={faUpRightAndDownLeftFromCenter} button={{alt: 'Edit', style: completed? 'white' : 'black'}} onClick={() => expand(goalData.id)} /> */}
+                <button onClick={() => expand(goalData.id)} className={styles.content}>
+                    <h3>
+                        {goalData.title}
+                    </h3>
+                </button>
+
+                <div className={styles.complete}>
                 {loading ? <div>Updating...</div> : null}
                 {completed ? <div>Completed</div> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
                 </div>
