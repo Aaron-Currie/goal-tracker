@@ -8,7 +8,30 @@
     box-shadow: 2px 4px 0px #2e2e2e;
     transition: all 0.1s ease-in-out;
     cursor: pointer;
-    width: 100px;
+    min-width: 100px;
+    width: 100%;
+}
+
+.iconButton {
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background-color: transparent;
+}
+
+.black {
+    border: 2px solid #2e2e2e;
+    color: #2e2e2e;
+}
+
+.white {
+    border: 2px solid #f5f5f5;
+    color: #f5f5f5;
 }
 
 .complete {
@@ -19,6 +42,13 @@
 }
 
 .undo {
+    background-color: #8ad28f; /* Green */
+    box-shadow: 0px 4px 0px #2e6a30;
+    border: 2px solid #2e6a30;
+    color: white;
+}
+
+.delete {
     background-color: #f44336; /* Red */
     box-shadow: 0px 4px 0px #b71c1c;
     border: 2px solid #b71c1c;
@@ -35,4 +65,8 @@
 .button:active {
     transform: translateY(4px);
     box-shadow: 0px 0px 0px;
+}
+
+.iconButton:active {
+    transform: scale(0.9);
 }

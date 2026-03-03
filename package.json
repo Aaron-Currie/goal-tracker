@@ -10,15 +10,20 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.2.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.97.0",
+    "next": "^15.5.12",
     "react": "19.2.1",
-    "react-dom": "19.2.1",
-    "next": "15.5.7"
+    "react-dom": "19.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "2.2.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@biomejs/biome": "2.2.0"
+    "typescript": "^5"
   }
 }
