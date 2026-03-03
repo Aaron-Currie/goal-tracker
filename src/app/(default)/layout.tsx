@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBullseye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import AddCard from "@/components/button/add-button/add-button";
 
 export default async function ProtectedLayout({
   children,

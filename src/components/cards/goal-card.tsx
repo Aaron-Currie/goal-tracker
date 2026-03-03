@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
-import IconButton from "../button/icon-button";
-import { faInfo, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons"
 import { completeGoal } from "@/lib/db-calls/complete-goal";
 
 type Goal = {
@@ -51,18 +49,17 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
     }
 
     return (
-        <div className={`${styles.card} ${completed ? styles.green : ""}`} >
+        <div className={`${styles.card}`} >
                 {/* <IconButton icon={faUpRightAndDownLeftFromCenter} button={{alt: 'Edit', style: completed? 'white' : 'black'}} onClick={() => expand(goalData.id)} /> */}
-                <button onClick={() => expand(goalData.id)} className={styles.content}>
+                <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
                     <h3>
                         {goalData.title}
                     </h3>
                 </button>
 
-                <div className={styles.complete}>
-                {loading ? <div>Updating...</div> : null}
-                {completed ? <div>Completed</div> : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
-                </div>
+                {!completed && <div className={styles.complete}>
+                    <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />
+                </div>}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./card.module.css";
+import styles from "./add-button.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -64,12 +64,8 @@ export default function AddCard({
   }
 
   return (
-    <div >
       <button className={styles.add} onClick={handleAddGoal} disabled={loading}>
         <FontAwesomeIcon icon={faPlus} />
       </button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
   );
 }

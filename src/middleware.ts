@@ -25,13 +25,35 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // This refreshes the session cookie if needed
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+
+  // ---- 1️⃣ If NOT logged in ----
+  if (!user) {
+    // Allow access to login page
+    if (pathname.startsWith("/login")) {
+      return response;
+    }
+
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
+  // ---- 2️⃣ If logged in and at root ----
+  if (user && pathname === "/") {
+    const currentYear = new Date().getFullYear();
+    const url = request.nextUrl.clone();
+    url.pathname = `/goals/yearly/${currentYear}`;
+    return NextResponse.redirect(url);
+  }
 
   return response;
 }
 
-// Run middleware on all routes except static files
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
