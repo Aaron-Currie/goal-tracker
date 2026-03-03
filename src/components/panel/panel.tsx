@@ -4,22 +4,10 @@ import IconButton from "../button/icon-button";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { Overlay } from "../utility-comps/overlay";
 import { useEffect, useMemo, useState } from "react";
-import { deleteGoal } from "@/lib/db-calls/delete-goal";
-import { completeGoal } from "@/lib/db-calls/complete-goal";
-import { editGoal } from "@/lib/db-calls/edit-goal";
-
-type Goal = {
-  id: string;
-  title: string;
-  description?: string | null;
-  is_completed: boolean;
-  goal_period: "yearly" | "quarterly" | "monthly";
-  period_start: string;
-  category_id: string | null;
-  activity_id: string | null;
-  created_at: string;
-  completed_at: string | null;
-};
+import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
+import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
+import { editGoal } from "@/lib/db-calls/goals/edit-goal";
+import { Goal } from "@/lib/types/goals";
 
 type Props = {
   goal: Goal;
@@ -141,8 +129,8 @@ export default function DetailsPanel({ goal, unselect, setGoalState }: Props) {
 
         <div className={styles.metaGrid}>
             <div><span className={styles.metaLabel}>Period</span><span className={styles.metaValue}>{goal.goal_period}</span></div>
-            <div><span className={styles.metaLabel}>Category</span><span className={styles.metaValue}>{goal.category_id ?? "None"}</span></div>
-            <div><span className={styles.metaLabel}>Activity</span><span className={styles.metaValue}>{goal.activity_id ?? "None"}</span></div>
+            <div><span className={styles.metaLabel}>Category</span><span className={styles.metaValue}>{goal?.category?.name ?? "None"}</span></div>
+            <div><span className={styles.metaLabel}>Activity</span><span className={styles.metaValue}>{goal?.activity?.name ?? "None"}</span></div>
             {goal.is_completed && <div><span className={styles.metaLabel}>Completed on</span><span className={styles.metaValue}>{new Date(goal.completed_at!).toLocaleString()}</span></div>}
         </div>
 

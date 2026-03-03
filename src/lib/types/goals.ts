@@ -5,8 +5,8 @@ export type Goal = {
   is_completed: boolean;
   goal_period: "yearly" | "quarterly" | "monthly";
   period_start: string;
-  category_id: string | null;
-  activity_id: string | null;
+  category: Category | null;
+  activity: Activity | null;
   created_at: string;
   completed_at: string | null;
 };
@@ -17,3 +17,13 @@ export type GoalFilters = {
   activityId: string | "all";
   sort: "recent" | "title" | "period";
 };
+
+export type Category = {
+  id: string;
+  name: string;
+}
+
+export type Activity = {
+  id: string;
+  name: string;
+}

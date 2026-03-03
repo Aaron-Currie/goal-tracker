@@ -1,15 +1,16 @@
-import { Goal, GoalFilters } from "@/lib/types/goals";
+import { Activity, Category, Goal, GoalFilters } from "@/lib/types/goals";
 import Button from "../button/button";
 import styles from "./filter.module.css";
 
 type Props = {
-  goals: Goal[];
   filters: GoalFilters;
   onChange: (next: GoalFilters) => void;
   onReset: () => void;
+  categories: Category[];
+  activities: Activity[];
 };
 
-export default function Filter({goals, filters, onChange, onReset}: Props) {
+export default function Filter({filters, onChange, onReset, categories, activities}: Props) {
         return (
             <div className={styles.filterBar}>
                 <div className={styles.filterItem}>
@@ -26,7 +27,35 @@ export default function Filter({goals, filters, onChange, onReset}: Props) {
                         <option value="completed">Completed</option>
                     </select>
                 </div>
-                <Button button={{text: "Reset", style: "edit"}} onClick={onReset}/>
+                <div className={styles.filterItem}>
+                    <label htmlFor="category">Category:</label>
+                    <select 
+                        name="category"
+                        id="category"
+                        className={styles.select}
+                        value={filters.categoryId}
+                        onChange={(e) => onChange({...filters, categoryId: e.target.value as GoalFilters["categoryId"]})}
+                    >
+                        <option value="all">All</option>
+                        {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    </select>
+                </div>
+                <div className={styles.filterItem}>
+                    <label htmlFor="activity">Activity:</label>
+                    <select 
+                        name="activity"
+                        id="activity"
+                        className={styles.select}
+                        value={filters.activityId}
+                        onChange={(e) => onChange({...filters, activityId: e.target.value as GoalFilters["activityId"]})}
+                    >
+                        <option value="all">All</option>
+                        {activities.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <Button button={{text: "Clear Filters", style: "edit"}} onClick={onReset}/>
+                </div>
             </div>
         )
 }

@@ -8,7 +8,6 @@
     border: 2px solid #2e2e2e;
     border-radius: 6px;
     box-shadow: 2px 4px 0px #2e2e2e;
-    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -21,7 +20,15 @@
     align-items: flex-start;
     height: 100%;
     flex: 3;
-    padding: 20px;
+    padding: 0.5rem;
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.pills {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    
 }
 
 .complete {

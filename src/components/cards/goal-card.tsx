@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
-import { completeGoal } from "@/lib/db-calls/complete-goal";
+import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
+import Pill from "../pill/pill";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -32,7 +33,12 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
     return (
         <div className={`${styles.card}`} >
                 <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
-                    <h3>
+                    <div className={styles.pills}>
+                        <Pill item={goalData.category} />
+                        <Pill item={goalData.activity} />
+                    </div>
+
+                    <h3 className={styles.title}>
                         {goalData.title}
                     </h3>
                 </button>
