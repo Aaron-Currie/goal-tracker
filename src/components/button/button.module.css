@@ -1,0 +1,38 @@
+.button {
+    position: relative;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid #2e2e2e;
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 2px 4px 0px #2e2e2e;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+    width: 100px;
+}
+
+.complete {
+    background-color: #4CAF50; /* Green */
+    box-shadow: 0px 4px 0px #2e6a30;
+    border: 2px solid #2e6a30;
+    color: white;
+}
+
+.undo {
+    background-color: #f44336; /* Red */
+    box-shadow: 0px 4px 0px #b71c1c;
+    border: 2px solid #b71c1c;
+    color: white;
+}
+
+.edit {
+    background-color: #2c60fcff;  
+    box-shadow: 0px 4px 0px #1b2a89ff;
+    border: 2px solid #1b2a89ff;
+    color: white;
+}
+
+.button:active {
+    transform: translateY(4px);
+    box-shadow: 0px 0px 0px;
+}

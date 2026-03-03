@@ -1,0 +1,12 @@
+.cardDisplay {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 160px);
+    grid-template-rows: 160px;
+    grid-auto-rows: 160px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    border: 1px red solid;
+    width: 100%;
+}
