@@ -8,13 +8,12 @@ export type Goal = {
   category_id: string | null;
   activity_id: string | null;
   created_at: string;
+  completed_at: string | null;
 };
 
 export type GoalFilters = {
   status: "all" | "completed" | "incomplete";
   categoryId: string | "all";
   activityId: string | "all";
-  period: "all" | Goal["goal_period"];
-  search: string;
   sort: "recent" | "title" | "period";
 };

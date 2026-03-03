@@ -1,3 +1,5 @@
+import Header from "@/components/header/header";
+
 export default async function YearLayout({
   children, params
 }: Readonly<{
@@ -7,14 +9,7 @@ export default async function YearLayout({
   const {period, year} = await params;
   return (
     <>
-    <header>
-      <div>
-        <h1>{period}</h1>
-      </div>
-      <div>
-        <h2>{year}</h2>
-      </div>
-    </header>
+      <Header period={period} year={year}/>
         {children}
     </>
   );

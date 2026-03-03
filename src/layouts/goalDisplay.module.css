@@ -1,3 +1,11 @@
+.container {
+    padding: 120px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .cardDisplay {
     display: grid;
     grid-template-columns: repeat(auto-fit, 500px);
@@ -5,9 +13,8 @@
     grid-auto-rows: 150px;
     flex-wrap: wrap;
     gap: 1rem;
-    padding: 1rem 1rem 100px 1rem ;
+    padding: 1rem;
     justify-content: center;
-    border: 1px blue solid;
     width: 100%;
 }
 

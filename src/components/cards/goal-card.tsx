@@ -2,19 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
 import { completeGoal } from "@/lib/db-calls/complete-goal";
-
-type Goal = {
-  id: string;
-  title: string;
-  description?: string | null;
-  is_completed: boolean;
-  goal_period: "yearly" | "quarterly" | "monthly";
-  period_start: string;
-  category_id: string | null;
-  activity_id: string | null;
-  created_at: string;
-  completed_at: string | null;
-};
+import { Goal } from "@/lib/types/goals";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -24,33 +12,25 @@ interface GoalCardProps {
 
 export default function GoalCard({ goalData, expand, setGoalState }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setCompleted(goalData.is_completed);
     }, [goalData.is_completed])
 
     const handleComplete = async () => {
-            setLoading(true);
                 try {
-                    await completeGoal(goalData.id, goalData.is_completed ? "undo" : "complete");
+                    await completeGoal(goalData.id, "complete");
                     setGoalState((prev) =>
                         prev.map((g) =>
                         g.id === goalData.id ? { ...g, is_completed: !g.is_completed } : g
                         )
                     );
                 } finally {
-                setLoading(false);
             }
-    }
-
-    const handleUndo = () => {
-        setCompleted(false);
     }
 
     return (
         <div className={`${styles.card}`} >
-                {/* <IconButton icon={faUpRightAndDownLeftFromCenter} button={{alt: 'Edit', style: completed? 'white' : 'black'}} onClick={() => expand(goalData.id)} /> */}
                 <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
                     <h3>
                         {goalData.title}
