@@ -1,17 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styles from "./header.module.css";
+import ScrollableLinks from "./scrollable-selector/scrollable-selector";
 
-export default function Header({ year, period }: { year: string, period: string }) {
+export default function Header({ year, period, date }: { year: string, period: string, date: string }) {
     return (
         <header className={styles.header}>
             <div className={styles.dates}>
-                <div>
-                    <h1>{period}</h1>
-                </div>
-                <div>
-                    <h2>{year}</h2>
-                </div>
+                <ScrollableLinks year={Number(year)} period={period as "yearly" | "quarterly" | "monthly"} date={date} />
             </div>
             <button className={styles.searchButton}>
                 <FontAwesomeIcon size="2x" icon={faMagnifyingGlass} />

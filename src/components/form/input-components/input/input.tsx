@@ -10,7 +10,6 @@ type Props = {
 export default function Input({ label, setState, value, type = "text" }: Props) {
     return (
         <div>
-            {/* <label htmlFor={label}>{label}:</label> */}
             <input 
                 className={style.input}
                 placeholder={label}

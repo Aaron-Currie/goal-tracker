@@ -16,6 +16,7 @@ const DEFAULT_FILTERS: GoalFilters = {
   categoryId: "all",
   activityId: "all",
   sort: "recent",
+  search: "",
 };
 
 type Goals = Goal[];
@@ -28,13 +29,19 @@ interface CardDisplayProps {
   goals: Goals;
   categories: Categories;
   activities: Activities;
+  date: { year: string, period: string };
 }
 
-export default function GoalDisplay({goals, categories, activities}: CardDisplayProps) {
+export default function GoalDisplay({goals, categories, activities, date}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [selectedCard, setSelectedCard] = useState<string | null>(null);
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
     const [addModelOpen, setAddModelOpen] = useState(false);
+
+    const datesMeta = useMemo(() => {
+        const capPeriod = date.period.charAt(0).toUpperCase() + date.period.slice(1);
+        return { year: date.year, period: capPeriod };
+    }, [date.year, date.period]);
 
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
     return (
@@ -46,7 +53,7 @@ export default function GoalDisplay({goals, categories, activities}: CardDisplay
                 })}
                 {addModelOpen && (
                     <Model onClose={() => setAddModelOpen(false)}>
-                        <AddGoalForm categories={categories} activities={activities} onClose={() => setAddModelOpen(false)} />
+                        <AddGoalForm datesMeta={datesMeta} categories={categories} activities={activities} onClose={() => setAddModelOpen(false)} />
                     </Model>)}
                 <AddButton onClick={() => setAddModelOpen(true)} />
                 {selectedCard && <DetailsPanel goal={goalState.find((g) => g.id === selectedCard)!} setGoalState={setGoalState} unselect={setSelectedCard} />}

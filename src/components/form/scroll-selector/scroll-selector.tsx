@@ -7,13 +7,14 @@ type Props = {
     setTypeState: React.Dispatch<React.SetStateAction<"Yearly" | "Quarterly" | "Monthly">>;
     typeValue: "Yearly" | "Quarterly" | "Monthly";
     setDateState: React.Dispatch<React.SetStateAction<string>>;
+    datesMeta: { year: string, period: string };
 }
 
-export default function ScrollSelector({ setTypeState, typeValue, setDateState }: Props) {
+export default function ScrollSelector({ setTypeState, typeValue, setDateState, datesMeta }: Props) {
     const types = ["Yearly", "Quarterly", "Monthly"];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const [currentType, setCurrentType] = useState<"Yearly" | "Quarterly" | "Monthly">(typeValue);
-    const [year, setYear] = useState<number>(new Date().getFullYear());
+    const [year, setYear] = useState<number>(Number(datesMeta.year));
     const [date, setDate] = useState<string>('');
     
     const getYear = (int: number) => {
@@ -120,13 +121,13 @@ export default function ScrollSelector({ setTypeState, typeValue, setDateState }
             </div>
             <div className={`${style.dateSelector} ${currentType === 'Yearly' ? style.singleLine : style.doubleLine}`}>
                 {currentType !== 'Yearly' && 
-                (<div className={style.scrollSelector} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                (<div className={style.scrollSelector}>
                     <button type='button' onClick={scrollDateLeft}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></button>
                         <span>{date}</span>
                     <button type='button' onClick={scrollDateRight}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></button>
                 </div>
                 )}
-                <div className={style.scrollSelector} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <div className={style.scrollSelector}>
                     <button type='button' onClick={scrollYearLeft}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></button>
                         <span>{year}</span>
                     <button type='button' onClick={scrollYearRight}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></button>

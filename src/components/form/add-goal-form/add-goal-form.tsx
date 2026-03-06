@@ -12,10 +12,11 @@ type Props = {
     onClose: () => void;
     categories: Category[];
     activities: Activity[];
+    datesMeta: { year: string, period: string };
 }
 
-export default function AddGoalForm({ categories, activities, onClose }: Props) {
-    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">("Yearly");
+export default function AddGoalForm({ categories, activities, datesMeta, onClose }: Props) {
+    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(datesMeta.period as "Yearly" | "Quarterly" | "Monthly");
     const [title, setTitle] = useState<string>("");
     const [periodStart, setPeriodStart] = useState<string>("");
     const [category, setCategory] = useState<string | null>(null);
@@ -55,7 +56,7 @@ export default function AddGoalForm({ categories, activities, onClose }: Props) 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />
-            <ScrollSelector setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
+            <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
             <PillSelector label="Category" group={categories} setState={setCategory}/>
             <PillSelector label="Activity" group={activities} setState={setActivity}/>
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}

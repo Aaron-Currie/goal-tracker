@@ -13,6 +13,7 @@ type Props = {
 export default function Filter({filters, onChange, onReset, categories, activities}: Props) {
         return (
             <div className={styles.filterBar}>
+                <input type="text" placeholder="Search..." className={styles.search} value={filters.search} onChange={(e) => onChange({...filters, search: e.target.value})} />
                 <div className={styles.filterItem}>
                     <label htmlFor="status">Status:</label>
                     <select 
@@ -53,7 +54,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         {activities.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
                     </select>
                 </div>
-                <div>
+                <div className={styles.filterItem}>
                     <Button button={{text: "Clear Filters", style: "edit"}} onClick={onReset}/>
                 </div>
             </div>

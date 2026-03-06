@@ -16,6 +16,7 @@ export type GoalFilters = {
   categoryId: string | "all";
   activityId: string | "all";
   sort: "recent" | "title" | "period";
+  search: string;
 };
 
 export type Category = {
