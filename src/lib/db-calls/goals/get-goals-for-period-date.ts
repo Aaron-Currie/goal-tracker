@@ -24,7 +24,7 @@ export const getGoalsForPeriodAndDate = async (period: string, year: string) => 
       )
     `)
     .eq("goal_period", period)
-    .eq("period_start", periodStart)
+    // .eq("period_start", periodStart)
     .order("period_start", { ascending: true });
     
       if (error) throw new Error(error.message);

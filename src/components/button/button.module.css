@@ -15,8 +15,8 @@
 .iconButton {
     cursor: pointer;
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 1%;
+    right: 1%;
     border-radius: 20px;
     width: 30px;
     height: 30px;

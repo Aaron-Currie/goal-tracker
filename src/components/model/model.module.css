@@ -1,15 +1,14 @@
 .modelContainer {
     position: relative;
     width: 90vw;
-    height: 70vh;
     color: #000;
     font-weight: bold;
     font-size: 1rem;
     border: 2px solid #2e2e2e;
-    border-radius: 6px;
+    border-radius: 12px;
     box-shadow: 2px 4px 0px #2e2e2e;
     background-color: white;
-    padding: 1rem;
+    padding: 2.5rem 1rem 2.5rem 1rem;
 }
 
 .form {

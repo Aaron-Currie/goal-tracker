@@ -1,13 +1,15 @@
 'use client'
-import GoalCard from "@/components/cards/goal-card"
-import styles from "./goalDisplay.module.css"
 import { useMemo, useState } from "react";
-import DetailsPanel from "@/components/panel/panel";
 import { GoalFilters, Goal, Category, Activity } from "@/lib/types/goals";
+import styles from "./goalDisplay.module.css"
+
+import GoalCard from "@/components/cards/goal-card"
+import DetailsPanel from "@/components/panel/panel";
 import Filter from "@/components/filter/filter";
 import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";
-import AddModel from "@/components/add-model/add-model";
+import Model from "@/components/model/model";
+import AddGoalForm from "@/components/form/add-goal-form/add-goal-form";
 
 const DEFAULT_FILTERS: GoalFilters = {
   status: "all",
@@ -42,7 +44,10 @@ export default function GoalDisplay({goals, categories, activities}: CardDisplay
                 {visibleGoals.map((goal) => {
                     return <GoalCard expand={setSelectedCard} key={goal.id} goalData={goal} setGoalState={setGoalState} />
                 })}
-                {addModelOpen && <AddModel onClose={() => setAddModelOpen(false)} categories={categories} activities={activities} />}
+                {addModelOpen && (
+                    <Model onClose={() => setAddModelOpen(false)}>
+                        <AddGoalForm categories={categories} activities={activities} onClose={() => setAddModelOpen(false)} />
+                    </Model>)}
                 <AddButton onClick={() => setAddModelOpen(true)} />
                 {selectedCard && <DetailsPanel goal={goalState.find((g) => g.id === selectedCard)!} setGoalState={setGoalState} unselect={setSelectedCard} />}
             </div>
