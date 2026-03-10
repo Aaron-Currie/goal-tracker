@@ -33,11 +33,11 @@
 
 .complete {
     flex: 1;
-    border-left: 3px dashed #2e2e2e;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+    padding: 1rem;
 }
 
 .green {

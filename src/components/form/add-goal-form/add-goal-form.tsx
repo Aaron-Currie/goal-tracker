@@ -7,7 +7,6 @@ import Input from "../input-components/input/input";
 import ScrollSelector from "../scroll-selector/scroll-selector";
 import { useState } from "react";
 
-
 type Props = {
     onClose: () => void;
     categories: Category[];
@@ -51,6 +50,7 @@ export default function AddGoalForm({ categories, activities, datesMeta, onClose
 
         setLoading(false);
         onClose();
+        
     }
 
     return (

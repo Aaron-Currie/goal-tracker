@@ -4,12 +4,14 @@ import { getAllCategoriesForUser } from "@/lib/db-calls/categories/get-all-categ
 import { getAllActivitiesForUser } from "@/lib/db-calls/activities/get-all-activities-for-user";
 
 
-export default async function GoalPage({ params }: { params: Promise<{ period: string, year: string, date: string }> }) {
+export default async function GoalPage({ params }: { params: Promise<{ period: "yearly" | "quarterly" | "monthly", year: string, date: string }> }) {
   const { period, year } = await params;
 
   const goals = await getGoalsForPeriodAndDate(period, year );
   const categories = await getAllCategoriesForUser();
   const activities = await getAllActivitiesForUser();
+
+
 
   return (
     <main>
