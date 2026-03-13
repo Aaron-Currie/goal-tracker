@@ -1,5 +1,5 @@
 'use client'
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GoalFilters, Goal, Category, Activity } from "@/lib/types/goals";
 import styles from "./goalDisplay.module.css"
 
@@ -34,6 +34,9 @@ interface CardDisplayProps {
 
 export default function GoalDisplay({goals, categories, activities, date}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
+    const [categoryState, setCategoryState] = useState<Categories>(categories);
+    const [activityState, setActivityState] = useState<Activities>(activities);
+    
     const [selectedCard, setSelectedCard] = useState<string | null>(null);
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
     const [addModelOpen, setAddModelOpen] = useState(false);
@@ -44,16 +47,18 @@ export default function GoalDisplay({goals, categories, activities, date}: CardD
     }, [date.year, date.period]);
 
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
+
+    console.log("Rendering GoalDisplay with goals:", goalState);
     return (
         <section className={styles.container}>
-            <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categories} activities={activities} />
+            <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categoryState} activities={activityState} />
             <div className={styles.cardDisplay}>
                 {visibleGoals.map((goal) => {
                     return <GoalCard expand={setSelectedCard} key={goal.id} goalData={goal} setGoalState={setGoalState} />
                 })}
                 {addModelOpen && (
                     <Model onClose={() => setAddModelOpen(false)}>
-                        <AddGoalForm datesMeta={datesMeta} categories={categories} activities={activities} onClose={() => setAddModelOpen(false)} />
+                        <AddGoalForm datesMeta={datesMeta} setGoalState={setGoalState} categories={categoryState} setCategoryState={setCategoryState} activities={activityState} setActivityState={setActivityState} onClose={() => setAddModelOpen(false)} />
                     </Model>)}
                 <AddButton onClick={() => setAddModelOpen(true)} />
                 {selectedCard && <DetailsPanel goal={goalState.find((g) => g.id === selectedCard)!} setGoalState={setGoalState} unselect={setSelectedCard} />}

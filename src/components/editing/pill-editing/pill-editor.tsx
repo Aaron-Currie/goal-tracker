@@ -4,16 +4,18 @@ import Input from "@/components/form/input-components/input/input"
 import Model from "@/components/model/model"
 import { Overlay } from "@/components/utility-comps/overlay"
 import { Activity, Category } from "@/lib/types/goals"
-import { faTrashCan, faPlus } from "@fortawesome/free-solid-svg-icons"
-import { useEffect, useState } from "react"
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { useState } from "react"
+import ItemEditor from "../item-editor/item-editor"
 
 type PillEditingProps = {
     group: Category[] | Activity[],
     label: string,
     setEditing: React.Dispatch<React.SetStateAction<boolean>>
+    setGroupState: React.Dispatch<React.SetStateAction<Category[] | Activity[]>>
 }
 
-export default function PillEditor({ group, label, setEditing }: PillEditingProps) {
+export default function PillEditor({ group, label, setEditing, setGroupState }: PillEditingProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [newItem, setNewItem] = useState<string>("");
@@ -34,14 +36,13 @@ export default function PillEditor({ group, label, setEditing }: PillEditingProp
                 setError(body?.error ?? "Failed to save");
                 return;
             }
+            const item = body.activity ?? body.category ?? body;
+            console.log(body, 'body');
+            setGroupState((prev) => [...prev, item]);
             setNewItem("");
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        
-    }, [group])
 
     return (
         <Overlay onClick={() => setEditing(false)}>
@@ -50,7 +51,7 @@ export default function PillEditor({ group, label, setEditing }: PillEditingProp
                     <div className={styles.row}><Input label={`Add ${label}`} value={newItem} setState={setNewItem} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blue" }} onClick={handleAdd} cornerButton={false} /></div>
                     {group.map((item) => {
                         return (
-                            <div className={styles.row} key={item.id}><Input value={item.name} label={item.name} setState={() => {}} /><IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => {}} cornerButton={false} /></div>
+                            <ItemEditor key={item.id} item={item} label={label} setGroupState={setGroupState} />
                         )
                     })}
                 </div>

@@ -6,7 +6,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import PillEditor from "@/components/editing/pill-editing/pill-editor";
 
-export default function PillSelector({ group, label, setState }: { group: Category[] | Activity[], label: string, setState: React.Dispatch<React.SetStateAction<string | null>> }) {
+export default function PillSelector({ group, label, setGroupState, setState }: { group: Category[] | Activity[], label: string, setGroupState: React.Dispatch<React.SetStateAction<Category[] | Activity[]>>, setState: React.Dispatch<React.SetStateAction<string | null>> }) {
     const [selected, setSelected] = useState<string | null>(null);
 
     const onSelect = (item: Category | Activity) => {
@@ -18,7 +18,7 @@ export default function PillSelector({ group, label, setState }: { group: Catego
     const [editing, setEditing] = useState(false);
 
     if(editing) {
-        return <PillEditor group={group} label={label} setEditing={setEditing} />
+        return <PillEditor group={group} label={label} setGroupState={setGroupState} setEditing={setEditing} />
     }
     return (
         <fieldset className={`${style.pillSelector} ${editing ? style.editing : ""}`}>

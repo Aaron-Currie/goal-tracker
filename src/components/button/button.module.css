@@ -83,3 +83,10 @@
 .iconButton:active {
     transform: scale(0.9);
 }
+
+.iconButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    color: grey;
+    border-color: grey;
+}

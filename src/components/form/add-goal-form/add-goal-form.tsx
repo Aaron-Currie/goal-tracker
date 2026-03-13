@@ -12,9 +12,12 @@ type Props = {
     categories: Category[];
     activities: Activity[];
     datesMeta: { year: string, period: string };
+    setCategoryState: React.Dispatch<React.SetStateAction<Category[]>>;
+    setActivityState: React.Dispatch<React.SetStateAction<Activity[]>>;
+    setGoalState: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-export default function AddGoalForm({ categories, activities, datesMeta, onClose }: Props) {
+export default function AddGoalForm({ categories, activities, datesMeta, setCategoryState, setActivityState, setGoalState, onClose }: Props) {
     const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(datesMeta.period as "Yearly" | "Quarterly" | "Monthly");
     const [title, setTitle] = useState<string>("");
     const [periodStart, setPeriodStart] = useState<string>("");
@@ -50,15 +53,21 @@ export default function AddGoalForm({ categories, activities, datesMeta, onClose
 
         setLoading(false);
         onClose();
-        
+
+        // Need to figure out how to only update if we're on the same period, otherwise we could be adding a goal to a different period's list
+        // const categoryData = categories.find(c => c.id === body.goal.category_id) ?? null;
+        // const activityData = activities.find(a => a.id === body.goal.activity_id) ?? null;
+        // const newGoal = { id: body.goal.id, completed_at: body.goal.completed_at, category: categoryData, activity: activityData, created_at: body.goal.created_at, is_completed: body.goal.is_completed, period_start: body.goal.period_start, title: body.goal.title, goal_period: body.goal.goal_period };
+
+        // setGoalState((prev) => [...prev, newGoal]);
     }
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />
             <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
-            <PillSelector label="Category" group={categories} setState={setCategory}/>
-            <PillSelector label="Activity" group={activities} setState={setActivity}/>
+            <PillSelector label="Category" group={categories} setGroupState={setCategoryState} setState={setCategory}/>
+            <PillSelector label="Activity" group={activities} setGroupState={setActivityState} setState={setActivity}/>
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
         </form>
     )
