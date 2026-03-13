@@ -14,14 +14,17 @@
 
 .iconButton {
     cursor: pointer;
-    position: absolute;
-    top: 1%;
-    right: 1%;
     border-radius: 20px;
     width: 30px;
     height: 30px;
     padding: 0;
     background-color: transparent;
+}
+
+.cornerButton {
+    position: absolute;
+    top: 1%;
+    right: 1%;
 }
 
 .black {
@@ -32,6 +35,16 @@
 .white {
     border: 2px solid #f5f5f5;
     color: #f5f5f5;
+}
+
+.red {
+    border: 2px solid #b71c1c;
+    color: #b71c1c;
+}
+
+.blue {
+    border: 2px solid #2c60fcff;
+    color: #2c60fcff;
 }
 
 .complete {

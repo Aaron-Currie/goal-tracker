@@ -11,8 +11,6 @@ export default async function GoalPage({ params }: { params: Promise<{ period: "
   const categories = await getAllCategoriesForUser();
   const activities = await getAllActivitiesForUser();
 
-
-
   return (
     <main>
       <GoalDisplay date={{ year, period }} categories={categories} activities={activities} goals={goals ?? []}/>

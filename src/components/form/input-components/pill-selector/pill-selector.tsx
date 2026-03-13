@@ -4,6 +4,7 @@ import ClickablePill from "@/components/pill/clickable-pill";
 import IconButton from "@/components/button/icon-button";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import PillEditor from "@/components/editing/pill-editing/pill-editor";
 
 export default function PillSelector({ group, label, setState }: { group: Category[] | Activity[], label: string, setState: React.Dispatch<React.SetStateAction<string | null>> }) {
     const [selected, setSelected] = useState<string | null>(null);
@@ -13,11 +14,17 @@ export default function PillSelector({ group, label, setState }: { group: Catego
         setState((prev) => prev === item.id ? null : item.id);
     }
 
+
+    const [editing, setEditing] = useState(false);
+
+    if(editing) {
+        return <PillEditor group={group} label={label} setEditing={setEditing} />
+    }
     return (
-        <fieldset className={style.pillSelector}>
+        <fieldset className={`${style.pillSelector} ${editing ? style.editing : ""}`}>
             <div>
                 <span>{label}</span>
-                <IconButton icon={faEllipsis} button={{ alt: "Help", style: "default" }} onClick={() => {}} />
+                <IconButton icon={faEllipsis} button={{ alt: "Help", style: "default" }} onClick={() => setEditing(true)} />
             </div>
             <div className={style.pillGroup}>
                 {group.map((item) => { 
