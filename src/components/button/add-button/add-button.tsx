@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./add-button.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Goal } from "@/lib/types/goals";
+import Link from "next/link";
 
-export default function AddButton({ onClick }: { onClick: () => void }) {
+export default function AddButton({ query }: { query: string }) {
 
   return (
-      <button className={styles.add} onClick={onClick}>
+      <Link href={`/goals/new/?${query}`} className={styles.add}>
         <FontAwesomeIcon icon={faPlus} />
-      </button>
+      </Link>
   );
 }

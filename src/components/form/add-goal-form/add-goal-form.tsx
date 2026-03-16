@@ -1,3 +1,4 @@
+'use client'
 import { Activity, Category } from "@/lib/types/goals";
 import style from "./add-goal-form.module.css"
 
@@ -6,18 +7,21 @@ import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../scroll-selector/scroll-selector";
 import { useState } from "react";
+import { useGoalsData } from "@/lib/contexts/goals-data-context";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
-    onClose: () => void;
-    categories: Category[];
-    activities: Activity[];
-    datesMeta: { year: string, period: string };
-    setCategoryState: React.Dispatch<React.SetStateAction<Category[]>>;
-    setActivityState: React.Dispatch<React.SetStateAction<Activity[]>>;
-    setGoalState: React.Dispatch<React.SetStateAction<any[]>>;
+    datesMeta: { year: string, period: string },
 }
 
-export default function AddGoalForm({ categories, activities, datesMeta, setCategoryState, setActivityState, setGoalState, onClose }: Props) {
+export default function AddGoalForm({datesMeta} : Props) {
+    const router = useRouter();
+    const { categories, activities } = useGoalsData();
+
+    const [categoryState, setCategoryState] = useState<Category[]>(categories);
+    const [activityState, setActivityState] = useState<Activity[]>(activities);
+
     const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(datesMeta.period as "Yearly" | "Quarterly" | "Monthly");
     const [title, setTitle] = useState<string>("");
     const [periodStart, setPeriodStart] = useState<string>("");
@@ -52,8 +56,7 @@ export default function AddGoalForm({ categories, activities, datesMeta, setCate
         }
 
         setLoading(false);
-        onClose();
-
+        router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`);
         // Need to figure out how to only update if we're on the same period, otherwise we could be adding a goal to a different period's list
         // const categoryData = categories.find(c => c.id === body.goal.category_id) ?? null;
         // const activityData = activities.find(a => a.id === body.goal.activity_id) ?? null;
@@ -66,9 +69,10 @@ export default function AddGoalForm({ categories, activities, datesMeta, setCate
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />
             <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
-            <PillSelector label="Category" group={categories} setGroupState={setCategoryState} setState={setCategory}/>
-            <PillSelector label="Activity" group={activities} setGroupState={setActivityState} setState={setActivity}/>
+            <PillSelector label="Category" group={categoryState} setGroupState={setCategoryState} setState={setCategory}/>
+            <PillSelector label="Activity" group={activityState} setGroupState={setActivityState} setState={setActivity}/>
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+            <Link href={`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`} className={style.cancel}>Cancel</Link>
         </form>
     )
 }

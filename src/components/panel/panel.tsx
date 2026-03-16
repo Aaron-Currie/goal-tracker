@@ -21,8 +21,6 @@ export default function DetailsPanel({ goal, unselect, setGoalState }: Props) {
   const [title, setTitle] = useState(goal.title);
   const [description, setDescription] = useState(goal.description ?? "");
 
-  console.log(goal, 'goal in panel');
-
   useEffect(() => {
     setTitle(goal.title);
     setDescription(goal.description ?? "");

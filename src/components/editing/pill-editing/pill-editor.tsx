@@ -30,14 +30,12 @@ export default function PillEditor({ group, label, setEditing, setGroupState }: 
                 }),
             });
             const body = await res.json().catch(() => ({}));
-            console.log(body);
             if (!res.ok) {
                 setLoading(false);
                 setError(body?.error ?? "Failed to save");
                 return;
             }
             const item = body.activity ?? body.category ?? body;
-            console.log(body, 'body');
             setGroupState((prev) => [...prev, item]);
             setNewItem("");
             setLoading(false);
@@ -47,7 +45,7 @@ export default function PillEditor({ group, label, setEditing, setGroupState }: 
     return (
         <Overlay onClick={() => setEditing(false)}>
             <Model onClose={() => setEditing(false)}>
-                <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                <div className={styles.container}>
                     <div className={styles.row}><Input label={`Add ${label}`} value={newItem} setState={setNewItem} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blue" }} onClick={handleAdd} cornerButton={false} /></div>
                     {group.map((item) => {
                         return (

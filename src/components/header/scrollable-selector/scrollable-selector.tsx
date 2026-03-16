@@ -12,7 +12,6 @@ type Props = {
 export default function ScrollableLinks({ year, period, date }: Props) {
     const types = ["yearly", "quarterly", "monthly"];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    console.log(date, 'date in scrollable links');
     
     const linkBuilder = (direction: number, scrollType: "period" | "yearly" | "quarterly" | "monthly" | "year"): string => {
         if(scrollType === "period") {

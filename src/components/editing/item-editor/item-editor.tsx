@@ -15,7 +15,6 @@ export default function ItemEditor({item, label, setGroupState}: {item: {id: str
             method: "DELETE",
         });
         const body = await res.json().catch(() => ({}));
-        console.log(body);
         if (!res.ok) {
             setLoading(false);
             setError(body?.error ?? "Failed to delete");
@@ -35,7 +34,6 @@ export default function ItemEditor({item, label, setGroupState}: {item: {id: str
             }),
         });
         const body = await res.json().catch(() => ({}));
-        console.log(body);
         if (!res.ok) {
             setLoading(false);
             setError(body?.error ?? "Failed to edit");

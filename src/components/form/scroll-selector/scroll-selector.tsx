@@ -35,8 +35,6 @@ export default function ScrollSelector({ setTypeState, typeValue, setDateState, 
     }
 
     const buildDate = ({year, date}: {year: number, date: string}) => {
-        console.log(currentType, 'building date for type');
-        console.log(year, date, 'building date');
         if(currentType === "Yearly") {
             setDateState(`${year}-01-01`);
         }
