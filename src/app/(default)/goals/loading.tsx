@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <main style={{ padding: 50 }}>
-      <p>Loading goals...</p>
+      <p>Loading cats/acts...</p>
     </main>
   );
 }

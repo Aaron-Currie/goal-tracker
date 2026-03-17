@@ -67,12 +67,12 @@ export default function AddGoalForm({datesMeta} : Props) {
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
+            <Link href={`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`} className={style.cancel}>Back</Link>
             <Input label="Title" setState={setTitle} value={title} />
             <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} setGroupState={setCategoryState} setState={setCategory}/>
             <PillSelector label="Activity" group={activityState} setGroupState={setActivityState} setState={setActivity}/>
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
-            <Link href={`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`} className={style.cancel}>Cancel</Link>
         </form>
     )
 }
