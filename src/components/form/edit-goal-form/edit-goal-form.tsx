@@ -1,6 +1,6 @@
 'use client'
-import { Activity, Category } from "@/lib/types/goals";
-import style from "./add-goal-form.module.css"
+import { Activity, Category, Goal } from "@/lib/types/goals";
+import style from "./edit-goal-form.module.css";
 
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
@@ -10,24 +10,27 @@ import { useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import IconButton from "@/components/button/icon-button";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-    datesMeta: { year: string, period: string },
+    goal: Goal;
+    cancel: () => void;
 }
 
-export default function AddGoalForm({datesMeta} : Props) {
+export default function EditGoalForm({goal, cancel} : Props) {
     const router = useRouter();
     const { categories, activities } = useGoalsData();
 
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
 
-    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(datesMeta.period as "Yearly" | "Quarterly" | "Monthly");
-    const [title, setTitle] = useState<string>("");
-    const [periodStart, setPeriodStart] = useState<string>("");
-    const [category, setCategory] = useState<string | null>(null);
-    const [activity, setActivity] = useState<string | null>(null);
-    const [description, setDescription] = useState<string>("");
+    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(goal.goal_period as "Yearly" | "Quarterly" | "Monthly");
+    const [title, setTitle] = useState<string>(goal.title);
+    const [periodStart, setPeriodStart] = useState<string>(goal.period_start);
+    const [category, setCategory] = useState<string | null>(goal.category?.id ?? null);
+    const [activity, setActivity] = useState<string | null>(goal.activity?.id ?? null);
+    const [description, setDescription] = useState<string>(goal.description ?? "");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -58,14 +61,15 @@ export default function AddGoalForm({datesMeta} : Props) {
         }
 
         setLoading(false);
-        router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`);
+        router.push(`/goals/${goal.goal_period.toLowerCase()}/${goal.period_start}`);
     }
+    console.log(goal)
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
-            <Link href={`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`} className={style.cancel}>Back</Link>
+            <IconButton onClick={() => cancel()} icon={faBackward} button={{ alt: 'back', style: 'black' }} cornerButton={false} />
             <Input label="Title" setState={setTitle} value={title} />
-            <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
+            <ScrollSelector datesMeta={{ year: goal.period_start, period: goal.goal_period }} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} setGroupState={setCategoryState} setState={setCategory}/>
             <PillSelector label="Activity" group={activityState} setGroupState={setActivityState} setState={setActivity}/>
             <textarea

@@ -4,6 +4,7 @@ import styles from "./card.module.css";
 import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
+import Link from "next/link";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -32,7 +33,7 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
 
     return (
         <div className={`${styles.card}`} >
-                <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
+                {/* <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
                     <div className={styles.pills}>
                         <Pill item={goalData.category} />
                         <Pill item={goalData.activity} />
@@ -41,7 +42,17 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
                     <h3 className={styles.title}>
                         {goalData.title}
                     </h3>
-                </button>
+                </button> */}
+                <Link href={`/goals/edit/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
+                    <div className={styles.pills}>
+                        <Pill item={goalData.category} />
+                        <Pill item={goalData.activity} />
+                    </div>
+
+                    <h3 className={styles.title}>
+                        {goalData.title}
+                    </h3>
+                </Link>
 
                 {!completed && <div className={styles.complete}>
                     <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />

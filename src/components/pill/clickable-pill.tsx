@@ -11,6 +11,6 @@ type Props = {
 export default function ClickablePill({item, selected, onSelect}: Props) {
     if(!item) return null;
     return (
-        <input type="button" className={`${styles.pill} ${selected? styles.selected : ""}`} onClick={() => onSelect && onSelect(item)} value={item.name} />
+        <input type="button" className={`${styles.pill} ${selected? styles.selected : styles.default}`} onClick={() => onSelect && onSelect(item)} value={item.name} />
     )
 }

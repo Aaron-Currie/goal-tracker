@@ -4,7 +4,7 @@ import { GoalFilters, Goal, Category, Activity } from "@/lib/types/goals";
 import styles from "./goalDisplay.module.css"
 
 import GoalCard from "@/components/cards/goal-card"
-import DetailsPanel from "@/components/panel/panel";
+import DetailsPanel from "@/components/panel/goal-details";
 import Filter from "@/components/filter/filter";
 import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";
@@ -39,7 +39,6 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     
     const [selectedCard, setSelectedCard] = useState<string | null>(null);
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
-    const [addModelOpen, setAddModelOpen] = useState(false);
 
     const datesMeta = useMemo(() => {
         const capPeriod = date.period.charAt(0).toUpperCase() + date.period.slice(1);
@@ -56,7 +55,6 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
                     return <GoalCard expand={setSelectedCard} key={goal.id} goalData={goal} setGoalState={setGoalState} />
                 })}
                 <AddButton query={`year=${datesMeta.year}&period=${datesMeta.period}`} />
-                {selectedCard && <DetailsPanel goal={goalState.find((g) => g.id === selectedCard)!} setGoalState={setGoalState} unselect={setSelectedCard} />}
             </div>
         </section>
     )
