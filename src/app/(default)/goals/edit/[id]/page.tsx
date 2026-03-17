@@ -5,8 +5,6 @@ export default async function GoalPage({params}: { params: { id: string } }) {
     const { id } = await params;
     const goal = await getGoalForId(id);
 
-    console.log("GOAL FOR ID", goal)
-
   return (
     <SingleGoalDisplay goal={goal} />
   );

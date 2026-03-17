@@ -16,7 +16,6 @@ export default function ScrollSelector({ setTypeState, typeValue, setDateState, 
     const [currentType, setCurrentType] = useState<"Yearly" | "Quarterly" | "Monthly">(typeValue);
     const [year, setYear] = useState<number>(Number(datesMeta.year.split("-")[0]));
     const [date, setDate] = useState<string>('');
-    
     const getYear = (int: number) => {
         setYear(prev => prev + int);
     }

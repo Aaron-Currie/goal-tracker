@@ -1,31 +1,32 @@
 'use client'
 import { Activity, Category, Goal } from "@/lib/types/goals";
 import style from "./edit-goal-form.module.css";
+import { useState } from "react";
+import { useGoalsData } from "@/lib/contexts/goals-data-context";
+
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../scroll-selector/scroll-selector";
-import { useState } from "react";
-import { useGoalsData } from "@/lib/contexts/goals-data-context";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import IconButton from "@/components/button/icon-button";
-import { faBackward } from "@fortawesome/free-solid-svg-icons";
+
 
 type Props = {
     goal: Goal;
+    setGoal: React.Dispatch<React.SetStateAction<Goal>>;
     cancel: () => void;
 }
 
-export default function EditGoalForm({goal, cancel} : Props) {
-    const router = useRouter();
+export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const { categories, activities } = useGoalsData();
 
+    const period = goal.goal_period.charAt(0).toUpperCase() + goal.goal_period.slice(1);
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
 
-    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(goal.goal_period as "Yearly" | "Quarterly" | "Monthly");
+    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(period as "Yearly" | "Quarterly" | "Monthly");
     const [title, setTitle] = useState<string>(goal.title);
     const [periodStart, setPeriodStart] = useState<string>(goal.period_start);
     const [category, setCategory] = useState<string | null>(goal.category?.id ?? null);
@@ -39,8 +40,8 @@ export default function EditGoalForm({goal, cancel} : Props) {
         setLoading(true);
         setError(null);
 
-        const res = await fetch("/api/goals", {
-            method: "POST",
+        const res = await fetch(`/api/goal/${goal.id}/edit`, {
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
             title,
@@ -59,19 +60,28 @@ export default function EditGoalForm({goal, cancel} : Props) {
             setError(body?.error ?? "Failed to save");
             return;
         }
-
+        const updatedCategory = categoryState.find((c) => c.id === category) ?? undefined;
+        const updatedActivity = activityState.find((a) => a.id === activity) ?? undefined;
+        const updatedGoal = {
+            title : body.title,
+            goal_period: body.goal_period,
+            period_start: body.period_start,
+            category: updatedCategory ? updatedCategory : null,
+            activity: updatedActivity ? updatedActivity : null,
+            description: body.description,
+        } as Goal;
+        setGoal(updatedGoal);
         setLoading(false);
-        router.push(`/goals/${goal.goal_period.toLowerCase()}/${goal.period_start}`);
+        cancel();
     }
-    console.log(goal)
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
-            <IconButton onClick={() => cancel()} icon={faBackward} button={{ alt: 'back', style: 'black' }} cornerButton={false} />
+            <IconButton onClick={() => cancel()} icon={faArrowLeft} button={{ alt: 'back', style: 'black' }} cornerButton={false} />
             <Input label="Title" setState={setTitle} value={title} />
-            <ScrollSelector datesMeta={{ year: goal.period_start, period: goal.goal_period }} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
-            <PillSelector label="Category" group={categoryState} setGroupState={setCategoryState} setState={setCategory}/>
-            <PillSelector label="Activity" group={activityState} setGroupState={setActivityState} setState={setActivity}/>
+            <ScrollSelector datesMeta={{ year: goal.period_start, period: period }} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
+            <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
+            <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
             <textarea
                 id="goal-desc"
                 className={style.textarea}

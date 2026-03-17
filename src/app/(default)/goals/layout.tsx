@@ -12,8 +12,7 @@ export default async function GoalsLayout({ children }: Props) {
     getAllCategoriesForUser(),
     getAllActivitiesForUser(),
   ]);
-
-  console.log("GOALS LAYOUT")
+  
   return (
     <GoalsDataProvider
       categories={categories ?? []}

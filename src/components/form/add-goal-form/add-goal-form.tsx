@@ -66,8 +66,8 @@ export default function AddGoalForm({datesMeta} : Props) {
             <Link href={`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`} className={style.cancel}>Back</Link>
             <Input label="Title" setState={setTitle} value={title} />
             <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
-            <PillSelector label="Category" group={categoryState} setGroupState={setCategoryState} setState={setCategory}/>
-            <PillSelector label="Activity" group={activityState} setGroupState={setActivityState} setState={setActivity}/>
+            <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
+            <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
             <textarea
                 id="goal-desc"
                 className={style.textarea}

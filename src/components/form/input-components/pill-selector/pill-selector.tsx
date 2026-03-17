@@ -6,11 +6,9 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import PillEditor from "@/components/editing/pill-editing/pill-editor";
 
-export default function PillSelector({ group, label, setGroupState, setState }: { group: Category[] | Activity[], label: string, setGroupState: React.Dispatch<React.SetStateAction<Category[] | Activity[]>>, setState: React.Dispatch<React.SetStateAction<string | null>> }) {
-    const [selected, setSelected] = useState<string | null>(null);
+export default function PillSelector({ group, label, setGroupState, selected, setState }: { group: Category[] | Activity[], label: string, setGroupState: React.Dispatch<React.SetStateAction<Category[] | Activity[]>>, selected: string | null, setState: React.Dispatch<React.SetStateAction<string | null>> }) {
 
     const onSelect = (item: Category | Activity) => {
-        setSelected((prev) => prev === item.id ? null : item.id);
         setState((prev) => prev === item.id ? null : item.id);
     }
 

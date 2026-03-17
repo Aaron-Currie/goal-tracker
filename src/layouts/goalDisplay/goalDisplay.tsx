@@ -4,7 +4,7 @@ import { GoalFilters, Goal, Category, Activity } from "@/lib/types/goals";
 import styles from "./goalDisplay.module.css"
 
 import GoalCard from "@/components/cards/goal-card"
-import DetailsPanel from "@/components/panel/goal-details";
+import DetailsPanel from "@/components/goal-details/goal-details";
 import Filter from "@/components/filter/filter";
 import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";

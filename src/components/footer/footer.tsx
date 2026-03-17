@@ -11,7 +11,7 @@ export default function Footer() {
           <Link href={`/goals/yearly/${currentYear}-0${currentMonth + 1}-01`}>
             <FontAwesomeIcon size="2x" icon={faBullseye} />
           </Link>
-          <Link href={`/goals/yearly/${currentYear}-0${currentMonth + 1}-01`}>
+          <Link href={`/stats`}>
             <FontAwesomeIcon size="2x" icon={faDashboard} />
           </Link>
           <span style={{ flex: 1 }}></span>
