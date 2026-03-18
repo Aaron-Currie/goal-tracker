@@ -4,12 +4,9 @@ import { GoalFilters, Goal, Category, Activity } from "@/lib/types/goals";
 import styles from "./goalDisplay.module.css"
 
 import GoalCard from "@/components/cards/goal-card"
-import DetailsPanel from "@/components/goal-details/goal-details";
 import Filter from "@/components/filter/filter";
 import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";
-import Model from "@/components/model/model";
-import AddGoalForm from "@/components/form/add-goal-form/add-goal-form";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 
 const DEFAULT_FILTERS: GoalFilters = {
@@ -36,8 +33,8 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [categoryState, setCategoryState] = useState<Categories>(categories);
     const [activityState, setActivityState] = useState<Activities>(activities);
+    const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.is_completed).length });
     
-    const [selectedCard, setSelectedCard] = useState<string | null>(null);
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
 
     const datesMeta = useMemo(() => {
@@ -47,12 +44,17 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
 
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
 
+    useEffect(() => {
+        setGoalCounts({ total: visibleGoals.length, completed: visibleGoals.filter(g => g.is_completed).length });
+    }, [visibleGoals]);
+
     return (
         <section className={styles.container}>
+            <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
             <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categoryState} activities={activityState} />
             <div className={styles.cardDisplay}>
                 {visibleGoals.map((goal) => {
-                    return <GoalCard expand={setSelectedCard} key={goal.id} goalData={goal} setGoalState={setGoalState} />
+                    return <GoalCard key={goal.id} goalData={goal} setGoalState={setGoalState} />
                 })}
                 <AddButton query={`year=${datesMeta.year}&period=${datesMeta.period}`} />
             </div>

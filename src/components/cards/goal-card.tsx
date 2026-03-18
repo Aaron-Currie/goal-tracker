@@ -8,11 +8,10 @@ import Link from "next/link";
 
 interface GoalCardProps {
     goalData: Goal;
-    expand: React.Dispatch<React.SetStateAction<string | null>>;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
 }
 
-export default function GoalCard({ goalData, expand, setGoalState }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
     useEffect(() => {
@@ -33,20 +32,10 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
 
     return (
         <div className={`${styles.card}`} >
-                {/* <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
-                    <div className={styles.pills}>
-                        <Pill item={goalData.category} />
-                        <Pill item={goalData.activity} />
-                    </div>
-
-                    <h3 className={styles.title}>
-                        {goalData.title}
-                    </h3>
-                </button> */}
                 <Link href={`/goals/edit/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
                     <div className={styles.pills}>
-                        <Pill item={goalData.category} />
-                        <Pill item={goalData.activity} />
+                        <Pill colour={completed ? "green" : "default"} item={goalData.category} />
+                        <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
                     </div>
 
                     <h3 className={styles.title}>
