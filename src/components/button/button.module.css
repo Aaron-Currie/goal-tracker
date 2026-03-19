@@ -15,8 +15,8 @@
 .iconButton {
     cursor: pointer;
     border-radius: 20px;
-    width: 30px;
-    height: 30px;
+    min-width: 32px;
+    min-height: 32px;
     padding: 0;
     background-color: transparent;
 }
@@ -27,9 +27,22 @@
     right: 1%;
 }
 
+.default {
+    color: #2e2e2e;
+    width: fit-content;
+}
+
 .black {
     border: 2px solid #2e2e2e;
     color: #2e2e2e;
+}
+
+.blackCircle {
+    border: 2px solid #2e2e2e;
+    color: #2e2e2e;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
 }
 
 .white {
@@ -45,6 +58,14 @@
 .blue {
     border: 2px solid #2c60fcff;
     color: #2c60fcff;
+}
+
+.blueCircle {
+    border: 2px solid #2c60fcff;
+    color: #2c60fcff;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
 }
 
 .complete {

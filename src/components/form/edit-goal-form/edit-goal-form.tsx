@@ -4,13 +4,10 @@ import style from "./edit-goal-form.module.css";
 import { useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../scroll-selector/scroll-selector";
-import IconButton from "@/components/button/icon-button";
 
 
 type Props = {
@@ -77,7 +74,6 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
-            <IconButton onClick={() => cancel()} icon={faArrowLeft} button={{ alt: 'back', style: 'black' }} cornerButton={false} />
             <Input label="Title" setState={setTitle} value={title} />
             <ScrollSelector datesMeta={{ year: goal.period_start, period: period }} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>

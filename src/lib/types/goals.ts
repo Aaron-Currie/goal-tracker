@@ -28,3 +28,9 @@ export type Activity = {
   id: string;
   name: string;
 }
+
+export type GoalNote = {
+  id: string;
+  content: string;
+  created_at: string;
+}

@@ -1,18 +1,19 @@
 'use client';
-import { Goal } from "@/lib/types/goals";
-import { useEffect, useMemo, useState } from "react";
+import { Goal, GoalNote } from "@/lib/types/goals";
+import { useState } from "react";
 import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
 import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
-import { editGoal } from "@/lib/db-calls/goals/edit-goal";
 import { useRouter } from "next/navigation";
 import GoalDetails from "@/components/goal-details/goal-details";
 import EditGoalForm from "@/components/form/edit-goal-form/edit-goal-form";
+import PageHeader from "@/components/page-header/page-header";
 
-export default function SingleGoalDisplay({goal}: {goal: Goal}) {
+export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: GoalNote[]}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [goalState, setGoalState] = useState<Goal>(goal);
   const [editing, setEditing] = useState(false);
+  const [noteState, setNoteState] = useState<GoalNote[]>(notes);
 
   async function onDelete() {
     if (!confirm("Delete this goal?")) return;
@@ -34,8 +35,14 @@ export default function SingleGoalDisplay({goal}: {goal: Goal}) {
       setLoading(false);
     }
   }
-
-  if(editing) return <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} />;
   
-  return <GoalDetails goalState={goalState} onComplete={onComplete} onDelete={onDelete} startEdit={() => setEditing(true)} />
+  return (
+    <>
+      <PageHeader editing={editing} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} />
+      {editing ? 
+        <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} /> 
+        : 
+        <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete} onDelete={onDelete} />}
+    </>
+  );
 }

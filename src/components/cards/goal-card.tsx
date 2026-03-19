@@ -31,8 +31,8 @@ export default function GoalCard({ goalData, setGoalState }: GoalCardProps) {
     }
 
     return (
-        <div className={`${styles.card}`} >
-                <Link href={`/goals/edit/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
+        <div id={goalData.id} className={`${styles.card}`} >
+                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
                     <div className={styles.pills}>
                         <Pill colour={completed ? "green" : "default"} item={goalData.category} />
                         <Pill colour={completed ? "green" : "default"} item={goalData.activity} />

@@ -5,7 +5,6 @@ export default async function GoalPage({ params }: { params: Promise<{ period: "
   const { period, year } = await params;
 
   const goals = await getGoalsForPeriodAndDate(period, year );
-
   return (
       <GoalDisplay date={{ year, period }} goals={goals ?? []}/>
   );
