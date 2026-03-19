@@ -5,13 +5,15 @@ import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import Link from "next/link";
+import CompleteAnimation from "../animation/complete-animation/complete";
 
 interface GoalCardProps {
     goalData: Goal;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
+    setShowAnimation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function GoalCard({ goalData, setGoalState }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState, setShowAnimation }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
     useEffect(() => {
@@ -27,6 +29,7 @@ export default function GoalCard({ goalData, setGoalState }: GoalCardProps) {
                         )
                     );
                 } finally {
+                    setShowAnimation(true);
             }
     }
 

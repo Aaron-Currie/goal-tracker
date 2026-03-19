@@ -4,7 +4,6 @@ import { Goal, GoalNote } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import NoteDisplay from "../notes/notes-display/notes-display";
-import { useState } from "react";
 
 type Props = {
   goalState: Goal;
@@ -15,9 +14,8 @@ type Props = {
 };
 
 export default function GoalDetails({ goalState, onComplete, onDelete, notes, setNoteState }: Props) {
-
   const date = translateDateToDisplay(goalState.goal_period, goalState.period_start);
-  console.log("Rendering GoalDetails with notes:", notes);
+  
   return (
       <div className={`${styles.panel} ${goalState.is_completed ? styles.completed : ""}`}>
         <div className={styles.content}>

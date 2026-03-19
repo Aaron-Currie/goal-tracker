@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import GoalDetails from "@/components/goal-details/goal-details";
 import EditGoalForm from "@/components/form/edit-goal-form/edit-goal-form";
 import PageHeader from "@/components/page-header/page-header";
+import CompleteAnimation from "@/components/animation/complete-animation/complete";
 
 export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: GoalNote[]}) {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   const [goalState, setGoalState] = useState<Goal>(goal);
   const [editing, setEditing] = useState(false);
   const [noteState, setNoteState] = useState<GoalNote[]>(notes);
+  const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
   async function onDelete() {
     if (!confirm("Delete this goal?")) return;
@@ -31,6 +33,9 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
     try {
       await completeGoal(goal.id, goal.is_completed ? "undo" : "complete");
       setGoalState((prev) => ({ ...prev, is_completed: !prev.is_completed }));
+      if(!goalState.is_completed) {
+        setShowAnimation(true);
+      }
     } finally {
       setLoading(false);
     }
@@ -43,6 +48,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
         <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} /> 
         : 
         <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete} onDelete={onDelete} />}
+      {showAnimation && <CompleteAnimation onClose={() => setShowAnimation(false)} />}
     </>
   );
 }

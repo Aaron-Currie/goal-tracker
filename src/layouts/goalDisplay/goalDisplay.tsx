@@ -8,6 +8,7 @@ import Filter from "@/components/filter/filter";
 import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
+import CompleteAnimation from "@/components/animation/complete-animation/complete";
 
 const DEFAULT_FILTERS: GoalFilters = {
   status: "all",
@@ -19,10 +20,6 @@ const DEFAULT_FILTERS: GoalFilters = {
 
 type Goals = Goal[];
 
-type Categories = Category[];
-
-type Activities = Activity[];
-
 interface CardDisplayProps {
   goals: Goals;
   date: { year: string, period: string };
@@ -31,9 +28,8 @@ interface CardDisplayProps {
 export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const { categories, activities } = useGoalsData();
     const [goalState, setGoalState] = useState<Goals>(goals);
-    const [categoryState, setCategoryState] = useState<Categories>(categories);
-    const [activityState, setActivityState] = useState<Activities>(activities);
     const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.is_completed).length });
+    const [showAnimation, setShowAnimation] = useState<boolean>(false);
     
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
 
@@ -51,13 +47,14 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     return (
         <section className={styles.container}>
             <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
-            <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categoryState} activities={activityState} />
+            <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categories} activities={activities} />
             <div className={styles.cardDisplay}>
                 {visibleGoals.map((goal) => {
-                    return <GoalCard key={goal.id} goalData={goal} setGoalState={setGoalState} />
+                    return <GoalCard key={goal.id} goalData={goal} setGoalState={setGoalState} setShowAnimation={setShowAnimation} />
                 })}
                 <AddButton query={`year=${datesMeta.year}&period=${datesMeta.period}`} />
             </div>
+            {showAnimation && <CompleteAnimation onClose={() => setShowAnimation(false)} />}
         </section>
     )
 }

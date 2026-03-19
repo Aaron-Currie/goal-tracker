@@ -11,12 +11,13 @@ type IconButtonProps = {
     cornerButton?: boolean;
     disabled?: boolean;
     size?: "xs" | "sm" | "lg" | "2x" | "3x" | "4x" | "5x";
+    rotate?: number;
 }
 
-export default function IconButton({size, button, onClick, icon, cornerButton=true, disabled=false}: IconButtonProps) {
+export default function IconButton({size, rotate, button, onClick, icon, cornerButton=true, disabled=false}: IconButtonProps) {
     return (
         <button type='button' onClick={onClick} className={`${styles.iconButton} ${styles[button.style]} ${cornerButton ? styles.cornerButton : ""}`} aria-label={button.alt} disabled={disabled}>
-            <FontAwesomeIcon size={size} icon={icon} />
+            <FontAwesomeIcon size={size} icon={icon} rotation={rotate as any} />
         </button>
     );
 }
