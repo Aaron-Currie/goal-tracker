@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
-import { completeGoal } from "@/lib/db-calls/complete-goal";
+import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
+import Pill from "../pill/pill";
+import Link from "next/link";
+import CompleteAnimation from "../animation/complete-animation/complete";
 
 interface GoalCardProps {
     goalData: Goal;
-    expand: React.Dispatch<React.SetStateAction<string | null>>;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
+    setShowAnimation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function GoalCard({ goalData, expand, setGoalState }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState, setShowAnimation }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
     useEffect(() => {
@@ -26,16 +29,22 @@ export default function GoalCard({ goalData, expand, setGoalState }: GoalCardPro
                         )
                     );
                 } finally {
+                    setShowAnimation(true);
             }
     }
 
     return (
-        <div className={`${styles.card}`} >
-                <button onClick={() => expand(goalData.id)} className={`${styles.content} ${completed ? styles.green : ""}`}>
-                    <h3>
+        <div id={goalData.id} className={`${styles.card}`} >
+                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
+                    <div className={styles.pills}>
+                        <Pill colour={completed ? "green" : "default"} item={goalData.category} />
+                        <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
+                    </div>
+
+                    <h3 className={styles.title}>
                         {goalData.title}
                     </h3>
-                </button>
+                </Link>
 
                 {!completed && <div className={styles.complete}>
                     <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />

@@ -1,0 +1,23 @@
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.animationContainer {
+    max-width: 600px;
+    padding: 1rem;
+    animation: growFadeIn 0.4s ease-out forwards;
+}
+
+@keyframes growFadeIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+

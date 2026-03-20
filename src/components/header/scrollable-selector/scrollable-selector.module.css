@@ -1,0 +1,34 @@
+.selectorBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.dateSelector {
+    display: grid;
+    gap: 8px;
+}
+
+.singleLine {
+    grid-template-columns: 1fr;
+}
+
+.doubleLine {
+    grid-template-columns: 2fr 1fr;
+}
+
+.scrollSelector {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    color: #1b2a89ff;
+    width: 100%;
+
+}
+
+.scrollSelector button {
+    color: #1b2a89ff
+}
