@@ -1,0 +1,23 @@
+.modelContainer {
+    position: relative;
+    min-height: 50vh;
+    max-height: 95vh;
+    width: 90vw;
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid #2e2e2e;
+    border-radius: 12px;
+    box-shadow: 2px 4px 0px #2e2e2e;
+    background-color: white;
+    padding: 2.5rem 1rem 2.5rem 1rem;
+    overflow: hidden;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 20px;
+}

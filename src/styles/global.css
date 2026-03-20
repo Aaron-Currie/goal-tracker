@@ -20,3 +20,8 @@ button {
   cursor: pointer;
   font-size: inherit;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

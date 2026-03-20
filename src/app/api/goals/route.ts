@@ -77,6 +77,7 @@ export async function POST(req: Request) {
   // optional
   const category_id = (body as any).category_id ?? null;
   const activity_id = (body as any).activity_id ?? null;
+  const description = String((body as any).description ?? "").trim();
 
   if (!title) {
     return NextResponse.json({ error: "title is required" }, { status: 400 });
@@ -110,6 +111,7 @@ export async function POST(req: Request) {
       period_start,
       category_id: normalizedCategoryId,
       activity_id: normalizedActivityId,
+      description: description || null,
     })
     .select(
       `

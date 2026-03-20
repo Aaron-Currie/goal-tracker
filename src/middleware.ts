@@ -46,8 +46,9 @@ export async function middleware(request: NextRequest) {
   // ---- 2️⃣ If logged in and at root ----
   if (user && pathname === "/") {
     const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
     const url = request.nextUrl.clone();
-    url.pathname = `/goals/yearly/${currentYear}`;
+    url.pathname = `/goals/yearly/${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-01`;
     return NextResponse.redirect(url);
   }
 

@@ -1,10 +1,23 @@
 import styles from "./button.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export default function IconButton({button, onClick, icon}: {button: {alt: string, style: string}, onClick: () => void, icon: any}) {
+type IconButtonProps = {
+    button: {
+        alt: string;
+        style: string;
+    };
+    onClick: () => void;
+    icon: any;
+    cornerButton?: boolean;
+    disabled?: boolean;
+    size?: "xs" | "sm" | "lg" | "2x" | "3x" | "4x" | "5x";
+    rotate?: number;
+}
+
+export default function IconButton({size, rotate, button, onClick, icon, cornerButton=true, disabled=false}: IconButtonProps) {
     return (
-        <button onClick={onClick} className={`${styles.iconButton} ${styles[button.style]}`}>
-            <FontAwesomeIcon icon={icon} />
+        <button type='button' onClick={onClick} className={`${styles.iconButton} ${styles[button.style]} ${cornerButton ? styles.cornerButton : ""}`} aria-label={button.alt} disabled={disabled}>
+            <FontAwesomeIcon size={size} icon={icon} rotation={rotate as any} />
         </button>
     );
 }
