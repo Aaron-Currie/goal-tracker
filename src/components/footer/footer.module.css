@@ -2,9 +2,12 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    display: flex;
+    display: grid;
+    align-items: center;
     justify-content: space-between;
+    grid-template-columns: 15% 15% 100px 15% 15%;
     gap: 20px;
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: white;
+    border-top: 1px solid #ccc;
 }

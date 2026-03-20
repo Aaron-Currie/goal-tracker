@@ -34,18 +34,16 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation }: G
     }
 
     return (
-        <div id={goalData.id} className={`${styles.card}`} >
-                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
+        <div id={goalData.id} className={`${styles.card} ${completed ? styles.green : ""}`} >
+                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content}`}>
+                    <h3 className={styles.title}>
+                        {goalData.title}
+                    </h3>
                     <div className={styles.pills}>
                         <Pill colour={completed ? "green" : "default"} item={goalData.category} />
                         <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
                     </div>
-
-                    <h3 className={styles.title}>
-                        {goalData.title}
-                    </h3>
                 </Link>
-
                 {!completed && <div className={styles.complete}>
                     <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />
                 </div>}

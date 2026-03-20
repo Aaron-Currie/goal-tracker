@@ -1,15 +1,14 @@
 'use client'
 import { Activity, Category } from "@/lib/types/goals";
-import style from "./add-goal-form.module.css"
+import style from "../forms.module.css";
 
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
-import ScrollSelector from "../scroll-selector/scroll-selector";
+import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
 import { useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 type Props = {
     datesMeta: { year: string, period: string },
