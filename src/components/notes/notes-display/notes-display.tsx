@@ -19,7 +19,6 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
 
     const handleAddNote = () => {
         if (newNote.trim() === "") return;
-        
         fetch(`/api/goal/${goalId}/notes/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -40,7 +39,12 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
           <span className={styles.metaLabel}>Notes</span>
           <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
           {notes.map((note, index) => {
-                return <div key={index} className={styles.note}><span>{note.content}</span></div>;
+            return (
+                <div key={index} className={styles.noteContent}>
+                    <span className={styles.metaLabel}>{new Date(note.created_at).toLocaleString()}</span>
+                    <p>{note.content}</p>
+                </div>
+            )
           })}
           {expanded && <NotesModal notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={() => setExpanded(false)} />}
     </div>

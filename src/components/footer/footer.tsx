@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBullseye, faDashboard, faSpellCheck } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple, faEllipsis, faMountain, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -9,18 +9,18 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
           <Link href={`/goals/yearly/${currentYear}-0${currentMonth + 1}-01`}>
-            <FontAwesomeIcon size="2x" icon={faBullseye} />
+            <FontAwesomeIcon color='#2c60fc' size="2x" icon={faMountain} />
           </Link>
           <Link href={`/stats`}>
-            <FontAwesomeIcon size="2x" icon={faDashboard} />
+            <FontAwesomeIcon color='#1b2a89'size="2x" icon={faChartSimple} />
           </Link>
-          <span style={{ flex: 1 }}></span>
+          <span style={{ width: "120px" }}></span>
           <Link href={`/goals/yearly/${currentYear}-0${currentMonth + 1}-01`}>
-            <FontAwesomeIcon size="2x" icon={faSpellCheck} />
+            <FontAwesomeIcon color='#1b2a89' size="2x" icon={faEllipsis} />
           </Link>
-          <form action="/auth/signout" method="post">
-            <button type="submit">Sign out</button>
-          </form>
+          <Link href={`/profile`}>
+            <FontAwesomeIcon color='#1b2a89' size="2x" icon={faUser} />
+          </Link>
         </footer>
     )
 }

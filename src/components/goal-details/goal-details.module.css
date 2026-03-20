@@ -23,6 +23,17 @@
   gap: 14px;
 }
 
+.completeDate {
+  padding: 8px 12px;
+  border-radius: 20px;
+  color: white;
+  background: #4caf50;
+  border: 1px solid #2e6a30;;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -91,7 +102,6 @@
 .metaLabel {
   font-size: 12px;
   font-weight: 600;
-  opacity: 0.65;
   margin-right: 8px;
 }
 

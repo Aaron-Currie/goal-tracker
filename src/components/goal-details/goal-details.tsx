@@ -24,7 +24,7 @@ export default function GoalDetails({ goalState, onComplete, onDelete, notes, se
             <Pill item={goalState.category} colour={goalState.is_completed ? "green" : "default"} />
             <Pill item={goalState.activity} colour={goalState.is_completed ? "green" : "default"} />
         </div>
-
+        {goalState.is_completed && <div className={styles.completeDate}><span className={styles.metaLabel}>Completed on</span><span className={styles.metaValue}>{new Date(goalState.completed_at!).toLocaleString()}</span></div>}
         <div className={styles.metaGrid}>
             <div><span className={styles.metaLabel}>Period</span><span className={styles.metaValue}>{goalState.goal_period.toUpperCase()}</span></div>
             <div><span className={styles.metaLabel}>Date</span><span className={styles.metaValue}>{date}</span></div>

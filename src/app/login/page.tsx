@@ -12,16 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
 
-  async function signUp() {
-    setMsg(null);
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) return setMsg(error.message);
-
-    // If email confirmation is OFF, you're signed in immediately.
-    // If it's ON, user must confirm via email first.
-    router.push("/");
-  }
-
   async function signIn() {
     setMsg(null);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -47,11 +37,12 @@ export default function LoginPage() {
       />
 
       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-        <button onClick={signUp}>Sign up</button>
         <button onClick={signIn}>Sign in</button>
       </div>
 
       {msg && <p style={{ marginTop: 12 }}>{msg}</p>}
+      <br />
+      <p>Don't have an account? <a href="/signup">Sign up</a></p>
     </main>
   );
 }

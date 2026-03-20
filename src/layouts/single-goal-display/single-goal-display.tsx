@@ -31,7 +31,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   async function onComplete() {
     setLoading(true);
     try {
-      await completeGoal(goal.id, goal.is_completed ? "undo" : "complete");
+      await completeGoal(goal.id, goalState.is_completed ? "undo" : "complete");
       setGoalState((prev) => ({ ...prev, is_completed: !prev.is_completed }));
       if(!goalState.is_completed) {
         setShowAnimation(true);

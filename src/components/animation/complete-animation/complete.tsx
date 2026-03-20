@@ -3,7 +3,6 @@ import styles from "./complete.module.css";
 import confetti from "canvas-confetti";
 import Button from "@/components/button/button";
 import { Overlay } from "@/components/utility-comps/overlay";
-import Input from "@/components/form/input-components/input/input";
 
 
 
@@ -42,10 +41,9 @@ export default function CompleteAnimation({onClose }: { onClose: () => void }) {
 
     return (
         <Overlay onClick={onClose}>
-
             <div className={styles.animationContainer} onClick={e => e.stopPropagation()}>
                 <img src={"/character/mountain-celebrate.png"} alt="Complete Animation" className={styles.image} />
-                <Button button={{text: "Complete", style: "complete"}} onClick={() => onClose()} />
+                <Button button={{text: "Done!", style: "complete"}} onClick={() => onClose()} />
             </div>
             <canvas
                 ref={canvasRef1}

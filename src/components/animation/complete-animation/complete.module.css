@@ -5,6 +5,8 @@
 }
 
 .animationContainer {
+    max-width: 600px;
+    padding: 1rem;
     animation: growFadeIn 0.4s ease-out forwards;
 }
 
