@@ -5,9 +5,10 @@
     display: grid;
     align-items: center;
     justify-content: space-between;
+    background-color: #f7f9ff;
     grid-template-columns: 15% 15% 100px 15% 15%;
     gap: 20px;
     padding: 10px;
-    background-color: white;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px -1px 4px rgba(27, 42, 137, 0.295);
 }

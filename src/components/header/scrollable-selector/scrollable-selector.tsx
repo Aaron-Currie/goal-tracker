@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import style from "./scrollable-selector.module.css";
 import Link from "next/link";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     year: number;
@@ -65,26 +65,14 @@ export default function ScrollableLinks({ year, period, date }: Props) {
     }
 
     return (
-        <div className={style.selectorBlock}>
-            <div className={style.scrollSelector}>
-                <Link href={linkBuilder(-1, "period")}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                    <span>{period.toUpperCase()}</span>
-                <Link href={linkBuilder(1, "period")}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
-            </div>
-            <div className={`${style.dateSelector} ${period === 'yearly' ? style.singleLine : style.doubleLine}`}>
+            <div className={`${style.dateSelector}`}>
                 {period !== 'yearly' && 
                 (<div className={style.scrollSelector}>
-                    <Link href={linkBuilder(-1, period)}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                        <span>{dateDisplay()}</span>
-                    <Link href={linkBuilder(1, period)}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
+                    <Link className={style.chevron} href={linkBuilder(-1, period)}><FontAwesomeIcon icon={faChevronLeft} /></Link>
+                        <span className={style.dateDisplay} >{`${dateDisplay()} ${year}`}</span>
+                    <Link className={style.chevron} href={linkBuilder(1, period)}><FontAwesomeIcon icon={faChevronRight} /></Link>
                 </div>
                 )}
-                <div className={style.scrollSelector}>
-                    <Link href={linkBuilder(-1, 'year')}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                        <span>{year}</span>
-                    <Link href={linkBuilder(1, 'year')}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
-                </div>
             </div>
-        </div>
     )
 }
