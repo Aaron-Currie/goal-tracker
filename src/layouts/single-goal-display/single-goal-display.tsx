@@ -43,7 +43,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   
   return (
     <>
-      <PageHeader editing={editing} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} />
+      <PageHeader editing={editing} goalState={goalState} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} />
       {editing ? 
         <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} /> 
         : 

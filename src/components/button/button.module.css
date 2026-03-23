@@ -28,7 +28,7 @@
 }
 
 .default {
-    color: #2e2e2e;
+    color: inherit;
     width: fit-content;
 }
 

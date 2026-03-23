@@ -1,5 +1,6 @@
 .panel {
-    padding: 1rem;
+    min-height: 100vh;
+    padding:  0rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -10,7 +11,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-top: auto;
 }
 
 .buttons button:first-child {
@@ -18,20 +18,16 @@
 }
 
 .content {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.completeDate {
-  padding: 8px 12px;
-  border-radius: 20px;
-  color: white;
-  background: #4caf50;
-  border: 1px solid #2e6a30;;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.complete {
+    color: white;
+    background: linear-gradient(135deg, #4caf4f, #37833a);
+    border: 1px solid #2e6a30;
 }
 
 .field {
@@ -95,8 +91,8 @@
   gap: 8px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(0,0,0,0.02);
-  border: 1px solid rgba(0,0,0,0.08);
+  background: white;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .metaLabel {
@@ -108,18 +104,4 @@
 .metaValue {
   font-size: 14px;
   font-weight: 600;
-}
-
-.note {
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(0,0,0,0.1);
-}
-
-.row {
-    display: grid;
-    grid-template-columns: 8fr 1fr;
-    align-items: center;
-    gap: 10px;
 }
