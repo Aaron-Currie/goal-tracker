@@ -18,8 +18,26 @@
     width: 100%;
 }
 
+.smallGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    gap: 8px;
+    width: 100%;
+}
+
+.smallGrid div {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
 @media (max-width: 540px) {
     .cardDisplay {
         grid-template-columns: 100%;
+    }
+
+    .smallGrid {
+        grid-template-columns: repeat(auto-fit, 150px);
     }
 }

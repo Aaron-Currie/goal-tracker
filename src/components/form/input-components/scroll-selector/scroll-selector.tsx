@@ -53,20 +53,20 @@ export default function ScrollSelector({ originalPeriodStart, typeValue, setPeri
     const dateReset = () => {
         if(typeValue === "yearly") {
             setDateDisplay(translateDateToDisplay(typeValue, `${originalPeriodStart}`));
-            setPeriodStart(`${originalPeriodStart}`);
+            setPeriodStart(`${originalPeriodStart.split("-")[0]}-01-01`);
         }
         if(typeValue === "monthly") {
             setDateDisplay(translateDateToDisplay(typeValue, `${originalPeriodStart}`));
             setPeriodStart(`${originalPeriodStart}`);
         }
         if(typeValue === "quarterly") {
-            setDateDisplay(translateDateToDisplay(typeValue, `${originalPeriodStart}`));
-            setPeriodStart(`${originalPeriodStart}`);
+            const newDate = `${originalPeriodStart.split('-')[0]}-${String((Math.floor((Number(originalPeriodStart.split('-')[1]) - 1) / 3) * 3) + 1).padStart(2, '0')}-01`;
+            setDateDisplay(translateDateToDisplay(typeValue, newDate));
+            setPeriodStart(newDate);
         }
     }
 
     useEffect(() => {
-        console.log(originalPeriodStart, 'ORIGINAL PERIOD START');
         dateReset();
     }, [typeValue]);
 

@@ -11,9 +11,10 @@ interface GoalCardProps {
     goalData: Goal;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
     setShowAnimation: React.Dispatch<React.SetStateAction<boolean>>;
+    grid: boolean;
 }
 
-export default function GoalCard({ goalData, setGoalState, setShowAnimation }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState, setShowAnimation, grid }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
     useEffect(() => {
@@ -36,13 +37,16 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation }: G
     return (
         <div id={goalData.id} className={`${styles.card} ${completed ? styles.green : ""}`} >
                 <Link href={`/goals/details/${goalData.id}`} className={`${styles.content}`}>
-                    <h3 className={styles.title}>
+                    <h3 className={grid ? styles.fontSmall : styles.fontLarge}>
                         {goalData.title}
                     </h3>
-                    <div className={styles.pills}>
-                        <Pill colour={completed ? "green" : "default"} item={goalData.category} />
-                        <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
-                    </div>
+                    {!grid && (
+                        <div className={styles.pills}>
+                            <Pill colour={completed ? "green" : "default"} item={goalData.category} />
+                            <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
+                        </div>
+                    )}
+
                 </Link>
                 {!completed && <div className={styles.complete}>
                     <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />
