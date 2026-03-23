@@ -3,11 +3,11 @@ import PageHeader from "@/components/page-header/page-header";
 
 
 export default async function AddGoalPage({searchParams}: { searchParams: { year: string, period: string } }) {
-    const { period, year } = await searchParams;
+    const { period, date } = await searchParams;
   return (
     <>
-      <PageHeader title="Add Goal" editing={false} returnUrl={`/goals/${period.toLowerCase()}/${year}`} />
-      <AddGoalForm datesMeta={{ year, period }}/>
+      <PageHeader title="Add Goal" editing={false} returnUrl={`/goals/${period}/${date}`} />
+      <AddGoalForm datesMeta={{ date, period }}/>
     </>
   );
 }

@@ -34,8 +34,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
 
     const datesMeta = useMemo(() => {
-        const capPeriod = date.period.charAt(0).toUpperCase() + date.period.slice(1);
-        return { year: date.year, period: capPeriod };
+        return { year: date.year, period: date.period };
     }, [date.year, date.period]);
 
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
@@ -52,7 +51,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
                 {visibleGoals.map((goal) => {
                     return <GoalCard key={goal.id} goalData={goal} setGoalState={setGoalState} setShowAnimation={setShowAnimation} />
                 })}
-                <AddButton query={`year=${datesMeta.year}&period=${datesMeta.period}`} />
+                <AddButton query={`date=${datesMeta.year}&period=${datesMeta.period}`} />
             </div>
             {showAnimation && <CompleteAnimation onClose={() => setShowAnimation(false)} />}
         </section>

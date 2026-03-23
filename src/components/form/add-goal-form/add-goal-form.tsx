@@ -6,12 +6,13 @@ import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
+import PeriodSelectorInput from "../input-components/period-selector/period-selector";
 
 type Props = {
-    datesMeta: { year: string, period: string },
+    datesMeta: { date: string, period: string },
 }
 
 export default function AddGoalForm({datesMeta} : Props) {
@@ -21,7 +22,7 @@ export default function AddGoalForm({datesMeta} : Props) {
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
 
-    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(datesMeta.period as "Yearly" | "Quarterly" | "Monthly");
+    const [periodType, setPeriodType] = useState<"yearly" | "quarterly" | "monthly">(datesMeta.period as "yearly" | "quarterly" | "monthly");
     const [title, setTitle] = useState<string>("");
     const [periodStart, setPeriodStart] = useState<string>("");
     const [category, setCategory] = useState<string | null>(null);
@@ -40,7 +41,7 @@ export default function AddGoalForm({datesMeta} : Props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
             title,
-            goal_period: periodType.toLowerCase(),
+            goal_period: periodType,
             period_start: periodStart,
             category_id: category,
             activity_id: activity,
@@ -57,13 +58,14 @@ export default function AddGoalForm({datesMeta} : Props) {
         }
 
         setLoading(false);
-        router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.year}`);
+        router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.date}`);
     }
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />
-            <ScrollSelector datesMeta={datesMeta} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
+            <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
+            <ScrollSelector typeValue={periodType} originalPeriodStart={datesMeta.date} periodStart={periodStart} setPeriodStart={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
             <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
             <textarea
