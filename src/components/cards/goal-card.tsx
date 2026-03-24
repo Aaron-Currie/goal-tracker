@@ -5,15 +5,15 @@ import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import Link from "next/link";
-import CompleteAnimation from "../animation/complete-animation/complete";
 
 interface GoalCardProps {
     goalData: Goal;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
     setShowAnimation: React.Dispatch<React.SetStateAction<boolean>>;
+    grid: boolean;
 }
 
-export default function GoalCard({ goalData, setGoalState, setShowAnimation }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState, setShowAnimation, grid }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
 
     useEffect(() => {
@@ -34,18 +34,19 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation }: G
     }
 
     return (
-        <div id={goalData.id} className={`${styles.card}`} >
-                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content} ${completed ? styles.green : ""}`}>
-                    <div className={styles.pills}>
-                        <Pill colour={completed ? "green" : "default"} item={goalData.category} />
-                        <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
-                    </div>
-
-                    <h3 className={styles.title}>
+        <div id={goalData.id} className={`${styles.card} ${completed ? styles.green : ""}`} >
+                <Link href={`/goals/details/${goalData.id}`} className={`${styles.content}`}>
+                    <h3 className={grid ? styles.fontSmall : styles.fontLarge}>
                         {goalData.title}
                     </h3>
-                </Link>
+                    {!grid && (
+                        <div className={styles.pills}>
+                            <Pill colour={completed ? "green" : "default"} item={goalData.category} />
+                            <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
+                        </div>
+                    )}
 
+                </Link>
                 {!completed && <div className={styles.complete}>
                     <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />
                 </div>}
