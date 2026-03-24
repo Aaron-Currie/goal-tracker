@@ -5,6 +5,8 @@ import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -48,7 +50,11 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation, gri
 
                 </Link>
                 {!completed && <div className={styles.complete}>
-                    <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />
+                    {grid? (
+                        <button className={`${styles.button} ${styles.green}`} onClick={handleComplete}>
+                            <FontAwesomeIcon size='1x' icon={faCheck} />
+                        </button>
+                    ) : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
                 </div>}
         </div>
     )

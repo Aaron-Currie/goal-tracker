@@ -10,7 +10,7 @@ import AddButton from "@/components/button/add-button/add-button";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
 import IconButton from "@/components/button/icon-button";
-import { faFilter, faList, faTable } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faList, faTableCells } from "@fortawesome/free-solid-svg-icons";
 
 const DEFAULT_FILTERS: GoalFilters = {
   status: "all",
@@ -53,7 +53,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
                 <span className={styles.progressBar} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.completed / goalCounts.total) * 100}%` }}></span>
             </div>
             <div className={styles.header}>
-                <IconButton size={'2x'} icon={grid ? faList : faTable} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setGrid(!grid)} cornerButton={false} />
+                <IconButton size={'2x'} icon={grid ? faList : faTableCells} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setGrid(!grid)} cornerButton={false} />
                 <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
                 <IconButton icon={faFilter} size='2x' button={{style: expandFilter ? "blue" : "default", alt: "Filters"}} onClick={() => setExpandFilter(!expandFilter)} cornerButton={false} />
             </div>

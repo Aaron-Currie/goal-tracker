@@ -26,9 +26,8 @@
 
 .pills {
     position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    
+    top: 0.2rem;
+    left: 0.2rem;
 }
 
 .complete {
@@ -49,8 +48,30 @@
 
 .fontSmall {
     font-size: 0.9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 .fontLarge {
+    font-size: 1rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.button {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
     font-size: 1.2rem;
 }
