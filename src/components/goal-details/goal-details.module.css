@@ -80,7 +80,7 @@
 .metaRow {
   display: flex;
   justify-content: flex-start;
-  gap: 0.2rem;
+  gap: 0.4rem;
   align-items: center;
 }
 
@@ -88,7 +88,7 @@
 .metaGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
+  gap: 0.8rem;
   padding: 10px 12px;
   border-radius: 12px;
   background: white;
@@ -96,12 +96,12 @@
 }
 
 .metaLabel {
-  font-size: 12px;
+  font-size: 1rem;
   font-weight: 600;
   margin-right: 8px;
 }
 
 .metaValue {
-  font-size: 14px;
+  font-size: 1.2rem;
   font-weight: 600;
 }

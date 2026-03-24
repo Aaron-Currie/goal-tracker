@@ -5,7 +5,6 @@ import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import Link from "next/link";
-import CompleteAnimation from "../animation/complete-animation/complete";
 
 interface GoalCardProps {
     goalData: Goal;

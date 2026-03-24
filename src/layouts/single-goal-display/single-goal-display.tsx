@@ -48,7 +48,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
         <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} /> 
         : 
         <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete} onDelete={onDelete} />}
-      {showAnimation && <CompleteAnimation onClose={() => setShowAnimation(false)} />}
+      {showAnimation && <CompleteAnimation goal={goalState} onClose={() => setShowAnimation(false)} />}
     </>
   );
 }

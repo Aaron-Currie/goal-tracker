@@ -20,14 +20,14 @@ export default function GoalDetails({ goalState, onComplete, onDelete, notes, se
       <div className={`${styles.panel}`}>
         <div className={styles.content}>
         <div className={styles.metaGrid}>
-            <div><span className={styles.metaLabel}>Period</span><span className={styles.metaValue}>{goalState.goal_period.toUpperCase()}</span></div>
-            <div><span className={styles.metaLabel}>Date</span><span className={styles.metaValue}>{date}</span></div>
+            <div className={styles.metaRow}><span className={styles.metaLabel}>Period:</span><span className={styles.metaValue}>{goalState.goal_period.toUpperCase()}</span></div>
+            <div className={styles.metaRow}><span className={styles.metaLabel}>Date:</span><span className={styles.metaValue}>{date}</span></div>
         </div>
-
-        <div className={styles.metaGrid}>
-          <span className={styles.metaLabel}>Description</span>
-          <p>{goalState.description}</p>
-        </div>
+        {goalState.description && (
+          <div className={styles.metaGrid}>
+            <p>{goalState.description}</p>
+          </div>
+        )}
           <NoteDisplay notes={notes} setNoteState={setNoteState} goalId={goalState.id} />
           <div className={styles.buttons}>
             <Button

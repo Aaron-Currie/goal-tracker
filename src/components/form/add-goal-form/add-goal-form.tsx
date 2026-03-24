@@ -21,10 +21,10 @@ export default function AddGoalForm({datesMeta} : Props) {
 
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
-
+    
     const [periodType, setPeriodType] = useState<"yearly" | "quarterly" | "monthly">(datesMeta.period as "yearly" | "quarterly" | "monthly");
     const [title, setTitle] = useState<string>("");
-    const [periodStart, setPeriodStart] = useState<string>("");
+    const [periodStart, setPeriodStart] = useState<string>(`${datesMeta.date}`);
     const [category, setCategory] = useState<string | null>(null);
     const [activity, setActivity] = useState<string | null>(null);
     const [description, setDescription] = useState<string>("");
