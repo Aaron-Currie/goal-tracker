@@ -39,7 +39,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (activity_id !== undefined) updates.activity_id = activity_id;
   if (goal_period !== undefined) updates.goal_period = goal_period;
   if (period_start !== undefined) updates.period_start = period_start;
-
+  console.log(updates, 'UPDATES');
   const { error } = await supabase
     .from("goals")
     .update(updates)

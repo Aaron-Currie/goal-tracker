@@ -44,7 +44,7 @@ export default function ScrollSelector({ originalPeriodStart, typeValue, setPeri
             const newYear = d.getFullYear();
             const newQuarter = Math.floor(d.getMonth() / 3) + 1;
 
-            const finalDate = `${newYear}-${(newQuarter - 1) * 3 + 1}-01`;
+            const finalDate = `${newYear}-${String((newQuarter - 1) * 3 + 1).padStart(2, '0')}-01`;
             setPeriodStart(finalDate);
             setDateDisplay(translateDateToDisplay(typeValue, finalDate));
         }

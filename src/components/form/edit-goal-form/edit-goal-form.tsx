@@ -58,6 +58,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             setError(body?.error ?? "Failed to save");
             return;
         }
+        console.log(body, 'BODY');
         const updatedCategory = categoryState.find((c) => c.id === category) ?? undefined;
         const updatedActivity = activityState.find((a) => a.id === activity) ?? undefined;
         const updatedGoal = {
@@ -73,7 +74,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
         cancel();
     }
     console.log(periodStart, 'PERIODSTART');
-
+    console.log(goal.period_start, 'ORIGINAL PERIOD START');
     return (
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />

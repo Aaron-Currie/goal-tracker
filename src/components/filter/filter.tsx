@@ -1,9 +1,6 @@
-import { Activity, Category, Goal, GoalFilters } from "@/lib/types/goals";
+import { Activity, Category, GoalFilters } from "@/lib/types/goals";
 import Button from "../button/button";
 import styles from "./filter.module.css";
-import IconButton from "../button/icon-button";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 
 type Props = {
   filters: GoalFilters;
