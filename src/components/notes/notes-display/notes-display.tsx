@@ -26,9 +26,9 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
             return;
         }
         fetch(`/api/goal/${goalId}/notes/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: newNote }),
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: newNote }),
         })
         .then((res) => res.json())
         .then((data) => {
@@ -50,20 +50,20 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
         }
     }, [newNote])
 
-  return (
-    <div className={styles.notesContainer}>
-          <IconButton icon={faUpRightAndDownLeftFromCenter} button={{ alt: "Expand", style: "default" }} onClick={expandModal} cornerButton={true} />
-          <span className={styles.metaLabel}>Notes</span>
-          <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} error={validation.newNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
-          {notes.map((note, index) => {
-            return (
-                <div key={index} className={styles.noteContent}>
-                    <span className={styles.metaLabel}>{new Date(note.created_at).toLocaleString()}</span>
-                    <p>{note.content}</p>
-                </div>
-            )
-          })}
-          {expanded && <NotesModal validation={validation} notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={expandModal} />}
-    </div>
-  );
+    return (
+        <div className={styles.notesContainer}>
+            <IconButton icon={faUpRightAndDownLeftFromCenter} button={{ alt: "Expand", style: "default" }} onClick={expandModal} cornerButton={true} />
+            <span className={styles.metaLabel}>Notes</span>
+            <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} error={validation.newNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
+            {notes.map((note, index) => {
+                return (
+                    <div key={index} className={styles.noteContent}>
+                        <span className={styles.metaLabel}>{new Date(note.created_at).toLocaleString()}</span>
+                        <p>{note.content}</p>
+                    </div>
+                )
+            })}
+            {expanded && <NotesModal validation={validation} notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={expandModal} />}
+        </div>
+    );
 }

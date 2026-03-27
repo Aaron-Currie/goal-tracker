@@ -36,17 +36,17 @@ export async function POST(req: Request) {
   const description = String((body as any).description ?? "").trim();
 
   if (!title) {
-    return NextResponse.json({ error: "title is required" }, { status: 400 });
+    return NextResponse.json({ error: "All required fields must be provided" }, { status: 400 });
   }
   if (!isGoalPeriod(goal_period)) {
     return NextResponse.json(
-      { error: "goal_period must be: yearly | quarterly | monthly" },
+      { error: "Period must correspond to one of the available options." },
       { status: 400 }
     );
   }
   if (!isISODate(period_start)) {
     return NextResponse.json(
-      { error: "period_start must be YYYY-MM-DD" },
+      { error: "Period start must be in the format YYYY-MM-DD" },
       { status: 400 }
     );
   }

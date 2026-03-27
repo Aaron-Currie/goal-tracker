@@ -57,7 +57,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
             title,
-            goal_period: periodType.toLowerCase(),
+            goal_period: periodType,
             period_start: periodStart,
             category_id: category,
             activity_id: activity,

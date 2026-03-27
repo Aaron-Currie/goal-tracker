@@ -10,6 +10,7 @@ import { use, useEffect, useRef, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
+import ErrorModal from "@/components/error/error-modal/error-modal";
 
 type Props = {
     datesMeta: { date: string, period: string },
@@ -36,8 +37,8 @@ export default function AddGoalForm({datesMeta} : Props) {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        setLoading(true);
         setError(null);
+
         if (!title || typeof title !== "string") {
             setValidation((prev) => ({ ...prev, title: "Title is required" }));
             setLoading(false);
@@ -48,28 +49,35 @@ export default function AddGoalForm({datesMeta} : Props) {
             titleRef.current?.focus();
             return;
         }
+        setLoading(true);
+        try {
+                const res = await fetch("/api/goals", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                title,
+                goal_period: periodType,
+                period_start: periodStart,
+                category_id: category,
+                activity_id: activity,
+                description,
+                }),
+            });
 
-        const res = await fetch("/api/goals", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-            title,
-            goal_period: periodType,
-            period_start: periodStart,
-            category_id: category,
-            activity_id: activity,
-            description,
-            }),
-        });
+            const body = await res.json().catch(() => ({}));
 
-        const body = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-            setLoading(false);
-            setError(body?.error ?? "Failed to save");
+            if (!res.ok) {
+                console.error("Error response from server:", body);
+                setError("Failed to add goal. Please try again.");
+                return;
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            setError("Network error. Please try again.");
             return;
+        } finally {
+            setLoading(false);
         }
-
         setLoading(false);
         router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.date}`);
     }
@@ -99,6 +107,7 @@ export default function AddGoalForm({datesMeta} : Props) {
                 rows={4}
             />
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+            {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </form>
     )
 }
