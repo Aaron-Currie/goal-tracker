@@ -6,7 +6,7 @@ import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
-import { useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
@@ -17,6 +17,7 @@ type Props = {
 
 export default function AddGoalForm({datesMeta} : Props) {
     const router = useRouter();
+    const titleRef = useRef<HTMLInputElement | null>(null);
     const { categories, activities } = useGoalsData();
 
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
@@ -28,6 +29,8 @@ export default function AddGoalForm({datesMeta} : Props) {
     const [category, setCategory] = useState<string | null>(null);
     const [activity, setActivity] = useState<string | null>(null);
     const [description, setDescription] = useState<string>("");
+
+    const [validation, setValidation] = useState<{[key: string]: string}>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -35,6 +38,16 @@ export default function AddGoalForm({datesMeta} : Props) {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        if (!title || typeof title !== "string") {
+            setValidation((prev) => ({ ...prev, title: "Title is required" }));
+            setLoading(false);
+                titleRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            titleRef.current?.focus();
+            return;
+        }
 
         const res = await fetch("/api/goals", {
             method: "POST",
@@ -61,9 +74,18 @@ export default function AddGoalForm({datesMeta} : Props) {
         router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.date}`);
     }
 
+    useEffect(() => {
+        if (title) {
+            setValidation((prev) => {
+                const { title, ...rest } = prev;
+                return rest;
+            });
+        }
+    }, [title])
+
     return (
         <form className={style.form} onSubmit={handleSubmit}>
-            <Input label="Title" setState={setTitle} value={title} />
+            <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
             <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
             <ScrollSelector typeValue={periodType} originalPeriodStart={datesMeta.date} periodStart={periodStart} setPeriodStart={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>

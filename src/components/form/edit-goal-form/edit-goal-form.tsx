@@ -1,7 +1,7 @@
 'use client'
 import { Activity, Category, Goal } from "@/lib/types/goals";
 import style from "../forms.module.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 
 import Button from "@/components/button/button";
@@ -19,6 +19,7 @@ type Props = {
 
 export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const { categories, activities } = useGoalsData();
+    const titleRef = useRef<HTMLInputElement | null>(null);
 
     const period = goal.goal_period.charAt(0).toUpperCase() + goal.goal_period.slice(1);
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
@@ -30,6 +31,8 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const [category, setCategory] = useState<string | null>(goal.category?.id ?? null);
     const [activity, setActivity] = useState<string | null>(goal.activity?.id ?? null);
     const [description, setDescription] = useState<string>(goal.description ?? "");
+
+    const [validation, setValidation] = useState<{[key: string]: string}>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -37,6 +40,17 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
         e.preventDefault();
         setLoading(true);
         setError(null);
+
+        if (!title || typeof title !== "string") {
+            setValidation((prev) => ({ ...prev, title: "Title is required" }));
+            setLoading(false);
+              titleRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+            titleRef.current?.focus();
+            return;
+        }
 
         const res = await fetch(`/api/goal/${goal.id}/edit`, {
             method: "PATCH",
@@ -73,11 +87,19 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
         setLoading(false);
         cancel();
     }
-    console.log(periodStart, 'PERIODSTART');
-    console.log(goal.period_start, 'ORIGINAL PERIOD START');
+
+    useEffect(() => {
+        if (title) {
+            setValidation((prev) => {
+                const { title, ...rest } = prev;
+                return rest;
+            });
+        }
+    }, [title])
+
     return (
         <form className={style.form} onSubmit={handleSubmit}>
-            <Input label="Title" setState={setTitle} value={title} />
+            <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
             <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
             <ScrollSelector typeValue={periodType} originalPeriodStart={goal.period_start} periodStart={periodStart} setPeriodStart={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>

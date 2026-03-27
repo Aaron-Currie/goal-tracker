@@ -7,6 +7,7 @@ import Pill from "../pill/pill";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -30,6 +31,8 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation, gri
                         g.id === goalData.id ? { ...g, is_completed: !g.is_completed } : g
                         )
                     );
+                } catch (error) {
+                    console.error("Error completing goal:", error);
                 } finally {
                     setShowAnimation(true);
             }
@@ -47,7 +50,7 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation, gri
                             <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
                         </div>
                     )}
-
+                    {/* <p>{goalData.goal_period} {translateDateToDisplay(goalData.goal_period, goalData.period_start)}</p> */}
                 </Link>
                 {!completed && <div className={styles.complete}>
                     {grid? (

@@ -110,3 +110,10 @@
     color: grey;
     border-color: grey;
 }
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    color: grey;
+    border-color: grey;
+}

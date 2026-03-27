@@ -12,50 +12,6 @@ function isISODate(value: unknown): value is string {
   return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
-/**
- * GET /api/goals
- * Returns all goals for the logged-in user (RLS enforces per-user access)
- */
-export async function GET() {
-  const supabase = await supabaseServer();
-
-  const { data: userRes, error: userErr } = await supabase.auth.getUser();
-  if (userErr || !userRes.user) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-  }
-
-  const { data, error } = await supabase
-    .from("goals")
-    .select(
-      `
-        id,
-        title,
-        goal_period,
-        period_start,
-        category_id,
-        activity_id,
-        is_completed,
-        completed_at,
-        created_at,
-        description
-      `
-    )
-    .order("period_start", { ascending: true })
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
-  }
-
-  return NextResponse.json({ goals: data });
-}
-
-/**
- * POST /api/goals
- * Creates a goal for the logged-in user.
- * - user_id comes from auth (never trust client to send it)
- * - category_id/activity_id are optional (can be null)
- */
 export async function POST(req: Request) {
   const supabase = await supabaseServer();
 

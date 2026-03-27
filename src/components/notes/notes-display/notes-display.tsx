@@ -1,5 +1,5 @@
 import { GoalNote } from "@/lib/types/goals";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./notes-display.module.css";
 import Input from "@/components/form/input-components/input/input";
 import IconButton from "@/components/button/icon-button";
@@ -13,12 +13,18 @@ type Props = {
 }
 
 export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [validation, setValidation] = useState<{[key: string]: string}>({});
 
     const [newNote, setNewNote] = useState("");
     const [expanded, setExpanded] = useState(false);
 
     const handleAddNote = () => {
-        if (newNote.trim() === "") return;
+        if (newNote.trim() === "") {
+            setValidation({ ...validation, newNote: "This field is required" });
+            return;
+        }
         fetch(`/api/goal/${goalId}/notes/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,11 +39,22 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
         setNewNote("");
     }
 
+    const expandModal = () => {
+        setExpanded(prev => !prev);
+        setValidation({ ...validation, newNote: "" })
+    }
+
+    useEffect(() => {
+        if(newNote) {
+            setValidation({ ...validation, newNote: "" });
+        }
+    }, [newNote])
+
   return (
     <div className={styles.notesContainer}>
-          <IconButton icon={faUpRightAndDownLeftFromCenter} button={{ alt: "Expand", style: "default" }} onClick={() => setExpanded(!expanded)} cornerButton={true} />
+          <IconButton icon={faUpRightAndDownLeftFromCenter} button={{ alt: "Expand", style: "default" }} onClick={expandModal} cornerButton={true} />
           <span className={styles.metaLabel}>Notes</span>
-          <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
+          <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} error={validation.newNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
           {notes.map((note, index) => {
             return (
                 <div key={index} className={styles.noteContent}>
@@ -46,7 +63,7 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
                 </div>
             )
           })}
-          {expanded && <NotesModal notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={() => setExpanded(false)} />}
+          {expanded && <NotesModal validation={validation} notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={expandModal} />}
     </div>
   );
 }

@@ -13,9 +13,10 @@ type Props = {
     newNote: string;
     setNewNote: (note: string) => void;
     handleAddNote: () => void;
+    validation: {[ key: string ]: string;}
 }
 
-export default function NotesModal({notes, closeModal, setNoteState, newNote, setNewNote, handleAddNote}: Props) {
+export default function NotesModal({notes, closeModal, setNoteState, newNote, setNewNote, handleAddNote, validation}: Props) {
     const handleDelete = (id: string) => {
         fetch(`/api/note/${id}/delete`, {
             method: "DELETE",
@@ -28,12 +29,16 @@ export default function NotesModal({notes, closeModal, setNoteState, newNote, se
             }
         });
     }
+
     return (
         <Overlay onClick={closeModal}>
             <Model onClose={closeModal}>
                 <div className={styles.notes} onClick={(e) => e.stopPropagation()}>
                     <span className={styles.metaLabel}>Notes</span>
-                    <div className={styles.row}><Input label={`Add note`} value={newNote} setState={() => setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
+                    <div className={styles.row}>
+                        <Input label={`Add note`} value={newNote} setState={setNewNote} error={validation?.newNote} />
+                        <IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} />
+                    </div>
                     {notes.map((note, index) => {
                             return (
                                 <div key={index} className={styles.row}>
@@ -43,7 +48,7 @@ export default function NotesModal({notes, closeModal, setNoteState, newNote, se
                                     </div>
                                     <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => handleDelete(note.id)} cornerButton={false} />
                                 </div>
-                                )
+                            )
                     })}
                 </div>
             </Model>

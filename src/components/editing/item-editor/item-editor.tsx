@@ -7,6 +7,8 @@ import { faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 export default function ItemEditor({item, label, setGroupState}: {item: {id: string, name: string}, label: string, setGroupState: React.Dispatch<React.SetStateAction<any[]>>}) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [validation, setValidation] = useState<{[key: string]: string}>({});
+
     const [edited, setEdited] = useState(false);
     const [itemState, setItemState] = useState<string>(item.name);
 
@@ -25,6 +27,10 @@ export default function ItemEditor({item, label, setGroupState}: {item: {id: str
 
     const handleEdit = async (id: string) => {
         if (!edited) return;
+        if(!itemState) {
+            setValidation({ ...validation, itemState: "This field is required" });
+            return;
+        }
         setLoading(true);
         const res = await fetch(`/api/${label.toLowerCase()}/${id}/edit`, {
             method: "PATCH",
@@ -45,12 +51,15 @@ export default function ItemEditor({item, label, setGroupState}: {item: {id: str
     }
 
     useEffect(() => {
+        if(itemState) {
+            setValidation({ ...validation, itemState: "" });
+        }
         setEdited(itemState !== item.name);
     }, [itemState])
 
     return (
         <div className={styles.row} key={item.id}>
-            <Input value={itemState} label={item.name} setState={setItemState} />
+            <Input value={itemState} label={item.name} setState={setItemState} error={validation.itemState} />
             <IconButton icon={faFloppyDisk} disabled={!edited} button={{ alt: "Edit", style: "blue" }} onClick={() => handleEdit(item.id)} cornerButton={false} />
             <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => handleDelete(item.id)} cornerButton={false} />
         </div>
