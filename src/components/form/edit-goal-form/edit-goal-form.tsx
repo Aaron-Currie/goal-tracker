@@ -20,7 +20,7 @@ type Props = {
 export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const { categories, activities } = useGoalsData();
     const titleRef = useRef<HTMLInputElement | null>(null);
-
+    console.log("EditGoalForm received goal:", goal);
     const period = goal.goal_period.charAt(0).toUpperCase() + goal.goal_period.slice(1);
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
@@ -72,16 +72,17 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             setError(body?.error ?? "Failed to save");
             return;
         }
-        console.log(body, 'BODY');
-        const updatedCategory = categoryState.find((c) => c.id === category) ?? undefined;
-        const updatedActivity = activityState.find((a) => a.id === activity) ?? undefined;
+        console.log("Edit response body:", body);
+        const updatedCategory = categoryState.find((c) => c.id === body.goal.category_id) ?? undefined;
+        const updatedActivity = activityState.find((a) => a.id === body.goal.activity_id) ?? undefined;
         const updatedGoal = {
-            title : body.title,
-            goal_period: body.goal_period,
-            period_start: body.period_start,
+            id: body.goal.id,
+            title : body.goal.title,
+            goal_period: body.goal.goal_period,
+            period_start: body.goal.period_start,
             category: updatedCategory ? updatedCategory : null,
             activity: updatedActivity ? updatedActivity : null,
-            description: body.description,
+            description: body.goal.description,
         } as Goal;
         setGoal(updatedGoal);
         setLoading(false);

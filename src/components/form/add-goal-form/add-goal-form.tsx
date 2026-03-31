@@ -1,16 +1,19 @@
 'use client'
 import { Activity, Category } from "@/lib/types/goals";
+import { useGoalsData } from "@/lib/contexts/goals-data-context";
+import { addGoal } from "@/lib/db-calls/goals/add-goal";
+import { validateTitle } from "@/lib/utils/validators/validate-title";
 import style from "../forms.module.css";
 
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Button from "@/components/button/button";
+import ErrorModal from "@/components/error/error-modal/error-modal";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
-import { useEffect, useRef, useState } from "react";
-import { useGoalsData } from "@/lib/contexts/goals-data-context";
-import { useRouter } from "next/navigation";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
-import ErrorModal from "@/components/error/error-modal/error-modal";
 
 type Props = {
     datesMeta: { date: string, period: string },
@@ -39,45 +42,26 @@ export default function AddGoalForm({datesMeta} : Props) {
         e.preventDefault();
         setError(null);
 
-        if (!title || typeof title !== "string") {
-            setValidation((prev) => ({ ...prev, title: "Title is required" }));
-            setLoading(false);
-                titleRef.current?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                });
-            titleRef.current?.focus();
+        const titleError = await validateTitle({ title, titleRef });
+        if (titleError) {
+            setValidation((prev) => ({ ...prev, title: titleError }));
             return;
         }
         setLoading(true);
         try {
-                const res = await fetch("/api/goals", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                title,
-                goal_period: periodType,
-                period_start: periodStart,
-                category_id: category,
-                activity_id: activity,
-                description,
-                }),
+            await addGoal({ 
+                title, 
+                description: description || null, 
+                category_id: category || undefined, 
+                activity_id: activity || undefined, 
+                goal_period: periodType, 
+                period_start: periodStart 
             });
-
-            const body = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-                console.error("Error response from server:", body);
-                setError("Failed to add goal. Please try again.");
-                return;
-            }
-        } catch (error) {
-            console.error("Network error:", error);
-            setError("Network error. Please try again.");
-            return;
-        } finally {
+        } catch (err: any) {
+            setError(err.message || "An error occurred while adding the goal.");
             setLoading(false);
-        }
+            return;
+        } 
         setLoading(false);
         router.push(`/goals/${datesMeta.period.toLowerCase()}/${datesMeta.date}`);
     }

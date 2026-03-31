@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
 
+type Body = { 
+  title?: string; 
+  description?: string | null;
+  category_id?: string;
+  activity_id?: string;
+  goal_period?: string;
+  period_start?: string;
+};
+
 type GoalPeriod = "yearly" | "quarterly" | "monthly";
 
 function isGoalPeriod(value: unknown): value is GoalPeriod {
@@ -8,36 +17,26 @@ function isGoalPeriod(value: unknown): value is GoalPeriod {
 }
 
 function isISODate(value: unknown): value is string {
-  // Minimal check: YYYY-MM-DD
   return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
 export async function POST(req: Request) {
-  const supabase = await supabaseServer();
 
-  const { data: userRes, error: userErr } = await supabase.auth.getUser();
-  if (userErr || !userRes.user) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-  }
-  const user = userRes.user;
-
-  const body = await req.json().catch(() => null);
-  if (!body || typeof body !== "object") {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-  }
-
-  const title = String((body as any).title ?? "").trim();
-  const goal_period = (body as any).goal_period;
-  const period_start = (body as any).period_start;
-
-  // optional
-  const category_id = (body as any).category_id ?? null;
-  const activity_id = (body as any).activity_id ?? null;
-  const description = String((body as any).description ?? "").trim();
+  const body: Body = await req.json().catch(() => ({}));
+  const title = typeof body.title === "string" ? body.title.trim() : undefined;
+  const description =
+    body.description === null ? null :
+    typeof body.description === "string" ? body.description.trim() :
+    undefined;
+  const category_id = typeof body.category_id === "string" ? body.category_id : undefined;
+  const activity_id = typeof body.activity_id === "string" ? body.activity_id : undefined;
+  const goal_period = typeof body.goal_period === "string" ? body.goal_period : undefined;
+  const period_start = typeof body.period_start === "string" ? body.period_start : undefined;
 
   if (!title) {
-    return NextResponse.json({ error: "All required fields must be provided" }, { status: 400 });
+    return NextResponse.json({ error: "Title is required." }, { status: 400 });
   }
+
   if (!isGoalPeriod(goal_period)) {
     return NextResponse.json(
       { error: "Period must correspond to one of the available options." },
@@ -51,7 +50,14 @@ export async function POST(req: Request) {
     );
   }
 
-  // Normalize optional fields to null if empty string
+  const supabase = await supabaseServer();
+
+  const { data: userRes, error: userErr } = await supabase.auth.getUser();
+  if (userErr || !userRes.user) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+  const user = userRes.user;
+
   const normalizedCategoryId =
     typeof category_id === "string" && category_id.trim() === "" ? null : category_id;
 
@@ -86,8 +92,7 @@ export async function POST(req: Request) {
     .single();
 
   if (error) {
-    // If RLS rejects category/activity ownership, it will show up here.
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json({ goal: data }, { status: 201 });
 }
