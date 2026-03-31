@@ -6,7 +6,7 @@ import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import { useRouter } from "next/navigation";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
