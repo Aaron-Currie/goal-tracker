@@ -6,11 +6,11 @@
     align-items: center;
     justify-content: space-between;
     background-color: #f7f9ff;
-    grid-template-columns: 70px 70px 100px 70px 70px;
-    padding: 10px;
+    grid-template-columns: 60px 60px 100px 60px 60px;
     border-top: 1px solid rgba(27, 42, 137, 0.295);
     box-shadow: 1px -1px 4px rgba(27, 42, 137, 0.295);
     border-radius: 20px 20px 0 0;
+    padding: 0px 10px;
 }
 
 .inactive {

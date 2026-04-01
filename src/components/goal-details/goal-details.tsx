@@ -1,7 +1,6 @@
 import styles from "./goal-details.module.css";
 import Button from "../button/button";
 import { Goal, GoalNote } from "@/lib/types/goals";
-import Pill from "../pill/pill";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import NoteDisplay from "../notes/notes-display/notes-display";
 
