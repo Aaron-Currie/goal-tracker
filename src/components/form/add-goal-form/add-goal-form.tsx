@@ -21,9 +21,9 @@ type Props = {
 
 export default function AddGoalForm({datesMeta} : Props) {
     const router = useRouter();
-    const titleRef = useRef<HTMLInputElement | null>(null);
     const { categories, activities } = useGoalsData();
-
+    const titleRef = useRef<HTMLInputElement | null>(null);
+    
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
     

@@ -1,14 +1,18 @@
 'use client'
 import { Activity, Category, Goal } from "@/lib/types/goals";
-import style from "../forms.module.css";
-import { useEffect, useRef, useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
+import style from "../forms.module.css";
+
+import { useEffect, useRef, useState } from "react";
 
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
+import ErrorModal from "@/components/error/error-modal/error-modal";
+import { validateTitle } from "@/lib/utils/validators/validate-title";
+import { editGoal } from "@/lib/db-calls/goals/edit-goal";
 
 
 type Props = {
@@ -20,7 +24,7 @@ type Props = {
 export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const { categories, activities } = useGoalsData();
     const titleRef = useRef<HTMLInputElement | null>(null);
-    console.log("EditGoalForm received goal:", goal);
+
     const period = goal.goal_period.charAt(0).toUpperCase() + goal.goal_period.slice(1);
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
@@ -38,51 +42,40 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        setLoading(true);
         setError(null);
 
-        if (!title || typeof title !== "string") {
-            setValidation((prev) => ({ ...prev, title: "Title is required" }));
-            setLoading(false);
-              titleRef.current?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
+        const titleError = await validateTitle({ title, titleRef });
+        if (titleError) {
+            setValidation((prev) => ({ ...prev, title: titleError }));
+            return;
+        }
+        let update;
+        setLoading(true);
+        try {
+            update = await editGoal({ 
+                id: goal.id,
+                title, 
+                description: description || null, 
+                category_id: category || undefined, 
+                activity_id: activity || undefined, 
+                goal_period: periodType, 
+                period_start: periodStart 
             });
-            titleRef.current?.focus();
-            return;
-        }
-
-        const res = await fetch(`/api/goal/${goal.id}/edit`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-            title,
-            goal_period: periodType,
-            period_start: periodStart,
-            category_id: category,
-            activity_id: activity,
-            description,
-            }),
-        });
-
-        const body = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
+        } catch (err: any) {
+            setError(err.message || "An error occurred while editing the goal.");
             setLoading(false);
-            setError(body?.error ?? "Failed to save");
             return;
-        }
-        console.log("Edit response body:", body);
-        const updatedCategory = categoryState.find((c) => c.id === body.goal.category_id) ?? undefined;
-        const updatedActivity = activityState.find((a) => a.id === body.goal.activity_id) ?? undefined;
+        } 
+        const updatedCategory = categoryState.find((c) => c.id === update.goal.category_id) ?? undefined;
+        const updatedActivity = activityState.find((a) => a.id === update.goal.activity_id) ?? undefined;
         const updatedGoal = {
-            id: body.goal.id,
-            title : body.goal.title,
-            goal_period: body.goal.goal_period,
-            period_start: body.goal.period_start,
+            id: update.goal.id,
+            title : update.goal.title,
+            goal_period: update.goal.goal_period,
+            period_start: update.goal.period_start,
             category: updatedCategory ? updatedCategory : null,
             activity: updatedActivity ? updatedActivity : null,
-            description: body.goal.description,
+            description: update.goal.description,
         } as Goal;
         setGoal(updatedGoal);
         setLoading(false);
@@ -114,6 +107,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                 rows={4}
             />
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+            {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </form>
     )
 }

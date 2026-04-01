@@ -27,7 +27,7 @@ export async function addGoal({title, description, category_id, activity_id, goa
             console.error("Error response from server:", res.status);
             throw new Error("Failed to add goal. Please try again.");
         } else {
-            return true;
+            return body;
         }
     } catch (error) {
         console.error(error);
