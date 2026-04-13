@@ -13,16 +13,18 @@ import PeriodSelectorInput from "../input-components/period-selector/period-sele
 import ErrorModal from "@/components/error/error-modal/error-modal";
 import { validateTitle } from "@/lib/utils/validators/validate-title";
 import { editGoal } from "@/lib/db-calls/goals/edit-goal";
+import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
+import { useRouter } from "next/navigation";
 
 
 type Props = {
     goal: Goal;
     setGoal: React.Dispatch<React.SetStateAction<Goal>>;
     cancel: () => void;
-    onDelete: () => void;
 }
 
-export default function EditGoalForm({goal, cancel, setGoal, onDelete} : Props) {
+export default function EditGoalForm({goal, cancel, setGoal} : Props) {
+    const router = useRouter();
     const { categories, activities } = useGoalsData();
     const titleRef = useRef<HTMLInputElement | null>(null);
 
@@ -83,6 +85,20 @@ export default function EditGoalForm({goal, cancel, setGoal, onDelete} : Props) 
         cancel();
     }
 
+    async function onDelete() {
+        if (!confirm("Delete this goal?")) return;
+        setLoading(true);
+        try {
+          await deleteGoal(goal.id);
+        } catch (error) {
+          setLoading(false);  
+          setError((error as Error).message);
+          return;
+        }
+        setLoading(false); 
+        router.push(`/goals/${goal.goal_period}/${goal.period_start}`);
+      }
+
     useEffect(() => {
         if (title) {
             setValidation((prev) => {
@@ -93,23 +109,26 @@ export default function EditGoalForm({goal, cancel, setGoal, onDelete} : Props) 
     }, [title])
 
     return (
-        <form className={style.form} onSubmit={handleSubmit}>
-            <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
-            <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
-            <ScrollSelector typeValue={periodType} originalPeriodStart={goal.period_start} periodStart={periodStart} setPeriodStart={setPeriodStart} />
-            <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
-            <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
-            <textarea
-                id="goal-desc"
-                className={style.textarea}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="What does success look like?"
-                rows={4}
-            />
-            {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
-            <Button onClick={onDelete} button={{ text: 'Delete', style: "delete" }} />
+        <div>
+            <form className={style.form} onSubmit={handleSubmit}>
+                <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
+                <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
+                <ScrollSelector typeValue={periodType} originalPeriodStart={goal.period_start} periodStart={periodStart} setPeriodStart={setPeriodStart} />
+                <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
+                <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
+                <textarea
+                    id="goal-desc"
+                    className={style.textarea}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="What does success look like?"
+                    rows={4}
+                />
+                {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+                {loading? <p>Loading...</p> : <Button onClick={onDelete} button={{ text: 'Delete', style: "delete" }} />}
+            </form>
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
-        </form>
+        </div>
+
     )
 }
