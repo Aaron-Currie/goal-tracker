@@ -19,9 +19,10 @@ type Props = {
     goal: Goal;
     setGoal: React.Dispatch<React.SetStateAction<Goal>>;
     cancel: () => void;
+    onDelete: () => void;
 }
 
-export default function EditGoalForm({goal, cancel, setGoal} : Props) {
+export default function EditGoalForm({goal, cancel, setGoal, onDelete} : Props) {
     const { categories, activities } = useGoalsData();
     const titleRef = useRef<HTMLInputElement | null>(null);
 
@@ -107,6 +108,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                 rows={4}
             />
             {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+            <Button onClick={onDelete} button={{ text: 'Delete', style: "delete" }} />
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </form>
     )

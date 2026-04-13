@@ -9,26 +9,14 @@ import Input from "@/components/form/input-components/input/input";
 type Props = {
     notes: GoalNote[];
     closeModal: () => void;
-    setNoteState: (notes: any) => void;
     newNote: string;
     setNewNote: (note: string) => void;
     handleAddNote: () => void;
     validation: {[ key: string ]: string;}
+    handleDelete: (id: string) => void;
 }
 
-export default function NotesModal({notes, closeModal, setNoteState, newNote, setNewNote, handleAddNote, validation}: Props) {
-    const handleDelete = (id: string) => {
-        fetch(`/api/note/${id}/delete`, {
-            method: "DELETE",
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            if (data.success) {
-                setNoteState((prevNotes: GoalNote[]) => prevNotes.filter((note: GoalNote) => note.id !== id));
-            }
-        });
-    }
+export default function NotesModal({notes, closeModal, newNote, setNewNote, handleAddNote, validation, handleDelete}: Props) {
 
     return (
         <Overlay onClick={closeModal}>

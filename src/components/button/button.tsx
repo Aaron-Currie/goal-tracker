@@ -1,6 +1,15 @@
 import styles from "./button.module.css"
 
-export default function Button({disabled = false, button, onClick}: {disabled?: boolean, button: {text: string, style: string}, onClick: () => void}) {
+type Props = {
+    button: {
+        text: string;
+        style: "default" | "black" | "red" | "blue" | "white" | "blueCircle" | "blackCircle" | "redCircle" | "complete" | "edit" | "delete" | "undo";
+    }
+    disabled?: boolean;
+    onClick: () => void;
+}
+
+export default function Button({disabled = false, button, onClick}: Props) {
     return (
         <button
             disabled={disabled}

@@ -45,9 +45,9 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
     <>
       <PageHeader editing={editing} goalState={goalState} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} />
       {editing ? 
-        <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} /> 
+        <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)} onDelete={onDelete}/> 
         : 
-        <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete} onDelete={onDelete} />}
+        <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete}/>}
       {showAnimation && <CompleteAnimation goal={goalState} onClose={() => setShowAnimation(false)} />}
     </>
   );

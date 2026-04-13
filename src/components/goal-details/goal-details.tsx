@@ -3,16 +3,16 @@ import Button from "../button/button";
 import { Goal, GoalNote } from "@/lib/types/goals";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import NoteDisplay from "../notes/notes-display/notes-display";
+import CompleteButton from "../button/complete-button/complete-button";
 
 type Props = {
   goalState: Goal;
   onComplete: () => void;
-  onDelete: () => void;
   notes: GoalNote[];
   setNoteState: React.Dispatch<React.SetStateAction<GoalNote[]>>;
 };
 
-export default function GoalDetails({ goalState, onComplete, onDelete, notes, setNoteState }: Props) {
+export default function GoalDetails({ goalState, onComplete, notes, setNoteState }: Props) {
   const date = translateDateToDisplay(goalState.goal_period, goalState.period_start);
   
   return (
@@ -28,20 +28,8 @@ export default function GoalDetails({ goalState, onComplete, onDelete, notes, se
           </div>
         )}
           <NoteDisplay notes={notes} setNoteState={setNoteState} goalId={goalState.id} />
-          <div className={styles.buttons}>
-            <Button
-              button={
-                goalState.is_completed
-                  ? { text: "Undo Complete", style: "undo" }
-                  : { text: "Complete", style: "complete" }
-              }
-              onClick={onComplete}
-            />
-            <Button button={{ text: "Delete", style: "delete" }} onClick={onDelete} />
-          </div>
+          <CompleteButton completed={goalState.is_completed} onComplete={onComplete} />
         </div>
-
-
       </div>
   );
 }
