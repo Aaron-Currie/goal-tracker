@@ -1,7 +1,7 @@
 import Model from "@/components/model/model";
 import { Overlay } from "@/components/utility-comps/overlay";
 import { GoalNote } from "@/lib/types/goals";
-import styles from "../notes-display/notes-display.module.css";
+import styles from "../notes.module.css";
 import { faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "@/components/button/icon-button";
 import Input from "@/components/form/input-components/input/input";

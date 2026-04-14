@@ -20,14 +20,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const updates: Record<string, any> = { content };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("goal_notes")
     .update(updates)
     .eq("id", id)
     .eq("user_id", auth.user.id)
-    .limit(1);
+    .select("*")
+    .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.json({ success: true, id, ...updates });
+  return new Response(JSON.stringify({ note: data }), { status: 201 });
 }

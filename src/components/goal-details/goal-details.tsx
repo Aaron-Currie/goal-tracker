@@ -1,5 +1,4 @@
 import styles from "./goal-details.module.css";
-import Button from "../button/button";
 import { Goal, GoalNote } from "@/lib/types/goals";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import NoteDisplay from "../notes/notes-display/notes-display";
@@ -19,8 +18,14 @@ export default function GoalDetails({ goalState, onComplete, notes, setNoteState
       <div className={`${styles.panel}`}>
         <div className={styles.content}>
         <div className={styles.metaGrid}>
-            <div className={styles.metaRow}><span className={styles.metaLabel}>Period:</span><span className={styles.metaValue}>{goalState.goal_period.toUpperCase()}</span></div>
-            <div className={styles.metaRow}><span className={styles.metaLabel}>Date:</span><span className={styles.metaValue}>{date}</span></div>
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Period:</span>
+              <span className={styles.metaValue}>{goalState.goal_period.toUpperCase()}</span>
+            </div>
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Date:</span>
+              <span className={styles.metaValue}>{date}</span>
+            </div>
         </div>
         {goalState.description && (
           <div className={styles.metaGrid}>
