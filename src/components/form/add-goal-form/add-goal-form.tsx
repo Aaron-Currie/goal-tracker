@@ -76,6 +76,7 @@ export default function AddGoalForm({datesMeta} : Props) {
     }, [title])
 
     return (
+        <div className={style.container}>
         <form className={style.form} onSubmit={handleSubmit}>
             <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
             <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
@@ -90,8 +91,9 @@ export default function AddGoalForm({datesMeta} : Props) {
                 placeholder="What does success look like?"
                 rows={4}
             />
-            {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
+            <Button onClick={()=>{}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} />
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </form>
+        </div>
     )
 }

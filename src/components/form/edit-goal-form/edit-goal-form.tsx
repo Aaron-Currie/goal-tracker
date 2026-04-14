@@ -15,6 +15,7 @@ import { validateTitle } from "@/lib/utils/validators/validate-title";
 import { editGoal } from "@/lib/db-calls/goals/edit-goal";
 import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
 import { useRouter } from "next/navigation";
+import DeleteModal from "@/components/delete-modal/delete-modal";
 
 
 type Props = {
@@ -39,6 +40,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const [activity, setActivity] = useState<string | null>(goal.activity?.id ?? null);
     const [description, setDescription] = useState<string>(goal.description ?? "");
 
+    const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
     const [validation, setValidation] = useState<{[key: string]: string}>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -86,7 +88,6 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     }
 
     async function onDelete() {
-        if (!confirm("Delete this goal?")) return;
         setLoading(true);
         try {
           await deleteGoal(goal.id);
@@ -109,7 +110,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     }, [title])
 
     return (
-        <div>
+        <div className={style.container}>
             <form className={style.form} onSubmit={handleSubmit}>
                 <Input ref={titleRef} label="Title" setState={setTitle} value={title} error={validation.title} />
                 <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
@@ -124,10 +125,11 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                     placeholder="What does success look like?"
                     rows={4}
                 />
-                {loading? <p>Loading...</p> : <Button onClick={()=>{}} button={{ text: 'Save', style: "edit" }} />}
-                {loading? <p>Loading...</p> : <Button onClick={onDelete} button={{ text: 'Delete', style: "delete" }} />}
+                <Button onClick={()=>{}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} />
             </form>
+            <Button onClick={() => setConfirmDelete(true)} button={{ text: 'Delete', style: "delete" }} disabled={loading} />
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
+            {confirmDelete && <DeleteModal label="goal" message="This will permanently delete the goal and all associated notes, It cannot be undone." setConfirm={setConfirmDelete} deleteAction={onDelete} />}
         </div>
 
     )
