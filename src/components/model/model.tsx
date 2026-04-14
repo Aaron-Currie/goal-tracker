@@ -9,12 +9,13 @@ type Props = {
     onClose: () => void;
     children?: React.ReactNode;
     style?: string
+    overlayClose?: boolean;
 }
 
-export default function Model({ onClose, children, style }: Props) {
+export default function Model({ onClose, children, style, overlayClose = true }: Props) {
 
     return (
-        <Overlay onClick={onClose}>
+        <Overlay onClick={overlayClose ? onClose : undefined}>
             <div className={`${styles.modelContainer} ${styles[style || "default"]}`}>
                 <IconButton
                     icon={faX}

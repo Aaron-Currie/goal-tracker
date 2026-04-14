@@ -89,6 +89,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
 
     async function onDelete() {
         setLoading(true);
+        setError(null);
         try {
           await deleteGoal(goal.id);
         } catch (error) {
@@ -125,7 +126,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                     placeholder="What does success look like?"
                     rows={4}
                 />
-                <Button onClick={()=>{}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} />
+                <Button onClick={() => {}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} type='submit'/>
             </form>
             <Button onClick={() => setConfirmDelete(true)} button={{ text: 'Delete', style: "delete" }} disabled={loading} />
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}

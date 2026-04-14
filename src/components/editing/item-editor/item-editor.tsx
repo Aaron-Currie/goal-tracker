@@ -6,6 +6,7 @@ import { faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Activity, Category } from '@/lib/types/goals';
 import { editItem } from '@/lib/db-calls/item/edit-item';
 import { deleteItem } from '@/lib/db-calls/item/delete-item';
+import DeleteModal from '@/components/delete-modal/delete-modal';
 
 type Props = {
     item: { id: string, name: string };
@@ -20,6 +21,7 @@ export default function ItemEditor({item, label, setGroupState, setError}: Props
 
     const [edited, setEdited] = useState(false);
     const [itemState, setItemState] = useState<string>(item.name);
+    const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
     const handleDelete = async (id: string) => {
         setLoading(true);
@@ -68,7 +70,8 @@ export default function ItemEditor({item, label, setGroupState, setError}: Props
         <div className={styles.row} key={item.id}>
             {loading ? <p>Loading...</p> : <Input value={itemState} label={item.name} setState={setItemState} error={validation.itemState} />}
             <IconButton icon={faFloppyDisk} disabled={!edited} button={{ alt: "Edit", style: "blue" }} onClick={() => handleEdit(item.id)} cornerButton={false} />
-            <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => handleDelete(item.id)} cornerButton={false} />
+            <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => setConfirmDelete(true)} cornerButton={false} />
+            {confirmDelete && <DeleteModal label={label} message={`This will permanently delete the ${label} and all associated data. It cannot be undone.`} setConfirm={setConfirmDelete} deleteAction={() => handleDelete(item.id)} />}
         </div>
     );
 }

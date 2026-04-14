@@ -11,8 +11,7 @@ type Props = {
 
 export default function DeleteModal({ label, message, setConfirm, deleteAction }: Props) {
     return (
-        <Overlay onClick={() => {}}>
-            <Model style='error' onClose={() => setConfirm(false)}>
+            <Model style='error' onClose={() => setConfirm(false)} overlayClose={false}>
                 <div style={{ padding: "1rem", textAlign: "center", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                     <h2 style={{ color: "red" }}>Are you sure!</h2>
                     <p>{`Are you sure you want to delete this ${label}?`}</p>
@@ -23,6 +22,5 @@ export default function DeleteModal({ label, message, setConfirm, deleteAction }
                     </div>
                 </div>
             </Model>
-        </Overlay>
     )
 }

@@ -6,6 +6,7 @@ import { GoalNote } from "@/lib/types/goals";
 import { useEffect, useState } from "react";
 import { editNote } from "@/lib/db-calls/notes/edit-note";
 import { deleteNote } from "@/lib/db-calls/notes/delete-note";
+import DeleteModal from "@/components/delete-modal/delete-modal";
 
 type Props = {
     editingNote: GoalNote;
@@ -17,6 +18,7 @@ type Props = {
 export default function NoteEditor({ editingNote, setEditNote, setError, setNoteState }: Props) {
     const [validation, setValidation] = useState<{[key: string]: string}>({});
     const [loading, setLoading] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
     const handleEditNote = async (id: string, content: string) => {
         if(content.trim() === "") {
@@ -67,9 +69,10 @@ export default function NoteEditor({ editingNote, setEditNote, setError, setNote
                     <textarea className={`${styles.textarea} ${validation.editingNote ? styles.error : ""}`} value={editingNote.content} onChange={(e) => setEditNote({ ...editingNote, content: e.target.value })} />
                         {validation.editingNote && <p className={styles.error}>{validation.editingNote}</p>}
                     <Button button={{ text: loading ? "..." : "Update", style: "edit" }} onClick={() => handleEditNote(editingNote.id, editingNote.content)} disabled={loading} />
-                    <Button button={{ text: loading ? "..." : "Delete Note", style: "delete" }} onClick={() => handleDelete(editingNote.id)} disabled={loading} />
+                    <Button button={{ text: loading ? "..." : "Delete Note", style: "delete" }} onClick={() => setConfirmDelete(true)} disabled={loading} />
                 </div>
             </Model>
+            {confirmDelete && <DeleteModal label="note" message="This will permanently delete the note, It cannot be undone." setConfirm={setConfirmDelete} deleteAction={() => handleDelete(editingNote.id)} />}
         </Overlay>
     )
 }

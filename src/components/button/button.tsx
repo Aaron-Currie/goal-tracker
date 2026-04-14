@@ -7,11 +7,13 @@ type Props = {
     }
     disabled?: boolean;
     onClick: () => void;
+    type?: "button" | "submit" | "reset";
 }
 
-export default function Button({disabled = false, button, onClick}: Props) {
+export default function Button({disabled = false, button, onClick, type = "button"}: Props) {
     return (
         <button
+            type={type}
             disabled={disabled}
             className={`${styles.button} ${styles[button.style]}`}
             onClick={onClick}
