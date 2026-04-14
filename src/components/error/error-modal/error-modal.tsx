@@ -8,13 +8,11 @@ type Props = {
 
 export default function ErrorModal({ error, closeModal }: Props) {
     return (
-        <Overlay onClick={closeModal}>
             <Model style='error' onClose={closeModal}>
                 <div style={{ padding: "1rem" }}>
                     <h2 style={{ color: "red" }}>Something went wrong!</h2>
                     <p>{error}</p>
                 </div>
             </Model>
-        </Overlay>
     )
 }

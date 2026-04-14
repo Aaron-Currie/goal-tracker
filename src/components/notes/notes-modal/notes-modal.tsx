@@ -19,7 +19,6 @@ type Props = {
 export default function NotesModal({notes, closeModal, newNote, setNewNote, handleAddNote, validation, handleDelete}: Props) {
 
     return (
-        <Overlay onClick={closeModal}>
             <Model onClose={closeModal}>
                 <div className={styles.notes} onClick={(e) => e.stopPropagation()}>
                     <span className={styles.metaLabel}>Notes</span>
@@ -40,6 +39,5 @@ export default function NotesModal({notes, closeModal, newNote, setNewNote, hand
                     })}
                 </div>
             </Model>
-        </Overlay>
     )
 }

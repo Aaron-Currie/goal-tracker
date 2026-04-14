@@ -18,7 +18,6 @@ export default function PillEditor({ group, label, setEditing, setGroupState }: 
     const [error, setError] = useState<string | null>(null);
 
     return (
-        <Overlay onClick={() => setEditing(false)}>
             <Model onClose={() => setEditing(false)}>
                 <div className={styles.container}>
                     <AddNewItem label={label} setError={setError} setGroupState={setGroupState} />
@@ -30,6 +29,5 @@ export default function PillEditor({ group, label, setEditing, setGroupState }: 
                 </div>
                 {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
             </Model>
-        </Overlay>
     )
 }

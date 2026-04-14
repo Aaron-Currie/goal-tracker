@@ -63,16 +63,16 @@ export default function NoteEditor({ editingNote, setEditNote, setError, setNote
     }, [editingNote?.content])
 
     return (
-        <Overlay onClick={() => setEditNote(null)}>
-            <Model onClose={() => setEditNote(null)}>
-                <div className={`${styles.editNoteContainer}`} onClick={(e) => e.stopPropagation()}>                       
-                    <textarea className={`${styles.textarea} ${validation.editingNote ? styles.error : ""}`} value={editingNote.content} onChange={(e) => setEditNote({ ...editingNote, content: e.target.value })} />
-                        {validation.editingNote && <p className={styles.error}>{validation.editingNote}</p>}
-                    <Button button={{ text: loading ? "..." : "Update", style: "edit" }} onClick={() => handleEditNote(editingNote.id, editingNote.content)} disabled={loading} />
-                    <Button button={{ text: loading ? "..." : "Delete Note", style: "delete" }} onClick={() => setConfirmDelete(true)} disabled={loading} />
-                </div>
-            </Model>
-            {confirmDelete && <DeleteModal label="note" message="This will permanently delete the note, It cannot be undone." setConfirm={setConfirmDelete} deleteAction={() => handleDelete(editingNote.id)} />}
-        </Overlay>
+        <>            
+        <Model onClose={() => setEditNote(null)}>
+            <div className={`${styles.editNoteContainer}`} onClick={(e) => e.stopPropagation()}>                       
+                <textarea className={`${styles.textarea} ${validation.editingNote ? styles.error : ""}`} value={editingNote.content} onChange={(e) => setEditNote({ ...editingNote, content: e.target.value })} />
+                    {validation.editingNote && <p className={styles.error}>{validation.editingNote}</p>}
+                <Button button={{ text: loading ? "..." : "Update", style: "edit" }} onClick={() => handleEditNote(editingNote.id, editingNote.content)} disabled={loading} />
+                <Button button={{ text: loading ? "..." : "Delete Note", style: "delete" }} onClick={() => setConfirmDelete(true)} disabled={loading} />
+            </div>
+        </Model>
+        {confirmDelete && <DeleteModal label="note" message="This will permanently delete the note, It cannot be undone." setConfirm={setConfirmDelete} deleteAction={() => handleDelete(editingNote.id)} />}
+        </>
     )
 }
