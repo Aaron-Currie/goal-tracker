@@ -5,6 +5,7 @@ import styles from "../notes.module.css";
 import { GoalNote } from "@/lib/types/goals";
 import { useEffect, useState } from "react";
 import { editNote } from "@/lib/db-calls/notes/edit-note";
+import { deleteNote } from "@/lib/db-calls/notes/delete-note";
 
 type Props = {
     editingNote: GoalNote;
@@ -38,18 +39,20 @@ export default function NoteEditor({ editingNote, setEditNote, setError, setNote
     }
 
     const handleDelete = async (id: string) => {
-        fetch(`/api/note/${id}/delete`, {
-            method: "DELETE",
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            if (data.success) {
-                setNoteState((prevNotes: GoalNote[]) => prevNotes.filter((note: GoalNote) => note.id !== id));
-                setEditNote(null);
+            setError(null);
+            setLoading(true);
+            let deletedNoteId: string;
+            try {
+                deletedNoteId = await deleteNote({ id });
+            } catch (error:any) {
+                setLoading(false);
+                setError(error.message);
+                return;
             }
-        });
-    }
+            setNoteState((prev) => prev.filter((note) => note.id !== id));
+            setEditNote(null);
+            setLoading(false);
+        }
 
     useEffect(() => {
         if(editingNote?.content) {
@@ -61,10 +64,10 @@ export default function NoteEditor({ editingNote, setEditNote, setError, setNote
         <Overlay onClick={() => setEditNote(null)}>
             <Model onClose={() => setEditNote(null)}>
                 <div className={`${styles.editNoteContainer}`} onClick={(e) => e.stopPropagation()}>                       
-                    <textarea className={`${styles.textarea} ${validation.editNote ? styles.error : ""}`} value={editingNote.content} onChange={(e) => setEditNote({ ...editingNote, content: e.target.value })} />
-                        {validation.editNote && <p className={styles.error}>{validation.editNote}</p>}
-                    <Button button={{ text: "Update", style: "edit" }} onClick={() => handleEditNote(editingNote.id, editingNote.content)} />
-                    <Button button={{ text: "Delete Note", style: "delete" }} onClick={() => handleDelete(editingNote.id)} />
+                    <textarea className={`${styles.textarea} ${validation.editingNote ? styles.error : ""}`} value={editingNote.content} onChange={(e) => setEditNote({ ...editingNote, content: e.target.value })} />
+                        {validation.editingNote && <p className={styles.error}>{validation.editingNote}</p>}
+                    <Button button={{ text: loading ? "..." : "Update", style: "edit" }} onClick={() => handleEditNote(editingNote.id, editingNote.content)} disabled={loading} />
+                    <Button button={{ text: loading ? "..." : "Delete Note", style: "delete" }} onClick={() => handleDelete(editingNote.id)} disabled={loading} />
                 </div>
             </Model>
         </Overlay>
