@@ -31,7 +31,6 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const { categories, activities } = useGoalsData();
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.is_completed).length });
-    const [showAnimation, setShowAnimation] = useState<boolean>(false);
     const [grid, setGrid] = useState<boolean>(false);
     const [expandFilter, setExpandFilter] = useState<boolean>(false);
     
@@ -61,11 +60,10 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
             {expandFilter && <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categories} activities={activities} />}
             <div className={`${styles.cardDisplay} ${grid ? styles.smallGrid : ''}`}>
                 {visibleGoals.map((goal) => {
-                    return <GoalCard grid={grid} key={goal.id} goalData={goal} setGoalState={setGoalState} setShowAnimation={setShowAnimation} />
+                    return <GoalCard grid={grid} key={goal.id} goalData={goal} setGoalState={setGoalState} />
                 })}
                 <AddButton query={`date=${datesMeta.year}&period=${datesMeta.period}`} />
             </div>
-            {showAnimation && <CompleteAnimation goal={null} onClose={() => setShowAnimation(false)} />}
         </section>
     )
 }

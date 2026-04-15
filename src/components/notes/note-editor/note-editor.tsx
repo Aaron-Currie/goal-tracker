@@ -1,6 +1,5 @@
 import Button from "@/components/button/button";
 import Model from "@/components/model/model";
-import { Overlay } from "@/components/utility-comps/overlay";
 import styles from "../notes.module.css";
 import { GoalNote } from "@/lib/types/goals";
 import { useEffect, useState } from "react";

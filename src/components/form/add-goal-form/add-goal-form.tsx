@@ -91,7 +91,7 @@ export default function AddGoalForm({datesMeta} : Props) {
                 placeholder="What does success look like?"
                 rows={4}
             />
-            <Button onClick={()=>{}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} />
+            <Button onClick={()=>{}} button={{ text: loading? '...' : 'Save', style: "edit" }} disabled={loading} type='submit'/>
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </form>
         </div>

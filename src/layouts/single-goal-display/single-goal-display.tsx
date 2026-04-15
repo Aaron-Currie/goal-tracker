@@ -6,9 +6,11 @@ import GoalDetails from "@/components/goal-details/goal-details";
 import EditGoalForm from "@/components/form/edit-goal-form/edit-goal-form";
 import PageHeader from "@/components/page-header/page-header";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
+import ErrorModal from "@/components/error/error-modal/error-modal";
 
 export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: GoalNote[]}) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [goalState, setGoalState] = useState<Goal>(goal);
   const [editing, setEditing] = useState(false);
   const [noteState, setNoteState] = useState<GoalNote[]>(notes);
@@ -17,15 +19,19 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
 
   async function onComplete() {
     setLoading(true);
+    setError(null);
     try {
       await completeGoal(goal.id, goalState.is_completed ? "undo" : "complete");
-      setGoalState((prev) => ({ ...prev, is_completed: !prev.is_completed }));
-      if(!goalState.is_completed) {
-        setShowAnimation(true);
-      }
-    } finally {
+    } catch (error:any) {
       setLoading(false);
+      setError(error.message);
+      return;
     }
+    if(!goalState.is_completed) {
+      setShowAnimation(true);
+    }
+    setGoalState((prev) => ({ ...prev, is_completed: !prev.is_completed }));
+    setLoading(false);
   }
   
   return (
@@ -35,6 +41,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
         <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)}/> 
         : 
         <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete}/>}
+      {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
       {showAnimation && <CompleteAnimation goal={goalState} onClose={() => setShowAnimation(false)} />}
     </>
   );
