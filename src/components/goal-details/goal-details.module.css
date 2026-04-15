@@ -1,5 +1,5 @@
 .panel {
-    padding:  0rem;
+    padding:  0rem 0rem 3rem 0rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -7,17 +7,27 @@
 }
 
 .buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.buttons button:first-child {
-  grid-column: span 2;
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100px;
+    height: 100px;
+    padding: 0rem 1rem;
+    background-color: #4caf50;
+    border-radius: 9999px;
+    z-index: 1000;
+    border: 2px solid #2e6a30;
+    box-shadow: 0 4px #2e6a30;
 }
 
 .content {
-  padding: 1rem;
+  padding: 0rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 14px;

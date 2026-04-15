@@ -7,33 +7,44 @@ import Pill from "../pill/pill";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
+import ErrorModal from "../error/error-modal/error-modal";
+import CompleteAnimation from "../animation/complete-animation/complete";
 
 interface GoalCardProps {
     goalData: Goal;
     setGoalState: React.Dispatch<React.SetStateAction<Goal[]>>;
-    setShowAnimation: React.Dispatch<React.SetStateAction<boolean>>;
     grid: boolean;
 }
 
-export default function GoalCard({ goalData, setGoalState, setShowAnimation, grid }: GoalCardProps) {
+export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps) {
     const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [showAnimation, setShowAnimation] = useState<boolean>(false);
+    
+    const handleComplete = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            await completeGoal(goalData.id, "complete");
+        } catch (error:any) {
+            setLoading(false);
+            setError(error.message);
+            return;
+        }
+        setGoalState((prev) =>
+            prev.map((g) =>
+            g.id === goalData.id ? { ...g, is_completed: !g.is_completed } : g
+            )
+        );
+        setLoading(false);
+        setShowAnimation(true);
+    }
 
     useEffect(() => {
         setCompleted(goalData.is_completed);
     }, [goalData.is_completed])
-
-    const handleComplete = async () => {
-                try {
-                    await completeGoal(goalData.id, "complete");
-                    setGoalState((prev) =>
-                        prev.map((g) =>
-                        g.id === goalData.id ? { ...g, is_completed: !g.is_completed } : g
-                        )
-                    );
-                } finally {
-                    setShowAnimation(true);
-            }
-    }
 
     return (
         <div id={goalData.id} className={`${styles.card} ${completed ? styles.green : ""}`} >
@@ -47,15 +58,17 @@ export default function GoalCard({ goalData, setGoalState, setShowAnimation, gri
                             <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
                         </div>
                     )}
-
+                    {/* <p>{goalData.goal_period} {translateDateToDisplay(goalData.goal_period, goalData.period_start)}</p> */}
                 </Link>
                 {!completed && <div className={styles.complete}>
                     {grid? (
-                        <button className={`${styles.button} ${styles.green}`} onClick={handleComplete}>
-                            <FontAwesomeIcon size='1x' icon={faCheck} />
+                        <button className={`${styles.button} ${styles.green}`} onClick={handleComplete} disabled={loading}>
+                            {loading ? "..." : <FontAwesomeIcon size='1x' icon={faCheck} />}
                         </button>
-                    ) : <Button button={{text: "Complete", style: "complete"}} onClick={handleComplete} />}
+                    ) : <Button button={{text: loading? "..." : "Complete", style: "complete"}} onClick={handleComplete} disabled={loading}/>}
                 </div>}
+                {showAnimation && <CompleteAnimation goal={goalData} onClose={() => setShowAnimation(false)} />}
+                {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </div>
     )
 }

@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 
 type Body = { action?: "complete" | "undo"; is_completed?: boolean };
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body: Body = await req.json().catch(() => ({} as Body));
 
@@ -30,14 +30,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     completed_at: isCompleted ? new Date().toISOString() : null,
   };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("goals")
     .update(updates)
     .eq("id", id)
     .eq("user_id", auth.user.id)
+    .select("*")
     .limit(1);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.json({ success: true, id, is_completed: isCompleted });
+  return NextResponse.json({ success: true, goal: data });
 }
