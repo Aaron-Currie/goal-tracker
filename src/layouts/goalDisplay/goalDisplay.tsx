@@ -47,6 +47,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
             <div className={styles.header}>
                 <IconButton size={'2x'} icon={displayMode === "grid" ? faList : faTableCells} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setDisplayMode(displayMode === "grid" ? "list" : "grid")} cornerButton={false} />
                     <div className={styles.filterPillContainer}>
+                    {filters.search && <div className={styles.filterPill}>{filters.search}<FontAwesomeIcon style={{cursor: 'pointer'}} icon={faTimes} onClick={() => setFilters({ ...filters, search: '' })} /></div>}
                     {filters.status !== 'all' && <div className={styles.filterPill}>{filters.status}<FontAwesomeIcon icon={faTimes} onClick={() => setFilters({ ...filters, status: 'all' })} /></div>}
                     {filters.activityId !== 'all' && <div className={styles.filterPill}>{activities.find(a => a.id === filters.activityId)?.name}<FontAwesomeIcon style={{cursor: 'pointer'}} icon={faTimes} onClick={() => setFilters({ ...filters, activityId: 'all' })} /></div>}
                     {filters.categoryId !== 'all' && <div className={styles.filterPill}>{categories.find(c => c.id === filters.categoryId)?.name}<FontAwesomeIcon style={{cursor: 'pointer'}} icon={faTimes} onClick={() => setFilters({ ...filters, categoryId: 'all' })} /></div>}
