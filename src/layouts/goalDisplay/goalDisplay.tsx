@@ -10,8 +10,10 @@ import AddButton from "@/components/button/add-button/add-button";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
 import IconButton from "@/components/button/icon-button";
-import { faFilter, faList, faTableCells } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faList, faTableCells, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useGoalsView } from "@/lib/contexts/goals-view-context";
+import Pill from "@/components/pill/pill";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DEFAULT_FILTERS: GoalFilters = {
   status: "all",
@@ -51,11 +53,16 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     return (
         <section className={styles.container}>
             <div className={styles.progressContainer}>
+                <p className={styles.progressInfo}>Completed: {goalCounts.completed} / {goalCounts.total}</p>
                 <span className={styles.progressBar} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.completed / goalCounts.total) * 100}%` }}></span>
             </div>
             <div className={styles.header}>
                 <IconButton size={'2x'} icon={displayMode === "grid" ? faList : faTableCells} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setDisplayMode(displayMode === "grid" ? "list" : "grid")} cornerButton={false} />
-                <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
+                    <div className={styles.filterPillContainer}>
+                    {filters.status !== 'all' && <div className={styles.filterPill}>{filters.status}<FontAwesomeIcon icon={faTimes} onClick={() => setFilters({ ...filters, status: 'all' })} /></div>}
+                    {filters.activityId !== 'all' && <div className={styles.filterPill}>{activities.find(a => a.id === filters.activityId)?.name}<FontAwesomeIcon style={{cursor: 'pointer'}} icon={faTimes} onClick={() => setFilters({ ...filters, activityId: 'all' })} /></div>}
+                    {filters.categoryId !== 'all' && <div className={styles.filterPill}>{categories.find(c => c.id === filters.categoryId)?.name}<FontAwesomeIcon style={{cursor: 'pointer'}} icon={faTimes} onClick={() => setFilters({ ...filters, categoryId: 'all' })} /></div>}
+                    </div>
                 <IconButton icon={faFilter} size='2x' button={{style: expandFilter ? "blue" : "default", alt: "Filters"}} onClick={() => setExpandFilter(!expandFilter)} cornerButton={false} />
             </div>
 

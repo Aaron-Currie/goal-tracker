@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { getAllCategoriesForUser } from "@/lib/db-calls/categories/get-all-categories-for-user";
 import { getAllActivitiesForUser } from "@/lib/db-calls/activities/get-all-activities-for-user";
 import { GoalsDataProvider } from "@/lib/contexts/goals-data-context";
-import { GoalsViewProvider } from "@/lib/contexts/goals-view-context";
 
 type Props = {
   children: ReactNode;
@@ -15,13 +14,11 @@ export default async function GoalsLayout({ children }: Props) {
   ]);
   
   return (
-    <GoalsViewProvider>
     <GoalsDataProvider
       categories={categories ?? []}
       activities={activities ?? []}
     >
       {children}
     </GoalsDataProvider>
-    </GoalsViewProvider>
   );
 }
