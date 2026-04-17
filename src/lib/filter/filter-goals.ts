@@ -1,6 +1,7 @@
-import { Goal, GoalFilters } from "../types/goals";
+import { GoalsFilters } from "../contexts/goals-view-context";
+import { Goal } from "../types/goals";
 
-export default function filterGoals(goals: Goal[], filters: GoalFilters) {
+export default function filterGoals(goals: Goal[], filters: GoalsFilters) {
     const filteredGaols = goals.filter((goal) => {
         if(filters.search && !goal.title.toLowerCase().includes(filters.search.toLowerCase())) return false;
         if (filters.status === "completed" && !goal.is_completed) return false;

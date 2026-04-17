@@ -1,10 +1,11 @@
-import { Activity, Category, GoalFilters } from "@/lib/types/goals";
+import { Activity, Category } from "@/lib/types/goals";
+import { GoalsFilters } from "@/lib/contexts/goals-view-context";
 import Button from "../button/button";
 import styles from "./filter.module.css";
 
 type Props = {
-  filters: GoalFilters;
-  onChange: (next: GoalFilters) => void;
+  filters: GoalsFilters;
+  onChange: (next: GoalsFilters) => void;
   onReset: () => void;
   categories: Category[];
   activities: Activity[];
@@ -25,7 +26,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         id="status"
                         className={styles.select}
                         value={filters.status}
-                        onChange={(e) => onChange({...filters, status: e.target.value as GoalFilters["status"]})}
+                        onChange={(e) => onChange({...filters, status: e.target.value as GoalsFilters["status"]})}
                     >
                         <option value="all">All</option>
                         <option value="incomplete">Incomplete</option>
@@ -39,7 +40,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         id="category"
                         className={styles.select}
                         value={filters.categoryId}
-                        onChange={(e) => onChange({...filters, categoryId: e.target.value as GoalFilters["categoryId"]})}
+                        onChange={(e) => onChange({...filters, categoryId: e.target.value as GoalsFilters["categoryId"]})}
                     >
                         <option value="all">All</option>
                         {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -52,7 +53,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         id="activity"
                         className={styles.select}
                         value={filters.activityId}
-                        onChange={(e) => onChange({...filters, activityId: e.target.value as GoalFilters["activityId"]})}
+                        onChange={(e) => onChange({...filters, activityId: e.target.value as GoalsFilters["activityId"]})}
                     >
                         <option value="all">All</option>
                         {activities.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
