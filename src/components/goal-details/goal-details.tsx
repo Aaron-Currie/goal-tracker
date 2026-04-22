@@ -34,7 +34,10 @@ export default function GoalDetails({ goalState, onComplete, notes, setNoteState
           </div>
         )}
           <NoteDisplay notes={notes} setNoteState={setNoteState} goalId={goalState.id} />
-          {goalState.status === "active" && <Button button={{ text: 'Fail Goal', style: "delete" }} onClick={() => onComplete({ action: "fail" })} />}
+          <span></span>
+          {goalState.status === "active" && <Button button={{ text: 'Complete Goal', style: "complete" }} onClick={() => onComplete({ action: "complete" })} />}
+          {goalState.status !== "active" && <Button button={{ text: `Undo ${goalState.status === "completed" ? "Complete" : "Fail"}`, style: "edit" }} onClick={() => onComplete({ action: "active" })} />}
+          {goalState.status === "active" && <Button button={{ text: 'Mark as failed', style: "fail" }} onClick={() => onComplete({ action: "fail" })} />}
           <CompleteButton active={goalState.status !== "active"} onComplete={onComplete} />
         </div>
       </div>

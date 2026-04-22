@@ -1,4 +1,4 @@
-import { faCircleArrowLeft, faCircleXmark, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowLeft, faCircleXmark, faPenToSquare, faGear } from "@fortawesome/free-solid-svg-icons";
 import stlyes from "./page-header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -15,21 +15,22 @@ type Props = {
 
 export default function PageHeader({ title, returnUrl, editing, setEditing, goalState }: Props) {
     return (
-        <div className={`${stlyes.container} ${goalState.status === "completed" ? stlyes.complete : goalState.status === "failed" ? stlyes.failed : ""}`}>
+        <div className={`${stlyes.container} ${goalState?.status === "completed" ? stlyes.complete : goalState?.status === "failed" ? stlyes.failed : ""}`}>
             <div className={`${stlyes.header}`} >
                 {(editing && setEditing) ? <IconButton size={'2x'} icon={faCircleArrowLeft} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <Link href={returnUrl}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>}
                 <h1 className={stlyes.title}>{title}</h1>
-                {(setEditing && !editing) ? <IconButton size={'2x'} icon={editing? faCircleXmark : faPenToSquare} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <span className={stlyes.spacer}></span>}
+                {(setEditing && !editing) ? <IconButton size={'2x'} icon={editing? faCircleXmark : faGear} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <span className={stlyes.spacer}></span>}
             </div>
 
             {!editing && goalState && (
                 <div className={`${stlyes.topRow}`}>
-                    <Pill item={goalState.status === "completed" ? {id: "completed", name:"Completed"} : {id: "incomplete", name:"Incomplete"}} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"}/>
+                    <Pill item={goalState.status === "completed" ? {id: "completed", name:"Completed"} : {id: "active", name:"Active"}} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"}/>
                     <Pill item={goalState.category} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"} />
                     <Pill item={goalState.activity} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"} />
                 </div>
             )}
-            {goalState?.status === "completed" && <div className={stlyes.completeDate}><span>Completed on</span><span className={stlyes.metaValue}>{new Date(goalState.completed_at!).toLocaleString()}</span></div>}
+            {goalState?.status === "completed" && <div className={stlyes.completeDate}><span>Completed on</span><span className={stlyes.metaValue}>{new Date(goalState.completed_at!).toLocaleDateString()}</span></div>}
+            {goalState?.status === "failed" && <div className={stlyes.completeDate}><span>Failed on</span><span className={stlyes.metaValue}>{new Date(goalState.failed_at!).toLocaleDateString()}</span></div>}
         </div>
     )
 }

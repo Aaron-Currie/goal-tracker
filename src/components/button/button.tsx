@@ -3,7 +3,7 @@ import styles from "./button.module.css"
 type Props = {
     button: {
         text: string;
-        style: "default" | "black" | "red" | "blue" | "white" | "blueCircle" | "blackCircle" | "redCircle" | "complete" | "edit" | "delete" | "undo";
+        style: "default" | "black" | "red" | "blue" | "white" | "blueCircle" | "blackCircle" | "redCircle" | "complete" | "edit" | "delete" | "undo" | "fail";
     }
     disabled?: boolean;
     onClick: () => void;

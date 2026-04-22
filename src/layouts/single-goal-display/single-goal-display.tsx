@@ -22,8 +22,9 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   async function onComplete({action}: {action: "complete" | "active" | "fail"}) {
     setLoading(true);
     setError(null);
+    let update
     try {
-      await changeGoalStatus(goal.id, action);
+      update = await changeGoalStatus(goal.id, action);
     } catch (error:any) {
       setLoading(false);
       setError(error.message);
@@ -32,7 +33,11 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
     if(action === "complete") {
       setShowAnimation(true);
     }
-    setGoalState((prev) => ({ ...prev, status: action === "complete" ? "completed" : action === "fail" ? "failed" : "active" }));
+    const newStatus = update.goal[0].status;
+    const completed_at = update.goal[0].completed_at;
+    const failed_at = update.goal[0].failed_at;
+    console.log(newStatus, completed_at, failed_at);
+    setGoalState((prev) => ({ ...prev, status: newStatus, completed_at, failed_at }));
     setLoading(false);
   }
   
