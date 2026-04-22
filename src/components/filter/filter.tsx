@@ -29,8 +29,9 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         onChange={(e) => onChange({...filters, status: e.target.value as GoalsFilters["status"]})}
                     >
                         <option value="all">All</option>
-                        <option value="incomplete">Incomplete</option>
+                        <option value="active">Active</option>
                         <option value="completed">Completed</option>
+                        <option value="failed">Failed</option>
                     </select>
                 </div>
                 <div className={styles.filterItem}>

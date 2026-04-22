@@ -14,7 +14,7 @@ export type GoalsFilters = {
   search: string;
   categoryId: string;
   activityId: string;
-  status: "all" | "incomplete" | "completed";
+  status: "all" | "active" | "completed" | "failed";
   sort: "recent" | "oldest" | "a-z" | "z-a";
 };
 
