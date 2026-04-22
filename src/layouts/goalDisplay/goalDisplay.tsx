@@ -25,7 +25,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const { displayMode, setDisplayMode, filters, setFilters, resetFilters } = useGoalsView();
     const { categories, activities } = useGoalsData();
     const [goalState, setGoalState] = useState<Goals>(goals);
-    const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.status === "completed").length });
+    const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.status === "completed").length, failed: goals.filter(g => g.status === "failed").length });
     const [expandFilter, setExpandFilter] = useState<boolean>(false);
 
     const datesMeta = useMemo(() => {
@@ -35,14 +35,17 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
 
     useEffect(() => {
-        setGoalCounts({ total: visibleGoals.length, completed: visibleGoals.filter(g => g.status === "completed").length });
+        setGoalCounts({ total: visibleGoals.length, completed: visibleGoals.filter(g => g.status === "completed").length, failed: visibleGoals.filter(g => g.status === "failed").length });
     }, [visibleGoals]);
 
     return (
         <section className={styles.container}>
             <div className={styles.progressContainer}>
                 <p className={styles.progressInfo}>Completed: {goalCounts.completed} / {goalCounts.total}</p>
-                <span className={styles.progressBar} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.completed / goalCounts.total) * 100}%` }}></span>
+                <div className={styles.progressBarContainer}>
+                    <span className={styles.progressBar} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.completed / goalCounts.total) * 100}%` }}></span>
+                    <span className={styles.failedProgress} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.failed / goalCounts.total) * 100}%` }}></span>
+                </div>
             </div>
             <div className={styles.header}>
                 <IconButton size={'2x'} icon={displayMode === "grid" ? faList : faTableCells} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setDisplayMode(displayMode === "grid" ? "list" : "grid")} cornerButton={false} />
