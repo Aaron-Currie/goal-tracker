@@ -13,6 +13,10 @@
     padding: 0px 10px;
 }
 
+.footer a {
+    transition: filter 0.3s ease-in-out;
+}
+
 .inactive {
     filter: grayscale(100%);
 }

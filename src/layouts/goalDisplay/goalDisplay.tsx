@@ -55,12 +55,13 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
                 <IconButton icon={faFilter} size='2x' button={{style: expandFilter ? "blue" : "default", alt: "Filters"}} onClick={() => setExpandFilter(!expandFilter)} cornerButton={false} />
             </div>
 
-                {expandFilter && <Filter filters={filters} onChange={(next) => setFilters(next)} onReset={resetFilters} categories={categories} activities={activities} />}            <div className={`${styles.cardDisplay} ${displayMode === "grid" ? styles.smallGrid : ''}`}>
-                {visibleGoals.map((goal) => {
-                    return <GoalCard grid={displayMode === "grid"} key={goal.id} goalData={goal} setGoalState={setGoalState} />
-                })}
-                <AddButton query={`date=${datesMeta.year}&period=${datesMeta.period}`} />
-            </div>
+                {expandFilter && <Filter filters={filters} onChange={(next) => setFilters(next)} onReset={resetFilters} categories={categories} activities={activities} />}
+                <div className={`${styles.cardDisplay} ${displayMode === "grid" ? styles.smallGrid : ''}`}>
+                    {visibleGoals.map((goal) => {
+                        return <GoalCard grid={displayMode === "grid"} key={goal.id} goalData={goal} setGoalState={setGoalState} />
+                    })}
+                    <AddButton query={`date=${datesMeta.year}&period=${datesMeta.period}`} />
+                </div>
         </section>
     )
 }

@@ -83,22 +83,27 @@
 .smallGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    grid-template-rows: 120px;
-    grid-auto-rows: 120px;
+    grid-template-rows: 130px;
+    grid-auto-rows: 130px;
     gap: 8px;
     width: 100%;
 }
 
-.smallGrid div {
+.smallGrid > div {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     text-align: center;
 }
 
-.smallGrid div a, .smallGrid div div {
+.smallGrid div a {
     font-size: 14px;
     padding: 0.5rem
+}
+
+.smallGrid div div {
+    font-size: 12px;
+    padding: 0.25rem 0.5rem 1rem 0.5rem;
 }
 
 @media (max-width: 540px) {

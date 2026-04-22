@@ -10,6 +10,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import ErrorModal from "../error/error-modal/error-modal";
 import CompleteAnimation from "../animation/complete-animation/complete";
+import { Overlay } from "../utility-comps/overlay";
+import LoadingSpinner from "../loading/loading-spinner";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -69,6 +71,7 @@ export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps
                 </div>}
                 {showAnimation && <CompleteAnimation goal={goalData} onClose={() => setShowAnimation(false)} />}
                 {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
+                {loading && <Overlay><LoadingSpinner/></Overlay>}
         </div>
     )
 }

@@ -7,6 +7,8 @@ import EditGoalForm from "@/components/form/edit-goal-form/edit-goal-form";
 import PageHeader from "@/components/page-header/page-header";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
 import ErrorModal from "@/components/error/error-modal/error-modal";
+import { Overlay } from "@/components/utility-comps/overlay";
+import LoadingSpinner from "@/components/loading/loading-spinner";
 
 export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: GoalNote[]}) {
   const [loading, setLoading] = useState(false);
@@ -43,6 +45,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
         <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete}/>}
       {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
       {showAnimation && <CompleteAnimation goal={goalState} onClose={() => setShowAnimation(false)} />}
+      {loading && <Overlay><LoadingSpinner /></Overlay>}
     </>
   );
 }
