@@ -2,23 +2,23 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
 
-type Body = { action?: "complete" | "undo"; is_completed?: boolean };
+type Body = { action?: "complete" | "active" | "fail"; status: "completed" | "active" | "failed" };
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body: Body = await req.json().catch(() => ({} as Body));
 
-  const isCompleted =
-    typeof body.is_completed === "boolean"
-      ? body.is_completed
-      : body.action === "complete"
-      ? true
-      : body.action === "undo"
-      ? false
-      : undefined;
+  let statusAction: string | undefined = "active";
+  if (body.action === "complete") {
+    statusAction = "completed";
+  } else if (body.action === "active") {
+    statusAction = "active";
+  } else if (body.action === "fail") {
+    statusAction = "failed";
+  }
 
-  if (isCompleted === undefined) {
-    return NextResponse.json({ error: "Provide action: 'complete' | 'undo' or is_completed: boolean" }, { status: 400 });
+  if (statusAction === undefined) {
+    return NextResponse.json({ error: "Provide action: 'complete' | 'active' | 'fail' or status: 'completed' | 'active' | 'failed'" }, { status: 400 });
   }
 
   const supabase = await supabaseServer();
@@ -26,8 +26,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!auth.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
   const updates: Record<string, any> = {
-    is_completed: isCompleted,
-    completed_at: isCompleted ? new Date().toISOString() : null,
+    status: statusAction,
+    completed_at: statusAction === "completed" ? new Date().toISOString() : null,
+    failed_at: statusAction === "failed" ? new Date().toISOString() : null,
   };
 
   const { data, error } = await supabase

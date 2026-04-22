@@ -1,7 +1,7 @@
 'use client';
 import { Goal, GoalNote } from "@/lib/types/goals";
 import { useState } from "react";
-import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
+import { changeGoalStatus } from "@/lib/db-calls/goals/change-status";
 import GoalDetails from "@/components/goal-details/goal-details";
 import EditGoalForm from "@/components/form/edit-goal-form/edit-goal-form";
 import PageHeader from "@/components/page-header/page-header";
@@ -19,20 +19,20 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 
-  async function onComplete() {
+  async function onComplete({action}: {action: "complete" | "active" | "fail"}) {
     setLoading(true);
     setError(null);
     try {
-      await completeGoal(goal.id, goalState.is_completed ? "undo" : "complete");
+      await changeGoalStatus(goal.id, action);
     } catch (error:any) {
       setLoading(false);
       setError(error.message);
       return;
     }
-    if(!goalState.is_completed) {
+    if(action === "complete") {
       setShowAnimation(true);
     }
-    setGoalState((prev) => ({ ...prev, is_completed: !prev.is_completed }));
+    setGoalState((prev) => ({ ...prev, status: action === "complete" ? "completed" : action === "fail" ? "failed" : "active" }));
     setLoading(false);
   }
   

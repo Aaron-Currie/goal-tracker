@@ -15,7 +15,7 @@ type Props = {
 
 export default function PageHeader({ title, returnUrl, editing, setEditing, goalState }: Props) {
     return (
-        <div className={`${stlyes.container} ${goalState?.is_completed ? stlyes.complete : ""}`}>
+        <div className={`${stlyes.container} ${goalState.status === "completed" ? stlyes.complete : goalState.status === "failed" ? stlyes.failed : ""}`}>
             <div className={`${stlyes.header}`} >
                 {(editing && setEditing) ? <IconButton size={'2x'} icon={faCircleArrowLeft} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <Link href={returnUrl}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>}
                 <h1 className={stlyes.title}>{title}</h1>
@@ -24,12 +24,12 @@ export default function PageHeader({ title, returnUrl, editing, setEditing, goal
 
             {!editing && goalState && (
                 <div className={`${stlyes.topRow}`}>
-                    <Pill item={goalState.is_completed ? {id: "completed", name:"Completed"} : {id: "incomplete", name:"Incomplete"}} colour={goalState.is_completed ? "green" : "default"}/>
-                    <Pill item={goalState.category} colour={goalState.is_completed ? "green" : "default"} />
-                    <Pill item={goalState.activity} colour={goalState.is_completed ? "green" : "default"} />
+                    <Pill item={goalState.status === "completed" ? {id: "completed", name:"Completed"} : {id: "incomplete", name:"Incomplete"}} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"}/>
+                    <Pill item={goalState.category} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"} />
+                    <Pill item={goalState.activity} colour={goalState.status === "completed" ? "green" : goalState.status === "failed" ? "red" : "default"} />
                 </div>
             )}
-            {goalState?.is_completed && <div className={stlyes.completeDate}><span>Completed on</span><span className={stlyes.metaValue}>{new Date(goalState.completed_at!).toLocaleString()}</span></div>}
+            {goalState?.status === "completed" && <div className={stlyes.completeDate}><span>Completed on</span><span className={stlyes.metaValue}>{new Date(goalState.completed_at!).toLocaleString()}</span></div>}
         </div>
     )
 }

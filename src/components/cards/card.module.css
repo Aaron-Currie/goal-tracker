@@ -46,6 +46,14 @@
     border: 1px solid #2e6a30;
 }
 
+.red {
+    color: white;
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    box-shadow: 2px 4px 0px #971515;
+    border: 1px solid #971515;
+}
+
+
 .fontSmall {
     font-size: 0.9rem;
     overflow: hidden;

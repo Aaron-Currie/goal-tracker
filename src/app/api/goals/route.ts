@@ -83,7 +83,7 @@ export async function POST(req: Request) {
         period_start,
         category_id,
         activity_id,
-        is_completed,
+        status,
         completed_at,
         created_at,
         description

@@ -3,10 +3,11 @@ import { Goal, GoalNote } from "@/lib/types/goals";
 import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import NoteDisplay from "../notes/notes-display/notes-display";
 import CompleteButton from "../button/complete-button/complete-button";
+import Button from "../button/button";
 
 type Props = {
   goalState: Goal;
-  onComplete: () => void;
+  onComplete: ({action}: {action: "complete" | "active" | "fail"}) => void;
   notes: GoalNote[];
   setNoteState: React.Dispatch<React.SetStateAction<GoalNote[]>>;
 };
@@ -33,7 +34,8 @@ export default function GoalDetails({ goalState, onComplete, notes, setNoteState
           </div>
         )}
           <NoteDisplay notes={notes} setNoteState={setNoteState} goalId={goalState.id} />
-          <CompleteButton completed={goalState.is_completed} onComplete={onComplete} />
+          {goalState.status !== "failed" && <Button button={{ text: 'Fail Goal', style: "delete" }} onClick={() => onComplete({ action: "fail" })} />}
+          <CompleteButton active={goalState.status !== "active"} onComplete={onComplete} />
         </div>
       </div>
   );

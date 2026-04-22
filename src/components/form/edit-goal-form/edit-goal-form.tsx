@@ -66,7 +66,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                 category_id: category || undefined, 
                 activity_id: activity || undefined, 
                 goal_period: periodType, 
-                period_start: periodStart 
+                period_start: periodStart
             });
         } catch (err: any) {
             setError(err.message || "An error occurred while editing the goal.");
@@ -83,6 +83,8 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             category: updatedCategory ? updatedCategory : null,
             activity: updatedActivity ? updatedActivity : null,
             description: update.goal.description,
+            status: update.goal.status,
+            completed_at: update.goal.completed_at,
         } as Goal;
         setGoal(updatedGoal);
         setLoading(false);

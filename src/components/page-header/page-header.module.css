@@ -34,6 +34,11 @@
     background: linear-gradient(135deg, #4caf4f, #37833a);
 }
 
+.failed {
+    color: white;
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
 .completeDate {
   padding: 1rem;
   color: white;

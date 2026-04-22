@@ -25,7 +25,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const { displayMode, setDisplayMode, filters, setFilters, resetFilters } = useGoalsView();
     const { categories, activities } = useGoalsData();
     const [goalState, setGoalState] = useState<Goals>(goals);
-    const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.is_completed).length });
+    const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.status === "completed").length });
     const [expandFilter, setExpandFilter] = useState<boolean>(false);
 
     const datesMeta = useMemo(() => {
@@ -35,7 +35,7 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
 
     useEffect(() => {
-        setGoalCounts({ total: visibleGoals.length, completed: visibleGoals.filter(g => g.is_completed).length });
+        setGoalCounts({ total: visibleGoals.length, completed: visibleGoals.filter(g => g.status === "completed").length });
     }, [visibleGoals]);
 
     return (

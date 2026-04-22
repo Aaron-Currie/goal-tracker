@@ -86,7 +86,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         period_start,
         category_id,
         activity_id,
-        is_completed,
+        status,
         completed_at,
         created_at,
         description

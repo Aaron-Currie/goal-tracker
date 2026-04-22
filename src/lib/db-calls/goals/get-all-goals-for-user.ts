@@ -10,7 +10,7 @@ export const getAllGoalsForUser = cache(async () => {
       id,
       title,
       description,
-      is_completed,
+      status,
       goal_period,
       period_start,
       created_at,
