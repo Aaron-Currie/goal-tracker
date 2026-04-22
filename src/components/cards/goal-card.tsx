@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import Button from "../button/button";
 import styles from "./card.module.css";
-import { completeGoal } from "@/lib/db-calls/goals/complete-goal";
+import { changeGoalStatus } from "@/lib/db-calls/goals/change-status";
 import { Goal } from "@/lib/types/goals";
 import Pill from "../pill/pill";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import translateDateToDisplay from "@/lib/utils/date-translator/date-translator";
 import ErrorModal from "../error/error-modal/error-modal";
 import CompleteAnimation from "../animation/complete-animation/complete";
+import { Overlay } from "../utility-comps/overlay";
+import LoadingSpinner from "../loading/loading-spinner";
 
 interface GoalCardProps {
     goalData: Goal;
@@ -18,7 +19,7 @@ interface GoalCardProps {
 }
 
 export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps) {
-    const [completed, setCompleted] = useState<boolean>(goalData.is_completed);
+    const [status, setStatus] = useState<string>(goalData.status);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [showAnimation, setShowAnimation] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps
         setLoading(true);
         setError(null);
         try {
-            await completeGoal(goalData.id, "complete");
+            await changeGoalStatus(goalData.id, "complete");
         } catch (error:any) {
             setLoading(false);
             setError(error.message);
@@ -35,7 +36,7 @@ export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps
         }
         setGoalState((prev) =>
             prev.map((g) =>
-            g.id === goalData.id ? { ...g, is_completed: !g.is_completed } : g
+            g.id === goalData.id ? { ...g, status: g.status === "completed" ? "active" : "completed" } : g
             )
         );
         setLoading(false);
@@ -43,24 +44,24 @@ export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps
     }
 
     useEffect(() => {
-        setCompleted(goalData.is_completed);
-    }, [goalData.is_completed])
+        setStatus(goalData.status);
+    }, [goalData.status])
 
     return (
-        <div id={goalData.id} className={`${styles.card} ${completed ? styles.green : ""}`} >
+        <div id={goalData.id} className={`${styles.card} ${status === "completed" ? styles.green : status === "failed" ? styles.red : ""}`} >
                 <Link href={`/goals/details/${goalData.id}`} className={`${styles.content}`}>
                     <h3 className={grid ? styles.fontSmall : styles.fontLarge}>
                         {goalData.title}
                     </h3>
                     {!grid && (
                         <div className={styles.pills}>
-                            <Pill colour={completed ? "green" : "default"} item={goalData.category} />
-                            <Pill colour={completed ? "green" : "default"} item={goalData.activity} />
+                            <Pill colour={status === "completed" ? "green" : status === "failed" ? "red" : "default"} item={goalData.category} />
+                            <Pill colour={status === "completed" ? "green" : status === "failed" ? "red" : "default"} item={goalData.activity} />
                         </div>
                     )}
                     {/* <p>{goalData.goal_period} {translateDateToDisplay(goalData.goal_period, goalData.period_start)}</p> */}
                 </Link>
-                {!completed && <div className={styles.complete}>
+                {status !== "completed" && status !== "failed" && <div className={styles.complete}>
                     {grid? (
                         <button className={`${styles.button} ${styles.green}`} onClick={handleComplete} disabled={loading}>
                             {loading ? "..." : <FontAwesomeIcon size='1x' icon={faCheck} />}
@@ -69,6 +70,7 @@ export default function GoalCard({ goalData, setGoalState, grid }: GoalCardProps
                 </div>}
                 {showAnimation && <CompleteAnimation goal={goalData} onClose={() => setShowAnimation(false)} />}
                 {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
+                {loading && <Overlay><LoadingSpinner/></Overlay>}
         </div>
     )
 }

@@ -16,6 +16,8 @@ import { editGoal } from "@/lib/db-calls/goals/edit-goal";
 import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
 import { useRouter } from "next/navigation";
 import DeleteModal from "@/components/delete-modal/delete-modal";
+import { Overlay } from "@/components/utility-comps/overlay";
+import LoadingSpinner from "@/components/loading/loading-spinner";
 
 
 type Props = {
@@ -64,7 +66,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
                 category_id: category || undefined, 
                 activity_id: activity || undefined, 
                 goal_period: periodType, 
-                period_start: periodStart 
+                period_start: periodStart
             });
         } catch (err: any) {
             setError(err.message || "An error occurred while editing the goal.");
@@ -81,6 +83,8 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             category: updatedCategory ? updatedCategory : null,
             activity: updatedActivity ? updatedActivity : null,
             description: update.goal.description,
+            status: update.goal.status,
+            completed_at: update.goal.completed_at,
         } as Goal;
         setGoal(updatedGoal);
         setLoading(false);
@@ -131,7 +135,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
             <Button onClick={() => setConfirmDelete(true)} button={{ text: 'Delete', style: "delete" }} disabled={loading} />
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
             {confirmDelete && <DeleteModal label="goal" message="This will permanently delete the goal and all associated notes, It cannot be undone." setConfirm={setConfirmDelete} deleteAction={onDelete} />}
+            {loading && <Overlay><LoadingSpinner /></Overlay>}
         </div>
-
     )
 }
