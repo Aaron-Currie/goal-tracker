@@ -85,6 +85,7 @@ export async function POST(req: Request) {
         activity_id,
         status,
         completed_at,
+        failed_at,
         created_at,
         description
       `
