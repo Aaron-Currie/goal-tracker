@@ -46,6 +46,7 @@ export default function ActivityBreakdownChart({ data }: Props) {
         data={data}
         margin={{ top: 8, right: 16, left: 16, bottom: 8 }}
         barCategoryGap="28%"
+        style={{ outline: "none" }}
       >
         <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" horizontal={false} />
         <XAxis
@@ -64,6 +65,7 @@ export default function ActivityBreakdownChart({ data }: Props) {
           tickLine={false}
         />
         <Tooltip
+          cursor={false}
           contentStyle={{
             borderRadius: 12,
             border: "1px solid #2e2e2e4e",
