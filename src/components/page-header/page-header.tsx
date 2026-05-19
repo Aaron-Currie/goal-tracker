@@ -11,15 +11,17 @@ type Props = {
     editing: boolean;
     setEditing?: (editing: boolean) => void;
     goalState?: any;
+    openModel: boolean;
+    setOpenModel: (openModel: boolean) => void;
 }
 
-export default function PageHeader({ title, returnUrl, editing, setEditing, goalState }: Props) {
+export default function PageHeader({ title, returnUrl, editing, setEditing, goalState, openModel, setOpenModel }: Props) {
     return (
         <div className={`${stlyes.container} ${goalState?.status === "completed" ? stlyes.complete : goalState?.status === "failed" ? stlyes.failed : ""}`}>
             <div className={`${stlyes.header}`} >
-                {(editing && setEditing) ? <IconButton size={'2x'} icon={faCircleArrowLeft} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <Link href={returnUrl}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>}
+                {(editing && setEditing) ? <IconButton size={'2x'} icon={faCircleArrowLeft} button={{ alt: "Back", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <Link href={returnUrl}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>}
                 <h1 className={stlyes.title}>{title}</h1>
-                {(setEditing && !editing) ? <IconButton size={'2x'} icon={editing? faCircleXmark : faGear} button={{ alt: "Edit", style: "default" }} onClick={() => setEditing(!editing)} cornerButton={false} /> : <span className={stlyes.spacer}></span>}
+                {(setEditing && !editing) ? <IconButton size={'2x'} icon={editing? faCircleXmark : faGear} button={{ alt: "Edit", style: "default" }} onClick={() => setOpenModel(!openModel)} cornerButton={false} /> : <span className={stlyes.spacer}></span>}
             </div>
 
             {!editing && goalState && (

@@ -17,6 +17,7 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   const [editing, setEditing] = useState(false);
   const [noteState, setNoteState] = useState<GoalNote[]>(notes);
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
+  const [optionsModalOpen, setOptionsModalOpen] = useState<boolean>(false);
 
 
   async function onComplete({action}: {action: "complete" | "active" | "fail"}) {
@@ -43,11 +44,11 @@ export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: Goa
   
   return (
     <>
-      <PageHeader editing={editing} goalState={goalState} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} />
+      <PageHeader editing={editing} goalState={goalState} title={goalState.title} returnUrl={`/goals/${goalState.goal_period}/${goalState.period_start}`} setEditing={setEditing} openModel={optionsModalOpen} setOpenModel={setOptionsModalOpen} />
       {editing ? 
         <EditGoalForm goal={goalState} setGoal={setGoalState} cancel={() => setEditing(false)}/> 
         : 
-        <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete}/>}
+        <GoalDetails notes={noteState} setNoteState={setNoteState} goalState={goalState} onComplete={onComplete} openModel={optionsModalOpen} setOpenModel={setOptionsModalOpen} setEditing={setEditing}/>}
       {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
       {showAnimation && <CompleteAnimation goal={goalState} onClose={() => setShowAnimation(false)} />}
       {loading && <Overlay><LoadingSpinner /></Overlay>}

@@ -1,13 +1,12 @@
 .modelContainer {
     position: relative;
-    /* min-height: 50vh; */
     max-height: 95vh;
     width: 90vw;
     color: #000;
     font-weight: bold;
     font-size: 1rem;
-    border: 2px solid #2e2e2e;
-    border-radius: 12px;
+    border: 1px solid #2e2e2e4e;
+    border-radius: 16px;
     padding: 2.5rem 1rem 2.5rem 1rem;
     overflow: hidden;
 }
@@ -22,9 +21,9 @@
 
 .default {
     background-color: white;
-    box-shadow: 2px 4px 0px #2e2e2e;
     color: #000;
-    border: 2px solid #2e2e2e;
+    border: 2px solid #2e2e2ea1;
+    box-shadow: 2px 4px 0px #2e2e2e4e;
 }
 
 .error {
