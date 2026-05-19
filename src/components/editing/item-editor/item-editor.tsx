@@ -67,11 +67,11 @@ export default function ItemEditor({item, label, setGroupState, setError}: Props
     }, [itemState])
 
     return (
-        <div className={styles.row} key={item.id}>
-            {loading ? <p>Loading...</p> : <Input value={itemState} label={item.name} setState={setItemState} error={validation.itemState} />}
-            <IconButton icon={faFloppyDisk} disabled={!edited} button={{ alt: "Edit", style: "blue" }} onClick={() => handleEdit(item.id)} cornerButton={false} />
-            <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => setConfirmDelete(true)} cornerButton={false} />
-            {confirmDelete && <DeleteModal label={label} message={`This will permanently delete the ${label} and all associated data. It cannot be undone.`} setConfirm={setConfirmDelete} deleteAction={() => handleDelete(item.id)} />}
-        </div>
+            <div className={styles.row} key={item.id}>
+                <Input value={loading? "Updating..." : itemState} label={item.name} setState={setItemState} error={validation.itemState} />
+                <IconButton icon={faFloppyDisk} disabled={!edited} button={{ alt: "Edit", style: "blue" }} onClick={() => handleEdit(item.id)} cornerButton={false} />
+                <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => setConfirmDelete(true)} cornerButton={false} />
+                {confirmDelete && <DeleteModal label={label} message={`This will permanently delete the ${label} and all associated data. It cannot be undone.`} setConfirm={setConfirmDelete} deleteAction={() => handleDelete(item.id)} />}
+            </div>
     );
 }

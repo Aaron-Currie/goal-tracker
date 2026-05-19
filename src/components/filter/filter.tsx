@@ -60,7 +60,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                         {activities.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
                     </select>
                 </div>
-                <div className={styles.filterItem}>
+                <div className={styles.filterButton}>
                     <Button button={{text: "Clear Filters", style: "edit"}} onClick={onReset}/>
                 </div>
                 </div>

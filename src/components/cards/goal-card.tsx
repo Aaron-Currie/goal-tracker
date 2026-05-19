@@ -10,7 +10,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import ErrorModal from "../error/error-modal/error-modal";
 import CompleteAnimation from "../animation/complete-animation/complete";
 import { Overlay } from "../utility-comps/overlay";
-import LoadingSpinner from "../loading/loading-spinner";
+import LoadingSpinner from "../loading/loading-spinner/loading-spinner";
 
 interface GoalCardProps {
     goalData: Goal;

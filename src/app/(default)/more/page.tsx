@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function More() {
     return (
-        <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+        <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", gap: "18px" }}>
             <Link className={styles.linkCard} href={"/info/setting-goals"}><p>Learn more about <span className={styles.highlight}>setting goals.</span></p></Link>
             <Link className={styles.linkCard} href={"/info/use-the-app"}><p>How to <span className={styles.highlight}>use this app.</span></p></Link>
             <Link className={styles.linkCard} href={"/info/faq"}><p>Frequently Asked <span className={styles.highlight}>Questions</span></p></Link>

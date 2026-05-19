@@ -115,13 +115,12 @@
     text-align: center;
 }
 
-.smallGrid div a {
+.smallGrid > div > a {
     font-size: 14px;
     padding: 0.5rem
 }
 
-.smallGrid div div {
-    font-size: 12px;
+.smallGrid > div > div {
     padding: 0.25rem 0.5rem 1rem 0.5rem;
 }
 

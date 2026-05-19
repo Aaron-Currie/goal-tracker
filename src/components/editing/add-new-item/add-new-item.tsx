@@ -1,10 +1,11 @@
 import Input from "@/components/form/input-components/input/input";
 import styles from "../pill-editing/pill-editor.module.css";
 import IconButton from "@/components/button/icon-button";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Activity, Category } from "@/lib/types/goals";
 import { addItem } from "@/lib/db-calls/item/add-item";
+import LoadingSkeleton from "@/components/loading/loadingSkeleton/loading-skeleton";
 
 
 type Props = {
@@ -46,9 +47,19 @@ export default function AddNewItem({ label, setError, setGroupState }: Props) {
     }, [newItem])
 
     return (
-        <div className={styles.row}>
-            {loading ? <p>Loading...</p> : <Input label={`Add ${label}`} value={newItem} setState={setNewItem} error={validation.newItem} />}
-            <IconButton icon={faPlus} button={{ alt: "Add", style: "blue" }} onClick={handleAdd} cornerButton={false} />
-        </div>
+        <>
+            <div className={styles.row}>
+                <Input label={`Add ${label}`} value={loading ? "Adding..." : newItem} setState={setNewItem} error={validation.newItem} />
+                <IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAdd} cornerButton={false} disabled={loading} />
+            </div>
+                {loading && (
+                <div className={styles.row}>
+                    <LoadingSkeleton />
+                    <IconButton icon={faFloppyDisk} disabled={true} button={{ alt: "Edit", style: "blue" }} onClick={() => {}} cornerButton={false} />
+                    <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => {}} cornerButton={false} disabled={true}/>
+                </div>
+            )}
+        </>
+
     )
 }

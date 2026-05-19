@@ -15,7 +15,7 @@ import Input from "../input-components/input/input";
 import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
 import PeriodSelectorInput from "../input-components/period-selector/period-selector";
 import { Overlay } from "@/components/utility-comps/overlay";
-import LoadingSpinner from "@/components/loading/loading-spinner";
+import LoadingSpinner from "@/components/loading/loading-spinner/loading-spinner";
 
 type Props = {
     datesMeta: { date: string, period: string },

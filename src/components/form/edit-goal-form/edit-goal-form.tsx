@@ -17,7 +17,7 @@ import { deleteGoal } from "@/lib/db-calls/goals/delete-goal";
 import { useRouter } from "next/navigation";
 import DeleteModal from "@/components/delete-modal/delete-modal";
 import { Overlay } from "@/components/utility-comps/overlay";
-import LoadingSpinner from "@/components/loading/loading-spinner";
+import LoadingSpinner from "@/components/loading/loading-spinner/loading-spinner";
 
 
 type Props = {
