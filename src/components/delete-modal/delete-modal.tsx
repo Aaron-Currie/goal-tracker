@@ -17,7 +17,7 @@ export default function DeleteModal({ label, message, setConfirm, deleteAction }
                     <p>{`Are you sure you want to delete this ${label}?`}</p>
                     {message && <p style={{ color: "red" }}>{message}</p>}
                     <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginTop: "1rem" }}>
-                        <Button button={{text: 'Confirm', style: 'delete'}} onClick={deleteAction}/>
+                        <Button button={{text: 'Confirm', style: 'delete'}} onClick={() => {deleteAction(); setConfirm(false); }}/>
                         <Button button={{text: 'Cancel', style: 'edit'}} onClick={() => setConfirm(false)}/>
                     </div>
                 </div>

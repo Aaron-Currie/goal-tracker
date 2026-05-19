@@ -26,11 +26,12 @@
 
 .noNotes {
   background: transparent;
-  color: var(--forground);
+  color: var(--foreground);
   width: fit-content;
   cursor: pointer;
   padding: 0.75rem;
   margin: auto;
+  border-radius: 16px;
 }
 
 .note {

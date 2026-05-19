@@ -22,10 +22,10 @@ export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
         <div className={styles.notesContainer}>
             <span className={styles.metaLabel}>Notes</span>
             <AddNewNote goalId={goalId} setNoteState={setNoteState} setError={setError} />
-            {notes.slice(0, viewAll ? notes.length : 2).map((note, index) => {
+            {notes.slice(0, viewAll ? notes.length : 3).map((note, index) => {
                 return <Note key={index} note={note} setEditNote={setEditNote} />
             })}
-            {notes.length > 2 && <button onClick={() => setViewAll(!viewAll)} className={styles.noNotes}>{viewAll ? 'View less notes' : 'View all notes'} {'>'}</button>}
+            {notes.length > 3 && <button onClick={() => setViewAll(!viewAll)} className={styles.noNotes}>{viewAll ? 'View less notes ▲' : 'View all notes ▼'}</button>}
             {editNote && <NoteEditor editingNote={editNote} setEditNote={setEditNote} setError={setError} setNoteState={setNoteState} />}
             {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
         </div>
