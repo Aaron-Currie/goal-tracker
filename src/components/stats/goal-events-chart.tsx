@@ -19,7 +19,7 @@ type Props = {
 export default function GoalEventsChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={220}>
-      <BarChart data={data} margin={{ top: 10, right: 16, left: -16, bottom: 0 }} barCategoryGap="30%">
+      <BarChart data={data} margin={{ top: 10, right: 16, left: -16, bottom: 0 }} barCategoryGap="30%" style={{ outline: "none" }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
         <XAxis
           dataKey="month"
@@ -34,6 +34,7 @@ export default function GoalEventsChart({ data }: Props) {
           tickLine={false}
         />
         <Tooltip
+          cursor={false}
           contentStyle={{
             borderRadius: 12,
             border: "1px solid #2e2e2e4e",

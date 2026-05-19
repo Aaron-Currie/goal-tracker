@@ -59,6 +59,11 @@
   overflow: hidden;
 }
 
+.chartCard *:focus,
+.chartCard *:focus-visible {
+  outline: none;
+}
+
 /* ── Year selector (matches scrollable-selector pill style) ─── */
 .yearSelectorRow {
   display: flex;
