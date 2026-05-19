@@ -8,7 +8,7 @@ import PageHeader from "@/components/page-header/page-header";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
 import ErrorModal from "@/components/error/error-modal/error-modal";
 import { Overlay } from "@/components/utility-comps/overlay";
-import LoadingSpinner from "@/components/loading/loading-spinner";
+import LoadingSpinner from "@/components/loading/loading-spinner/loading-spinner";
 
 export default function SingleGoalDisplay({goal, notes}: {goal: Goal, notes: GoalNote[]}) {
   const [loading, setLoading] = useState(false);

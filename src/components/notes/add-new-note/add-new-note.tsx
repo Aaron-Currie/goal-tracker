@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { GoalNote } from "@/lib/types/goals";
 import { addNote } from "@/lib/db-calls/notes/add-note";
+import LoadingSkeleton from "@/components/loading/loadingSkeleton/loading-skeleton";
 
 type Props = {
     goalId: string;
@@ -45,9 +46,13 @@ export default function AddNewNote({ goalId, setNoteState, setError }: Props) {
     }, [newNote])
 
     return (
-        <div className={styles.row}>
-            {loading ? <p>Loading...</p> : <Input label={`Add note`} value={newNote} setState={setNewNote} error={validation.newNote} />}
-            <IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} />
-        </div>
+        <>        
+            <div className={styles.row}>
+                <Input label={`Add note`} value={loading ? "Adding..." : newNote} setState={setNewNote} error={validation.newNote} />
+                <IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} disabled={loading} />
+            </div>
+            {loading && <LoadingSkeleton />}
+        </>
+
     )
 }

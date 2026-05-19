@@ -5,6 +5,7 @@ import NoteEditor from "../note-editor/note-editor";
 import AddNewNote from "../add-new-note/add-new-note";
 import ErrorModal from "@/components/error/error-modal/error-modal";
 import Note from "../note/note";
+import LoadingSkeleton from "@/components/loading/loadingSkeleton/loading-skeleton";
 
 type Props = {
     notes: GoalNote[];
