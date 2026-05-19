@@ -1,0 +1,340 @@
+/* ── Page layout ──────────────────────────────────────── */
+.page {
+  padding: 8rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--foreground);
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+.controlsHeader {
+  background-color: #f7f9ff;
+  border: 1px solid rgba(27, 42, 137, 0.295);
+  box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+  border-radius: 0 0 20px 20px;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #3730a3;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 10;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  padding: 0 0.25rem;
+}
+
+.chartCard {
+  background: white;
+  border: 1px solid #2e2e2e4e;
+  border-radius: 16px;
+  box-shadow: 2px 4px 0px #2e2e2e4e;
+  padding: 1rem 0.25rem 0.5rem 0;
+  overflow: hidden;
+}
+
+/* ── Year selector (matches scrollable-selector pill style) ─── */
+.yearSelectorRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.yearSelectorRow::-webkit-scrollbar {
+  display: none;
+}
+
+.yearPill {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(27, 42, 137, 0.295);
+  box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+  color: #3730a3;
+  background-color: #f7f9ff;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.yearPillActive {
+  border: 1px solid rgb(27, 42, 137, 0.6);
+  background-color: #2c60fc;
+  background: linear-gradient(135deg, #2c60fcff, #1b2a89cc);
+  box-shadow: 1px 2px 4px rgb(27, 42, 137, 0.6);
+  color: white;
+}
+
+/* ── Period filter tabs (matches period-selector.module.css) ── */
+.filterTabs {
+  display: flex;
+  gap: 8px;
+  border-radius: 9999px;
+  background-color: #f7f9ff;
+  border: 1px solid rgba(27, 42, 137, 0.295);
+  box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.filterTab {
+  flex: 1;
+  display: block;
+  padding: 0.45rem 0.75rem;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  color: #3730a3;
+  transition: background-color 0.2s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.filterTabActive {
+  border: 1px solid rgb(27, 42, 137, 0.6);
+  background-color: #2c60fc;
+  background: linear-gradient(135deg, #2c60fcff, #1b2a89cc);
+  color: white;
+}
+
+/* ── Summary cards ─────────────────────────────────────── */
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+.summaryCard {
+  background: white;
+  border: 1px solid #2e2e2e4e;
+  border-radius: 16px;
+  box-shadow: 2px 4px 0px #2e2e2e4e;
+  padding: 0.9rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  color: #000;
+}
+
+.summaryCardGreen {
+  color: white;
+  background: linear-gradient(135deg, #4caf4f, #37833a);
+  box-shadow: 2px 4px 0px #2e6a30;
+  border: 1px solid #2e6a30;
+}
+
+.summaryCardBlue {
+  color: white;
+  background: linear-gradient(135deg, #4c6fff, #3730a3);
+  box-shadow: 2px 4px 0px #2a2696;
+  border: 1px solid #2a2696;
+}
+
+.summaryCardRed {
+  color: white;
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  box-shadow: 2px 4px 0px #971515;
+  border: 1px solid #971515;
+}
+
+.summaryCount {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.summaryLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.summaryBreakdown {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 0.5rem;
+}
+
+.breakdownRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  opacity: 0.88;
+}
+
+/* ── Top cards ─────────────────────────────────────────── */
+.topCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.topCard {
+  background: white;
+  border: 1px solid #2e2e2e4e;
+  border-radius: 16px;
+  box-shadow: 2px 4px 0px #2e2e2e4e;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.topCardLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.65;
+}
+
+.topCardName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.topCardCount {
+  font-size: 0.82rem;
+  color: var(--foreground);
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.topCardEmpty {
+  font-size: 0.85rem;
+  color: var(--foreground);
+  opacity: 0.4;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* ── Period breakdown ──────────────────────────────────── */
+.periodBreakdownContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.periodLegend {
+  display: flex;
+  gap: 0.9rem;
+  padding: 0 0.25rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.periodBreakdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.periodRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border: 1px solid #2e2e2e4e;
+  border-radius: 12px;
+  box-shadow: 2px 4px 0px #2e2e2e4e;
+  padding: 0.65rem 0.9rem;
+  min-height: 52px;
+}
+
+.periodLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--foreground);
+  min-width: 34px;
+  flex-shrink: 0;
+}
+
+.periodBlocks {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.periodBlock {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.periodBlockCompleted {
+  background: linear-gradient(135deg, #4caf4f, #37833a);
+  border: 1px solid #2e6a30;
+}
+
+.periodBlockActive {
+  background: linear-gradient(135deg, #4c6fff, #3730a3);
+  border: 1px solid #2a2696;
+}
+
+.periodBlockFailed {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  border: 1px solid #971515;
+}

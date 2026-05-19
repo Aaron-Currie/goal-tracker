@@ -4,7 +4,6 @@ import translateDateToDisplay from "@/lib/utils/date-translator/date-translator"
 import NoteDisplay from "../notes/notes-display/notes-display";
 import CompleteButton from "../button/complete-button/complete-button";
 import Button from "../button/button";
-import { useState } from "react";
 import Model from "../model/model";
 
 type Props = {
@@ -44,8 +43,8 @@ export default function GoalDetails({ goalState, onComplete, notes, setNoteState
               <div className={styles.optionsContainer}>
                 <Button button={{ text: 'Edit Goal', style: "edit" }} onClick={() => {setOpenModel(false); setEditing(true);}} />
                 {goalState.status !== "active" && <Button button={{ text: `Undo ${goalState.status === "completed" ? "Complete" : "Fail"}`, style: goalState.status === "completed" ? "undoComplete" : "undoFail" }} onClick={() => {onComplete({ action: "active" }); setOpenModel(false);}} />}
-                {goalState.status === "active" && <Button button={{ text: 'Mark as failed', style: "fail" }} onClick={() => {onComplete({ action: "fail" }); setOpenModel(false);}} />}
                 {goalState.status === "active" && <Button button={{ text: 'Mark as completed', style: "complete" }} onClick={() => {onComplete({ action: "complete" }); setOpenModel(false);}} />}
+                {goalState.status === "active" && <Button button={{ text: 'Mark as failed', style: "fail" }} onClick={() => {onComplete({ action: "fail" }); setOpenModel(false);}} />}
               </div>
             </Model>
           }
